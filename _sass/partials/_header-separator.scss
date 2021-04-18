@@ -1,0 +1,4 @@
+.header-content-separator { position: relative; margin: 40px auto; width: 4px; height: 4px; border-radius: 50%; background: var(--grey-ccc);
+    &:before { position: absolute; left: -8px; width: 4px; height: 4px; border-radius: 50%; background: var(--grey-ccc); content: ""; }
+    &:after { position: absolute; left: 8px; width: 4px; height: 4px; border-radius: 50%; background: var(--grey-ccc); content: ""; }
+}

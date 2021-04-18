@@ -1,0 +1,82 @@
+# General
+title: Cino
+description: "Personal blog about tech related subjects"
+
+# Paths
+baseurl: ""
+url: ""
+
+# Options
+darkMode: false
+showTags: true
+showCategories: false
+showSearch: true
+showSharePost: true
+showFavIcon: true
+showComments: false
+showCookieBanner: false
+showContact: false
+useExternalContactForm: false
+useAnalytics: false
+
+# Third Party / Social
+twitter: "https://twitter.com/ricardocino"
+github: "https://github.com/cino"
+linkedin: "https://www.linkedin.com/in/cinoricardo/"
+email: "ricardo@cino.io"
+googleAnalyticsTrackingCode: UA-XXXXXXX-2
+twitterHandle: "ricardocino"
+
+# Collections
+collections:
+  projects:
+    output: true
+  category:
+    output: true
+  tag:
+    output: true
+
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      comments: "false"
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      showInMenu: true
+  - scope:
+      path: ""
+      type: "tag"
+    values:
+      layout: "tag"
+  - scope:
+      path: ""
+    values:
+      layout: "default"
+
+# Permalinks
+permalink: /:categories/:year/:month/:day/:title/
+
+# Pagination
+paginate: 10
+paginate_path: "/blog/page:num/"
+
+# Includes
+include: ["_pages"]
+
+# Post Separator
+excerpt_separator: <!--more-->
+
+# Assets
+sass:
+  sass_dir: _sass
+  style: compressed
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
