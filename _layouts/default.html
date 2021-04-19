@@ -5,11 +5,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <meta name="author" content="{{page.author}}" />
-        <meta
-            name="copyright"
-            content="Copyright by {{site.title}}. All Rights Reserved."
-        />
+        <meta name="author" content="{{ page.author }}" />
+        <meta name="copyright" content="Copyright by {{ site.title }}. All Rights Reserved." />
 
         <meta
             name="description"
@@ -31,29 +28,33 @@
             content="{{page.description | markdownify | strip_html | strip | strip_newlines | truncate: 200}}"
         />
         {% else %}
-        <meta
-            name="description"
-            content="{{site.title}} &mdash; {{site.description}}"
-        />
-        {% endif %} {% feed_meta %} {% include meta.html %}
+        <meta name="description" content="{{site.title}} &mdash; {{site.description}}" />
+        {% endif %}
+        {% feed_meta %}
+        {% include meta.html %}
 
         <title>
-            {% if page.title %}{{page.title | escape}} |{% endif %} {{site.title
-            | escape}} {% if site.description %}&mdash; {{site.description |
-            escape }} {% endif %}
+            {% if page.title %}{{page.title | escape}} |{% endif %} {{site.title | escape}} {% if site.description
+            %}&mdash; {{site.description | escape }} {% endif %}
         </title>
 
-        {% if site.showFavIcon %} <link rel="icon" type="image/svg+xml"
-        href={{"/assets/images/favicon.svg" | absolute_url}}> {% endif %} {%
-        include fonts.html %} <link rel="stylesheet"
-        href={{"/assets/css/styles.css" | absolute_url}}>
+        {% if site.showFavIcon %} <link rel="icon" type="image/svg+xml" href={{"/assets/images/favicon.svg" | absolute_url}}> {% endif %}
+        {% include fonts.html %} <link rel="stylesheet" href={{"/assets/css/styles.css" | absolute_url}}>
     </head>
     <body>
-        {% if site.darkMode %} {% include partials/themeChanger.html %} {% endif
-        %} {% include partials/burgerMenu.html %} {% include layout/header.html
-        %} {% include layout/navigation.html %} {% if site.showSearch %} {%
-        include components/siteSearch.html %} {% endif %} {% include
-        partials/headerSeparator.html %}
+        {% if site.darkMode %}
+        {% include partials/themeChanger.html %}
+        {% endif %}
+
+        {% include partials/burgerMenu.html %}
+        {% include layout/header.html %}
+        {% include layout/navigation.html %}
+
+        {% if site.showSearch %}
+        {% include components/siteSearch.html %}
+        {% endif %}
+
+        {% include partials/headerSeparator.html %}
 
         <main
             class="{% if page.layout == 'blog' or page.layout == 'post' or page.layout == 'category' or page.layout == 'tag' %}wrapper{% else %}wrapper long{% endif %}"
@@ -62,10 +63,13 @@
             {{content}}
         </main>
 
-        {% include layout/footer.html %} {% if site.useExternalContactForm %} {%
-        include components/contactForm.html %} {% endif %} {% if page.layout ==
-        'project' %} {% include components/lightbox.html %} {% endif %} {% if
-        site.showCookieBanner %} {% include components/cookieBanner.html %} {%
-        endif %} {% include scripts.html %}
+        {% include layout/footer.html %}
+        {% if site.useExternalContactForm %}
+        {% include components/contactForm.html %}
+        {% endif %}
+        {% if page.layout == 'project' %} {% include components/lightbox.html %} {% endif %}
+        {% if site.showCookieBanner %} {% include components/cookieBanner.html %} {% endif %}
+
+        {% include scripts.html %}
     </body>
 </html>
