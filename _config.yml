@@ -17,7 +17,7 @@ showComments: false
 showCookieBanner: false
 showContact: false
 useExternalContactForm: false
-useAnalytics: false
+useAnalytics: true
 
 # Third Party / Social
 twitter: "https://twitter.com/ricardocino"
