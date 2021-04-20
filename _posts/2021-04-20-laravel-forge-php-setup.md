@@ -13,13 +13,13 @@ For the record, I'll be writing from an AWS perspective since this is the only p
 
 #### First things first
 
-When you start to use Laravel Forge with AWS you'll need to create an IAM user with the right amount of permissions to create and manage your servers. This should always be from a least access principe. The documentation of Laravel Forge suggests you'll create a user with the policies `AmazonEC2FullAccess` and `AmazonVPCFullAccess`. However this looks like a bit too much access in my opinion and my advice would be to initially grant access with these policies and closely monitor what features are actually necessary with the IAM Access Advisor.
+When you start to use Laravel Forge with AWS you'll need to create an IAM user with the right amount of permissions to create and manage your servers. This should always be from a least access principle. The documentation of Laravel Forge suggests you'll create a user with the policies `AmazonEC2FullAccess` and `AmazonVPCFullAccess`. However this looks like a bit too much access in my opinion and my advice would be to initially grant access with these policies and closely monitor what features are actually necessary with the IAM Access Advisor.
 
 When creating the Laravel Forge user you will need to enable programmatic access to provide Forge with an access key and secret. I'd like to point out that it is **recommended** to rotate these credentials every 90 days but I'll suggest to make a reminder for every **60** days. _Personal preferences though_.
 
 #### Networking
 
-This is actually something that annoys me quite a lot, when using a cloud provider for your servers it can be confusing to find out that you are using a double "firewall". For example, in AWS we use the concept of security groups where you'll define the ports which are open and for who. When using Laravel Forge the server will also have UFW installed. These two different will have different ports open; on UFW only port 22, 80 and 443 will be opened, which is correct. On the AWS Security Group it will look like:
+This is actually something that annoys me quite a lot, when using a cloud provider for your servers it can be confusing to find out that you are using a double "firewall". For example, in AWS we use the concept of security groups where you'll define the ports which are open and for whom. When using Laravel Forge the server will also have UFW installed. These two different will have different ports open; on <a href="https://help.ubuntu.com/community/UFW" target="_blank">UFW</a> only port 22, 80 and 443 will be opened, which is correct. On the AWS Security Group it will look like:
 
 <figure class="aligncenter">
 	<img
@@ -29,7 +29,7 @@ This is actually something that annoys me quite a lot, when using a cloud provid
     />
 </figure>
 
-Especially when you'll see inbound ports 0-65535 open it should warn you that something isn't as it should be. AWS Security Advisors will also advise you to look at this because it is uncommon. My first step would be to modify this to allow SSH from the Laravel Forge servers (IP's are available in their <a href="https://forge.laravel.com/docs/1.0/introduction.html#forge-ip-addresses" target="_blank">documentation</a>), your own IP/bastion and just http/https for the web.
+Especially when you see inbound ports 0-65535 open it should warn you that something isn't as it should be. AWS Security Advisors will also advise you to look at this because it is uncommon. My first step would be to modify this to allow SSH from the Laravel Forge servers (IP's are available in their <a href="https://forge.laravel.com/docs/1.0/introduction.html#forge-ip-addresses" target="_blank">documentation</a>), your own IP/bastion and just http/https for the web.
 
 Whenever someone will try to access any other port on your domain it will be killed on network level within AWS and will never even reach your server.
 
@@ -38,7 +38,7 @@ Another big reason for setting these rules on the security group is that your AW
 #### Source Provider Credentials
 Alright, this is one that bit me in the ass pretty hard. When you add a source provider like GitHub to your Laravel Forge account the default behavior is that Laravel Forge generates an SSH key on the server and adds this key to the Source Provider user on account level. This means that this specific server can clone **any** repository that the user has access to.
 
-As mentioned when providing Laravel Forge access to AWS we should provide access based on the least access principle, if you're granting git access this way you're doing it wrong. So please, disable the following checkbox when creating a server.
+As mentioned when providing Laravel Forge access to AWS we should provide access based on the least access principle, if you're granting git access this way **you're doing it wrong**. So please, disable the following checkbox when creating a server.
 
 <figure class="aligncenter">
 	<img
