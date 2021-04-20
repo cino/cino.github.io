@@ -1,7 +1,7 @@
 ---
 author: ricardo
 title: 'Laravel Forge: setting it up the right way'
-description: 'Setting op Laravel Forge with a couple of my first changes to the intial setup'
+description: 'Setting op Laravel Forge with a couple of my first changes to the initial setup'
 tags: servers php-fpm php laravel
 ---
 
