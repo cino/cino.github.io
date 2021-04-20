@@ -8,20 +8,6 @@
         <meta name="author" content="{{ page.author }}" />
         <meta name="copyright" content="Copyright by {{ site.title }}. All Rights Reserved." />
 
-        <meta
-            name="description"
-            content="{% if page.description %}{{ page.description | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}"
-        />
-        <meta
-            name="description"
-            property="og:description"
-            content="{% if page.description %}{{ page.description | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}"
-        />
-        <meta
-            name="twitter:description"
-            content="{% if page.description %}{{ page.description | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}"
-        />
-
         {% if page.description %}
         <meta
             name="description"
@@ -34,7 +20,11 @@
         {% include meta.html %}
 
         <title>
-            {% if page.title %}{{page.title | escape }} |{% endif %} {{ site.title | escape }} {% if site.description %}&mdash; {{ site.description | escape }} {% endif %}
+            {% if page.title %}
+            {{ page.title | escape }} | {{ site.title | escape }}
+            {% elsif site.description %}
+            {{ site.title | escape }} &mdash; {{ site.description | escape }}
+            {% endif %}
         </title>
 
         {% if site.showFavIcon %} <link rel="icon" type="image/svg+xml" href={{"/assets/images/favicon.svg" | absolute_url}}> {% endif %}
