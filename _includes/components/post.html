@@ -7,13 +7,13 @@
 
     {% assign author = site.data.authors[post.author] %}
 
-    <h2 class="post-title">
+    <h1 class="post-title">
         {% if page.layout != 'post' %}
             <a href="{{ post.url | absolute_url }}">{{post.title}}</a>
         {% else %}
             {{ post.title }}
         {% endif %}
-    </h2>
+    </h1>
     <div class="post-author">
         {% if author %}
             <img class="author-avatar" src="{{ author.avatar | absolute_url }}" alt="{{ author.name }}" width="50" height="50" />
