@@ -44,7 +44,7 @@ As mentioned when providing Laravel Forge access to AWS we should provide access
 	<img
         src="/assets/images/2021/04/laravel-forge-ssh-key-source-control-providers.webp" width="800"
         eight="400"
-        alt="Laravel Forge EC2 Security Group Example screenshot"
+        alt="Laravel Forge Ssh key source control providers screenshot"
     />
 </figure>
 
