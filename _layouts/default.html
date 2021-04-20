@@ -25,17 +25,16 @@
         {% if page.description %}
         <meta
             name="description"
-            content="{{page.description | markdownify | strip_html | strip | strip_newlines | truncate: 200}}"
+            content="{{ page.description | markdownify | strip_html | strip | strip_newlines | truncate: 200 }}"
         />
         {% else %}
-        <meta name="description" content="{{site.title}} &mdash; {{site.description}}" />
+        <meta name="description" content="{{ site.title }} &mdash; {{ site.description }}" />
         {% endif %}
         {% feed_meta %}
         {% include meta.html %}
 
         <title>
-            {% if page.title %}{{page.title | escape}} |{% endif %} {{site.title | escape}} {% if site.description
-            %}&mdash; {{site.description | escape }} {% endif %}
+            {% if page.title %}{{page.title | escape }} |{% endif %} {{ site.title | escape }} {% if site.description %}&mdash; {{ site.description | escape }} {% endif %}
         </title>
 
         {% if site.showFavIcon %} <link rel="icon" type="image/svg+xml" href={{"/assets/images/favicon.svg" | absolute_url}}> {% endif %}

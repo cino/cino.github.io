@@ -2,11 +2,11 @@
     <div class="modal">
         <div class="modal-header">
             <strong class="modal-title">Contact Me</strong>
-            <svg class="close-modal" width="50" height="50"><use href={{"/assets/images/other-icons.svg#close" | absolute_url}}></use></svg>
+            <svg class="close-modal" width="50" height="50"><use href={{ "/assets/images/other-icons.svg#close" | absolute_url }}></use></svg>
         </div>
         <div class="modal-body">
             <p id="contact-form-message" class="form-message"></p>
-            <form id="contact-form" action="{{site.formspree}}" method="POST" role="form">
+            <form id="contact-form" action="{{ site.formspree }}" method="POST" role="form">
                 <label for="contact-name">
                     <input type="text" placeholder="Your Name" name="name" id="contact-name" class="input">
                 </label>

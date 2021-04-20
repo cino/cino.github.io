@@ -34,11 +34,11 @@
 {% endif %}
 
 {% if site.useAnalytics %}
-    <script async src="https://www.googletagmanager.com/gtag/js?id={{site.googleAnalyticsTrackingCode}}"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.googleAnalyticsTrackingCode }}"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', '{{site.googleAnalyticsTrackingCode}}');
+        gtag('config', '{{ site.googleAnalyticsTrackingCode }}');
     </script>
 {% endif %}
