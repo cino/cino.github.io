@@ -19,7 +19,7 @@ When creating the Laravel Forge user you will need to enable programmatic access
 
 ## Networking
 
-This is actually something that annoys me quite a lot, when using a cloud provider for your servers it can be confusing to find out that you are using a double "firewall". For example, in AWS we use the concept of security groups where you'll define the ports which are open and for whom. When using Laravel Forge the server will also have UFW installed. These two different will have different ports open; on <a href="https://help.ubuntu.com/community/UFW" target="_blank">UFW</a> only port 22, 80 and 443 will be opened, which is correct. On the AWS Security Group it will look like:
+This is actually something that annoys me quite a lot, when using a cloud provider for your servers it can be confusing to find out that you are using a double "firewall". For example, in AWS we use the concept of security groups where you'll define the ports which are open and for whom. When using Laravel Forge the server will also have UFW installed. These two different will have different ports open; on <a href="https://help.ubuntu.com/community/UFW" target="_blank" rel="noreferrer">UFW</a> only port 22, 80 and 443 will be opened, which is correct. On the AWS Security Group it will look like:
 
 <figure class="aligncenter">
 	<img
@@ -29,7 +29,7 @@ This is actually something that annoys me quite a lot, when using a cloud provid
     />
 </figure>
 
-Especially when you see inbound ports 0-65535 open it should warn you that something isn't as it should be. AWS Security Advisors will also advise you to look at this because it is uncommon. My first step would be to modify this to allow SSH from the Laravel Forge servers (IP's are available in their <a href="https://forge.laravel.com/docs/1.0/introduction.html#forge-ip-addresses" target="_blank">documentation</a>), your own IP/bastion and just http/https for the web.
+Especially when you see inbound ports 0-65535 open it should warn you that something isn't as it should be. AWS Security Advisors will also advise you to look at this because it is uncommon. My first step would be to modify this to allow SSH from the Laravel Forge servers (IP's are available in their <a href="https://forge.laravel.com/docs/1.0/introduction.html#forge-ip-addresses" target="_blank" rel="noreferrer">documentation</a>), your own IP/bastion and just http/https for the web.
 
 Whenever someone will try to access any other port on your domain it will be killed on network level within AWS and will never even reach your server.
 
@@ -50,7 +50,7 @@ As mentioned when providing Laravel Forge access to AWS we should provide access
 
 The correct way to go forward is when deploying a site on the newly created server instance is to create a deploy key in the repository you'd like the server to have access to.
 
-This is also documented in the documentation of <a href="https://forge.laravel.com/docs/1.0/servers/ssh.html" target="_blank">Laravel Forge</a> but as the default behavior is the less-secure behavior I found it more than important to mention this.
+This is also documented in the documentation of <a href="https://forge.laravel.com/docs/1.0/servers/ssh.html" target="_blank" rel="noreferrer">Laravel Forge</a> but as the default behavior is the less-secure behavior I found it more than important to mention this.
 
 Just to give you an example, imagine having 50+ servers managed by Laravel Forge and every single server has access to all of your github repositories (when the user has access to your complete organization) and **one** of these servers is compromised, the source code of all your projects are compromised. This seems like a pretty big risk to me.
 
@@ -60,7 +60,7 @@ The main usage of Laravel Forge is (as expected) for web development in PHP and 
 
 ### PHP-FPM
 
-I'm planning on writing an extensive post about php-fpm and the settings around `pm.max_children`, `pm.start_servers`, `pm.min_spare_servers` and `pm.max_spare_servers` for now I'm going to keep it as simple as advise you to visit the <a href="https://spot13.com/pmcalculator/" target="_blank">calculator</a> made by <a href="https://spot13.com/" target="_blank">Chris Moore</a>.
+I'm planning on writing an extensive post about php-fpm and the settings around `pm.max_children`, `pm.start_servers`, `pm.min_spare_servers` and `pm.max_spare_servers` for now I'm going to keep it as simple as advise you to visit the <a href="https://spot13.com/pmcalculator/" target="_blank" rel="noreferrer">calculator</a> made by <a href="https://spot13.com/" target="_blank" rel="noreferrer">Chris Moore</a>.
 
 Make sure you enter the correct values in the calculator for the amount of memory your server has and the max memory consumption per request setup as memory_limit in the previously mentioned configuration.
 
