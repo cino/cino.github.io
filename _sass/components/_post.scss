@@ -46,8 +46,11 @@
         h5 { font-size: 18px; }
         h6 { font-size: 16px; }
 
-        a { color: var(--main-color);
-            &:hover { text-decoration: none; }
+        a { color: var(--grey-555);
+            &:hover {
+                color: var(--main-color);
+                text-decoration: none;
+             }
         }
 
         img { display: block; max-width: 100%; height: auto; }
@@ -67,7 +70,7 @@
                 & > code { font-size: 14px; padding: 3px 6px; margin: 0 4px; background: var(--grey-fa); border: 1px solid var(--grey-ccc); }
             }
         }
-        
+
         p { margin: 15px 0;
             & > code { font-size: 14px; padding: 3px 6px; margin: 0 4px; background: var(--grey-fa); border: 1px solid var(--grey-ccc); }
         }
@@ -88,17 +91,17 @@
     .post-footer { @include flexbox(); @include justify-content(space-between); @include align-items(flex-start); gap: 0 20px; margin: 50px 0 0;
         .post-tags { @include flexbox(); @include flex-flow(row wrap); @include flex(9, 1, auto); gap: 0 20px; list-style: none; margin: 0; padding: 0;
             li {
-                a { font-size: 14px; font-family: 'PT Sans', sans-serif; color: var(--grey-ccc); text-decoration: none; @include transition(all .15s ease);
-                    &:hover { color: var(--grey-555); }
+                a { font-size: 14px; font-family: 'PT Sans', sans-serif; color: var(--grey-555); text-decoration: none; @include transition(all .15s ease);
+                    &:hover { color: var(--main-color); }
                 }
             }
         }
-        .post-share { position: relative; @include flex(0, 0, auto); border: 1px solid var(--grey-ddd); overflow: hidden; 
+        .post-share { position: relative; @include flex(0, 0, auto); border: 1px solid var(--grey-ddd); overflow: hidden;
             &:hover {
                 & > span { margin-left: -100%; }
                 & > ul { left: 0; }
             }
-            span { display: block; width: 100%; padding: 0 15px; font-family: 'PT Sans', sans-serif; font-size: 12px; text-transform: uppercase; text-align: center; letter-spacing: .1em; color: var(--grey-aaa); cursor: pointer; @include transition(margin .2s ease); }
+            span { display: block; width: 100%; padding: 0 15px; font-family: 'PT Sans', sans-serif; font-size: 12px; text-transform: uppercase; text-align: center; letter-spacing: .1em; color: var(--grey-555); cursor: pointer; @include transition(margin .2s ease); }
             ul { position: absolute; top: 0; left: 100%; width: 100%; height: 100%; @include flexbox(); list-style: none; margin: 0; padding: 0;  @include transition(left .2s ease);
                 li { @include flex(1, 0, auto); cursor: pointer;
                     &:last-child { border-left: 1px solid var(--grey-ddd); }
@@ -110,13 +113,13 @@
             }
         }
     }
-    
+
     .post-comments { position: relative; margin: 40px 0 0; padding: 20px 0 0; border-top: 1px solid var(--grey-ddd); }
 }
 
 
 @media screen and (max-width: 960px) {
-    .post { 
+    .post {
         .post-title { margin: 0 0 15px; }
         .post-author { @include flexbox(); @include align-items(); @include flex-flow(row wrap); gap: 15px; position: static; width: 100%; margin: 0 0 20px; text-align: left;
             .author-avatar { width: 36px; height: 36px; }

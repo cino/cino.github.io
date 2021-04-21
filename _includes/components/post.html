@@ -68,8 +68,8 @@
                 <span>Share</span>
 
                 <ul class="social-networks">
-                    <li><a href="https://facebook.com/sharer.php?u={{ page.url | absolute_url }}" rel="nofollow" target="_blank"><svg width="16" height="16"><use href={{ "/assets/images/social-icons.svg#facebook" | absolute_url }}></use></svg></a></li>
-                    <li><a href="http://twitter.com/share?url={{ page.url | absolute_url | escape }}&text={{ post.content | strip_html | strip | truncate: 130 }}&via={{ site.twitterHandle }}" rel="nofollow" target="_blank"><svg width="16" hei\ht="16"><use href={{"/assets/images/social-icons.svg#twitter" | absolute_url }}></use></svg></a></li>
+                    <li><a href="https://facebook.com/sharer.php?u={{ page.url | absolute_url }}" rel="nofollow" target="_blank"><svg width="16" height="16"><title>Share on Facebook</title><use href={{ "/assets/images/social-icons.svg#facebook" | absolute_url }}></use></svg></a></li>
+                    <li><a href="http://twitter.com/share?url={{ page.url | absolute_url | escape }}&text={{ post.content | strip_html | strip | truncate: 130 }}&via={{ site.twitterHandle }}" rel="nofollow" target="_blank"><svg width="16" height="16"><title>Share on Twitter</title><use href={{"/assets/images/social-icons.svg#twitter" | absolute_url }}></use></svg></a></li>
                 </ul>
             </div>
         {% endif %}
