@@ -4,7 +4,7 @@ description: "Personal blog about tech related subjects"
 
 # Paths
 baseurl: ""
-url: ""
+url: "https://cino.io"
 
 # Options
 darkMode: false
