@@ -21,7 +21,7 @@ When creating the Laravel Forge user you will need to enable programmatic access
 
 This is actually something that annoys me quite a lot, when using a cloud provider for your servers it can be confusing to find out that you are using a double "firewall". For example, in AWS we use the concept of security groups where you'll define the ports which are open and for whom. When using Laravel Forge the server will also have UFW installed. These two different will have different ports open; on <a href="https://help.ubuntu.com/community/UFW" target="_blank" rel="noreferrer">UFW</a> only port 22, 80 and 443 will be opened, which is correct. On the AWS Security Group it will look like:
 
-<figure class="aligncenter">
+<figure class="aligncenter content-image">
 	<img
         src="/assets/images/2021/04/laravel-forge-ec2-security-group-example.webp" width="800"
         eight="400"
@@ -40,7 +40,7 @@ Alright, this is one that bit me in the ass pretty hard. When you add a source p
 
 As mentioned when providing Laravel Forge access to AWS we should provide access based on the least access principle, if you're granting git access this way **you're doing it wrong**. So please, disable the following checkbox when creating a server.
 
-<figure class="aligncenter">
+<figure class="aligncenter content-image">
 	<img
         src="/assets/images/2021/04/laravel-forge-ssh-key-source-control-providers.webp" width="800"
         eight="400"
