@@ -1,6 +1,7 @@
 # General
 title: Cino
 description: "Personal blog about tech related subjects"
+env: prod
 
 # Paths
 baseurl: ""
@@ -30,9 +31,9 @@ twitterHandle: "ricardocino"
 # Collections
 collections:
   projects:
-    output: true
+    output: false
   category:
-    output: true
+    output: falsee
   tag:
     output: true
 

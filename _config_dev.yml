@@ -1,0 +1,6 @@
+# General
+env: "dev"
+
+# Paths
+baseurl: ""
+url: ""

@@ -56,7 +56,8 @@
         {% if site.useExternalContactForm %}
         {% include components/contactForm.html %}
         {% endif %}
-        {% if page.layout == 'project' %} {% include components/lightbox.html %} {% endif %}
+
+        {% include components/lightbox.html %}
         {% if site.showCookieBanner %} {% include components/cookieBanner.html %} {% endif %}
 
         {% include scripts.html %}

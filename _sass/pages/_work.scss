@@ -69,7 +69,7 @@
 
 @media screen and (max-width: 640px) {
     .page-project { grid-template-areas: "carousel carousel" "content content" "sidebar sidebar"; grid-template-columns: 1fr 1fr;
-        .project-meta { 
+        .project-meta {
             & > div { position: static; @include flexbox(); @include flex-flow(row wrap);
                 & > div { @include flex(1, 0, auto); }
             }

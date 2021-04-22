@@ -8,10 +8,8 @@
 <script src={{"/assets/js/cookie-banner.min.js" | absolute_url}}></script>
 {% endif %}
 
-{% if page.layout == "project" %}
 <script src={{"/assets/js/carousel.min.js" | absolute_url}}></script>
 <script src={{"/assets/js/lightbox.min.js" | absolute_url}}></script>
-{% endif %}
 
 {% if site.useExternalContactForm %}
 <script src={{"/assets/js/contact-form.min.js" | absolute_url}}></script>
@@ -33,7 +31,7 @@
 </script>
 {% endif %}
 
-{% if site.useAnalytics %}
+{% if site.useAnalytics and site.env == "prod" %}
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.googleAnalyticsTrackingCode }}"></script>
     <script>
         window.dataLayer = window.dataLayer || [];

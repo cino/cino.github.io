@@ -1,4 +1,4 @@
-.site-header { display: grid; @include justify-content(); padding: 0 20px; text-align: center; 
+.site-header { display: grid; @include justify-content(); padding: 0 20px; text-align: center;
     .site-header-wrapper { position: relative; overflow: hidden; background: var(--main-color); padding: 10px 25px 20px 25px; border-radius: 0 0 5px 5px; text-decoration: none; @include transition(background .2s ease);
         &:before { position: absolute; top: 0; left: -150%; content: ""; width: 50%; height: 100%;
             background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, .3) 100%);
