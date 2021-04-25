@@ -90,6 +90,19 @@
         .read-more-button { font-size: 16px; color: var(--grey-555); }
     }
 
+    .post-disclaimer {
+        margin-top: 40px;
+        font-size: 12px;
+        font-style: italic;
+
+        a { color: var(--grey-555);
+            &:hover {
+                color: var(--main-color);
+                text-decoration: none;
+             }
+        }
+    }
+
     .post-footer { @include flexbox(); @include justify-content(space-between); @include align-items(flex-start); gap: 0 20px; margin: 50px 0 0;
         .post-tags { @include flexbox(); @include flex-flow(row wrap); @include flex(9, 1, auto); gap: 0 20px; list-style: none; margin: 0; padding: 0;
             li {

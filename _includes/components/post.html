@@ -54,6 +54,12 @@
         {% endif %}
     </div>
 
+    {% if page.disclaimer %}
+    <div class="post-disclaimer">
+        If you find something that is incorrect or don't agree with, feel free to hit me up at <a href="{{ site.twitter }}" rel="noreferrer" target="_blank">Twitter</a> or make an issue on <a href="{{ site.github_repo }}" rel="noreferrer" target="_blank">GitHub</a>.
+    </div>
+    {% endif %}
+
     <div class="post-footer">
         {% if site.showTags and post.tags %}
             <ul class="post-tags">
