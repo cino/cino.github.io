@@ -11,6 +11,10 @@
         {% endfor %}
     {% endif %}
 
+    <div class="navigation-search">
+        <a href="#" class="toggle-search"><svg width="16" height="16"><use href={{ "/assets/images/other-icons.svg#search" | absolute_url }}></use></svg> Search</a>
+    </div>
+
     {% if site.showContact %}
         {% if site.useExternalContactForm %}
             <span class="open-contact">Contact</a>

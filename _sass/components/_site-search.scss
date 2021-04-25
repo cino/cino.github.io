@@ -1,4 +1,17 @@
-.site-search { position: relative; @include flexbox(); @include align-items(); @include flex-flow(column wrap); max-width: 600px; margin: 30px auto 0; padding: 0 20px;
+.site-search {
+    position: relative;
+    @include flexbox();
+    @include align-items();
+    @include flex-flow(column wrap);
+    max-width: 600px;
+    margin: 30px auto 0;
+    padding: 0 20px;
+
+    &-hidden {
+        display: none;
+        margin: 0 auto 0;
+    }
+
     & > div { display: inline-grid; max-width: 400px;
         &:after { content: attr(data-value); visibility: hidden; white-space: pre-wrap; height: 0; }
         #site-search-input { max-width: 400px; height: 30px; font-family: 'PT Serif', serif; font-style: italic; color: var(--grey-222); font-size: 18px; background: transparent; border: none; outline: none; @include placeholder() { color: var(--grey-ccc); font-family: 'PT Serif', serif; font-style: italic; font-size: 18px; } }

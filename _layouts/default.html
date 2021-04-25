@@ -37,13 +37,16 @@
 
         {% include partials/burgerMenu.html %}
         {% include layout/header.html %}
+        {% include partials/searchMenu.html %}
         {% include layout/navigation.html %}
+
 
         {% if site.showSearch %}
         {% include components/siteSearch.html %}
-        {% endif %}
 
         {% include partials/headerSeparator.html %}
+        {% endif %}
+
 
         <main
             class="{% if page.layout == 'blog' or page.layout == 'post' or page.layout == 'category' or page.layout == 'tag' %}wrapper{% else %}wrapper long{% endif %}"
