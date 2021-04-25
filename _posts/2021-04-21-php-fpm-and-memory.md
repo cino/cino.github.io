@@ -1,7 +1,7 @@
 ---
 author: ricardo
-title: 'Optimizing PHP-PFM '
-description: 'How to use and optimize php-fpm to support more workload'
+title: 'Optimizing PHP-PFM'
+description: 'Optimize the PHP-FPM process to handle more requests based on memory usage'
 tags: servers php-fpm php
 disclaimer: true
 ---
