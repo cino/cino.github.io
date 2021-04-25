@@ -1,5 +1,13 @@
 table {
     width: 100%;
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+table tbody {
+    display: table;
+    width: 100%;
 }
 
 tbody tr:nth-child(even) {

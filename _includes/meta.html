@@ -4,11 +4,21 @@
 <meta property="og:type" content="article" />
 {% else %}
 <meta property="og:type" content="website" />
-{% endif %} {% if page.categories %} {% for category in page.categories limit:1 %}
+{% endif %}
+
+{% if page.categories %}
+{% for category in page.categories limit:1 %}
 <meta property="article:section" content="{{ category }}" />
-{% endfor %} {% endif %} {% if page.tags %} {% for tag in page.tags limit:1 %}
+{% endfor %}
+{% endif %}
+
+{% if page.tags %}
+{% for tag in page.tags limit:1 %}
 <meta property="article:tag" content="{{ tag }}" />
-{% endfor %} {% endif %} {% if page.title %}
+{% endfor %}
+{% endif %}
+
+{% if page.title %}
 <meta property="og:title" content="{{ page.title | escape }}" />
 {% else %}
 <meta property="og:title" content="{{ site.title | escape }}" />
