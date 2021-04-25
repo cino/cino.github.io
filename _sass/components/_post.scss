@@ -139,13 +139,20 @@
         .post-author { @include flexbox(); @include align-items(); @include flex-flow(row wrap); gap: 15px; position: static; width: 100%; margin: 0 0 20px; text-align: left;
             .author-avatar { width: 36px; height: 36px; }
             .author-info {
-                .author-name { margin: 0; color: var(--grey-555); text-transform: initial; }
+                .author-name { margin: 0 0 0 15px; color: var(--grey-555); text-transform: initial; }
                 .author-title { display: none; }
             }
             .post-meta { @include flexbox(); @include flex-flow(row wrap); margin: 0; margin-left: auto; padding: 0;
                 &:before { content: none; }
                 .post-categories { margin: 0 0 0 5px; padding: 0 0 0 10px;
                     &:before { position: absolute; top: 50%; left: 0; width: 3px; height: 3px; border-radius: 50%; background: var(--grey-ccc); content: ""; }
+                }
+            }
+        }
+        .post-footer {
+            .post-tags {
+                li:not(:first-child) {
+                    margin-left: 20px;
                 }
             }
         }
