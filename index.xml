@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cino</title><link>https://cino.github.io/</link><description>Cino</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 11 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://cino.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Limiting AWS Lambda's access to Log Groups</title><link>https://cino.github.io/posts/limiting-aws-lambdas-access-to-log-groups/</link><pubDate>Wed, 11 May 2022 00:00:00 +0000</pubDate><guid>https://cino.github.io/posts/limiting-aws-lambdas-access-to-log-groups/</guid><description>&lt;p>About a year ago I asked the question on &lt;a href="https://www.reddit.com/r/aws/comments/o3fbge/is_awslambdabasicexecutionrole_not_way_too_open/">Reddit&lt;/a> what people thought of the default Lambda role called &amp;ldquo;AWSLambdaBasicExecutionRole&amp;rdquo; and why I thought it was way too open to be a default.&lt;/p>
+&lt;p>To this day I still think this role shouldn&amp;rsquo;t be used at all, but rather be deleted by Amazon itself. While I agree that Amazon wants people to get started as quickly as possible it is not in line with the least access principle. For this reason, I always define the role myself, for starters only allowing the Lambda function to write to its own CloudWatch Log Group. There is no reason for the Lambda function to be able to write to log groups of other services rather than its own.&lt;/p>
+&lt;p>Luckily it&amp;rsquo;s quite simple to create a custom permission for the Lambda function using the CDK. We can simply create a custom role, assign the role without permissions to the Lambda function, then add the custom permission to the role allowing the correct permissions to write to the CloudWatchlog group. Why in this order? We need this order to retrieve the generated LogGroup location from the Lambda in the permission, if we wouldn&amp;rsquo;t be using the AWS CDK we would&amp;rsquo;ve done this directly in the permission by assuming the correct name. Luckily this isn&amp;rsquo;t necessary and this is future proof (and re-usable when you put it in a custom struct/generate it in a function).&lt;/p>
+&lt;p>As an example, I&amp;rsquo;ve created the smallest working CDK project which displays exactly how this can be realized below:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-typescript" data-lang="typescript">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// Create your custom IAM Role
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">customRole&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">Role&lt;/span>(&lt;span style="color:#66d9ef">this&lt;/span>, &lt;span style="color:#e6db74">&amp;#39;CustomRole&amp;#39;&lt;/span>, {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">roleName&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;CustomRole&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">assumedBy&lt;/span>: &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">ServicePrincipal&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;lambda.amazonaws.com&amp;#39;&lt;/span>),
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>});
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// create smallest lambda function possible and assign the custom role.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">lambdaFunction&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">NodejsFunction&lt;/span>(&lt;span style="color:#66d9ef">this&lt;/span>, &lt;span style="color:#e6db74">&amp;#39;Function&amp;#39;&lt;/span>, {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">entry&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;./dist/function.js&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">role&lt;/span>: &lt;span style="color:#66d9ef">customRole&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>});
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// Create an inline policy which only allows the role to write logs to the log group
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// that is automatically created by the lambda function.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#a6e22e">customRole&lt;/span>.&lt;span style="color:#a6e22e">attachInlinePolicy&lt;/span>(
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">Policy&lt;/span>(&lt;span style="color:#66d9ef">this&lt;/span>, &lt;span style="color:#e6db74">&amp;#39;loggingPolicy&amp;#39;&lt;/span>, {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">statements&lt;/span>&lt;span style="color:#f92672">:&lt;/span> [
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">PolicyStatement&lt;/span>({
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">effect&lt;/span>: &lt;span style="color:#66d9ef">Effect.ALLOW&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">actions&lt;/span>&lt;span style="color:#f92672">:&lt;/span> [
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#39;logs:CreateLogGroup&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ],
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">resources&lt;/span>&lt;span style="color:#f92672">:&lt;/span> [&lt;span style="color:#e6db74">&amp;#39;*&amp;#39;&lt;/span>],
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }),
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">PolicyStatement&lt;/span>({
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">effect&lt;/span>: &lt;span style="color:#66d9ef">Effect.ALLOW&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">actions&lt;/span>&lt;span style="color:#f92672">:&lt;/span> [
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#39;logs:CreateLogStream&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#39;logs:PutLogEvents&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ],
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">resources&lt;/span>&lt;span style="color:#f92672">:&lt;/span> [
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">lambdaFunction&lt;/span>.&lt;span style="color:#a6e22e">logGroup&lt;/span>.&lt;span style="color:#a6e22e">logGroupArn&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ],
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }),
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ],
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }),
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>);&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;p>A full working example can be found in my Github repository containing this and future examples at &lt;a href="https://github.com/cino/cdk-examples/tree/main/lambda-custom-role">this location&lt;/a>.&lt;/p></description></item><item><title>Building a Serverless Kanban Board</title><link>https://cino.github.io/posts/building-a-serverless-kanban-board/</link><pubDate>Mon, 18 Apr 2022 00:00:00 +0000</pubDate><guid>https://cino.github.io/posts/building-a-serverless-kanban-board/</guid><description>&lt;p>&lt;strong>Update 18/01/2023: Let&amp;rsquo;s assume this is not gonna happen anymore&lt;/strong>&lt;/p>
+&lt;p>As the title suggests I&amp;rsquo;m planning on building a Serverless Kanban Board to improve my personal Typescript skills in both the front and back end. Furthermore, the whole project will be set up while using Amazon Web Services (of course 😉)&lt;/p>
+&lt;p>I thought it would be fun to build something for practice and also have some personal projects on my GitHub page that display the latest techniques I&amp;rsquo;m working with and as a bonus get some material I can write about on the website!&lt;/p>
+&lt;h2 id="the-plan" >The plan
+&lt;span>
+&lt;a href="#the-plan">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>So how is this going the be built? For building the application I&amp;rsquo;ve set a couple of rules for myself:&lt;/p>
+&lt;ol>
+&lt;li>Everything needs to be Serverless, with zero servers, and zero operating systems we need to manage.&lt;/li>
+&lt;li>Everything needs to be built with Infrastructure as Code&lt;/li>
+&lt;li>s cheap as possible&lt;/li>
+&lt;li>Stateless (Api driven)&lt;/li>
+&lt;li>Automatically tested&lt;/li>
+&lt;/ol>
+&lt;p>To explain every rule a bit more let&amp;rsquo;s break it down. First of all, as the title already suggested everything needs to be serverless. That is the most important part of this exercise for me as this is a requirement at my current employer (all are, to be honest) and I really like to have more hands-on experience going forward.&lt;/p>
+&lt;p>Secondly, this is something that has been around for more than a few years; You really want to have reproducible deployments and can be sure that every deployment will result in the same result. This will be done by using the AWS CDK and all deployments to the AWS Account will be automated with a Github Action while using the OIDC Connection.&lt;/p>
+&lt;p>Thirdly, this is quite simple. I am deploying this to my personal AWS account and I really like to keep it as cheap as possible to reduce any costs at my end. I will be publishing a report later to display how much this has cost me in the last periods over probably a time span of months. As serverless is mostly billed on usage level and usage will be very low I&amp;rsquo;m planning on staying in the Free tier as much as possible.&lt;/p>
+&lt;p>Stateless, this is an absolute necessity when building scalable applications. As we are building a serverless application it also means we have no infrastructure where we can temporarily store our data on a disk/memory as this will all be destroyed after the request. So this means that anytime we like to keep data, we will need to use a Serverless service like Amazon S3 for example.&lt;/p>
+&lt;p>And last but not least we are going to automatically test everything we set up, from the infrastructure with CDK to the code we write for AWS Lambdas in Typescript. This is a hard requirement for any project in the developer world in my personal opinion. Some tests may not be there in the beginning but we will definitely keep track of everything that has to be tested or even try some TDD (Test Driven Development) in there as well.&lt;/p>
+&lt;h2 id="the-design" >The design
+&lt;span>
+&lt;a href="#the-design">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>As every good project starts it starts with a high-level overview of how we are planning to set up the infrastructure, and of course, this has been done with &lt;a href="https://draw.io">draw.io&lt;/a>&lt;/p>
+&lt;p>This is most definitely the first sketch and I will keep modifying this if I find myself making a mistake in the future, which is almost a guarantee.&lt;/p>
+&lt;img src="https://cino.github.io/img/building-a-serverless-kanban-board/Serverless-Kanban.drawio-1.png">
+&lt;p>This is the basic setup of how we are going to set this up, and this should be quite easy to understand.&lt;/p>
+&lt;p>We are going to create 2 different subdomains where the application is going to live, the front-end application at kanban.cino.io and the back-end API at kanban-api.cino.io where we will require Cognito Authorization before allowing the user to execute any API requests. Behind the API Gateway, we have multiple AWS Lambda functions (1 for every endpoint we need to keep the function as small as possible) which can all communicate with our database Amazon DynamoDB and every function is able to send an email by Amazon SES. As an extra Serverless feature, I&amp;rsquo;d like to play around with DynamoDB streams to automate certain actions as I&amp;rsquo;ve never used this service before. For example, we can automatically send an email to users that are following a certain kanban ticket when the status has changed because DynamoDB can trigger an event when data changes on the record.&lt;/p>
+&lt;p>The front-end is a lot smaller at the moment, that will host the application in an S3 Bucket and keep the static assets in another S3 Bucket, both of these will be served to the internet by the same CloudFront instance as we can use multiple origins and specify the path, this will mean that we cannot use the path &amp;ldquo;assets&amp;rdquo; in our application itself.&lt;/p>
+&lt;h2 id="going-forward" >Going forward
+&lt;span>
+&lt;a href="#going-forward">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>From now on I will be working on this side-project quite often and keep writing blogs about it. As the first few steps I&amp;rsquo;m going to set up a decent Github Project to keep up with all the tasks I&amp;rsquo;m going to work on, setting up the actual Live environment, might add a test environment but as this is a fun side-project I guess that ain&amp;rsquo;t gonna happen :).&lt;/p>
+&lt;p>Besides setting up all these necessities the first actual problem that I&amp;rsquo;ll need to face which is new for me is: Adding Cognito authentication to a React app in a secure way!&lt;/p></description></item><item><title>TIL #1 - You can override basically anything in AWS CDK</title><link>https://cino.github.io/posts/til/you-can-override-basically-anything-in-aws-cdk/</link><pubDate>Sun, 03 Apr 2022 00:00:00 +0000</pubDate><guid>https://cino.github.io/posts/til/you-can-override-basically-anything-in-aws-cdk/</guid><description>&lt;p>Unique as I am I decided to start writing short blog posts about recent discoveries that suddenly clicked inside my head. For the first one; I have been working a lot with AWS CDK recently and decided that I wanted to contribute back to the AWS-CDK source code.&lt;/p>
+&lt;p>For this reason, I spent quite some time within the Issues section of the AWS-CDK &lt;a href="https://github.com/aws/aws-cdk">Github Repository&lt;/a> and learned that a lot of feature requests are requests for adding a property to a construct that isn&amp;rsquo;t supported yet, while these are actually supported in CloudFormation. Which would make them easy pull requests to work on.&lt;/p>
+&lt;p>This is where I first found a comment about using an &lt;a href="https://docs.aws.amazon.com/cdk/v1/guide/cfn_layer.html">Escape Hatch&lt;/a>, which enables you to modify the underlying CloudFormation template while working with the CDK project.&lt;/p>
+&lt;p>I never really thought much about using an Escape Hatch as I never needed one, however as I said at the beginning of this post it suddenly &amp;ldquo;clicked&amp;rdquo; in my brain. Because the Escape Hatch enables you every feature that CloudFormation already has thus provides you always a way to accomplish your task.&lt;/p>
+&lt;p>While this feature exists, I would always suggest trying to improve the CDK with a feature request or a pull request to enable the feature you are missing.&lt;/p></description></item><item><title>Temporarily working on a Windows Laptop</title><link>https://cino.github.io/posts/temporarily-working-on-a-windows-laptop/</link><pubDate>Sun, 13 Mar 2022 00:00:00 +0000</pubDate><guid>https://cino.github.io/posts/temporarily-working-on-a-windows-laptop/</guid><description>&lt;p>This has been quite the struggle, for the last 6 years, I&amp;rsquo;ve been working on a Macbook Pro/Air (m1) and right now I&amp;rsquo;m not able to do so. Due to a recent job change, I&amp;rsquo;m working on a Windows laptop until the new Macbook is in. At first, I was really curious to work on Windows again! I&amp;rsquo;ve been talking Microsoft up anytime I spoke with somebody about the company, the recent acquiries, the change in direction, I really like where the company is going.&lt;/p>
+&lt;p>As a software engineer, you must be able to see that Microsoft is working towards an amazing direction. With Github, Visual Studio Code, Azure (no experience, but looks promising), NPM (okay, this needs improvement), WSL2, and loads of existing names in their toolset they are really setting up for an empire.&lt;/p>
+&lt;p>Mainly because of those I was actually curious how it would be working on Windows again, and however it&amp;rsquo;s definitely not bad; nothing beats working on macOS for me. Mostly because I&amp;rsquo;m a keyboard enthusiast and have really worked on the shortcut game on macOS, there are just so many shortcuts and muscle memory that working on Windows is almost impossible for me. (definitely exaggerating here).&lt;/p>
+&lt;p>Besides the muscle memory, I made a list of things that annoy me at the moment :&lt;/p>
+&lt;ul>
+&lt;li>Window placement, on Windows you can have an application window on 2 monitors at the same time (part on the left, part on the right for example). At first, it annoyed me that it wasn&amp;rsquo;t possible on macOS. However, now I&amp;rsquo;m so used to it, it annoys me the other way around.&lt;/li>
+&lt;li>The ctrl vs cmd button. Nothing more to add. Should be under muscle memory I guess :)&lt;/li>
+&lt;li>Making screenshots on Windows feels much better on macOS&lt;/li>
+&lt;li>Spotlight or alternatives like &lt;a href="https://www.alfredapp.com/">Alfred&lt;/a>/&lt;a href="https://www.raycast.com/">Raycast&lt;/a>&lt;/li>
+&lt;li>WSL2. Okay, this actually works pretty well. Just don&amp;rsquo;t like it because it is actually a separate operating system of some kind. Had some issues setting it up and installing things like git on windows and ubuntu but it works now, sort of.&lt;/li>
+&lt;li>For some reason storing bookmarks on Microsoft Edge is really slow when placing in a folder on the bookmark toolbar. Was working great in Edge on macOS.&lt;/li>
+&lt;li>Just need to name muscle memory again, there is just too many differences.&lt;/li>
+&lt;/ul>
+&lt;p>And the worst thing is definitely where Apple has won me over in the last few years, I&amp;rsquo;m dead stuck in their ecosystem. I have an iPhone, Apple Watch, Apple TV, my significant other as well, and more. As we are both dedicated to the Apple ecosystem we also share some of our calendars/notes because that&amp;rsquo;s just easy to work with. However, try and work with Apple Notes on windows and you&amp;rsquo;ll understand my problem instantly. This is especially painful when that&amp;rsquo;s the designated tool to manage your grocery list.&lt;/p>
+&lt;p>Alright, this was my rant for now.&lt;/p>
+&lt;p>I&amp;rsquo;ll be looking forward to working on a Macbook again real soon and will create a list of software I use and recommend using if you are in my line of work (or into productivity tools) and share it on here!&lt;/p></description></item><item><title>Deploying your static website with a Github Action</title><link>https://cino.github.io/posts/deploying-your-static-website/</link><pubDate>Fri, 18 Feb 2022 00:00:00 +0000</pubDate><guid>https://cino.github.io/posts/deploying-your-static-website/</guid><description>&lt;p>Authenticate GitHub with OpenID Connect to deploy your CDK project to your AWS Organization&lt;/p>
+&lt;p>After making an AWS CDK project one of the first thing you will realize is that you don&amp;rsquo;t want to keep running cdk deploy to update your production environment. This is a fine way of working when you modify your personal dev environment as it is a quick way of deploying but definitely not for your staging/production environments.&lt;/p>
+&lt;p>To deploy to these types of environments you should be using some kind of a ci/cd setup. There are lots of different tools you can choose from like &lt;a href="https://aws.amazon.com/codedeploy/" target="_blank">AWS CodeDeploy,&lt;/a> &lt;a href="https://docs.gitlab.com/ee/ci/pipelines/" target="_blank">GitLab Pipelines&lt;/a>, Jenkins (don&amp;rsquo;t), or my absolute favorite at this moment &lt;a href="https://github.com/features/actions" target="_blank">Github Actions&lt;/a>.&lt;/p>
+&lt;p>When you think about how the deployment should work it&amp;rsquo;s actually quite simple. The only thing that should happen is that the commands you&amp;rsquo;re running by yourself should be run by an automated process. However, this is where we find our biggest problem: we are not authenticated in our GitHub Action (for now).&lt;/p>
+&lt;h2 id="how-to-authenticate-the-github-action" >How to authenticate the GitHub Action?
+&lt;span>
+&lt;a href="#how-to-authenticate-the-github-action">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>There is more than a single way to authenticate your GitHub action to manage your AWS resources, however, there is only one that is actually recommended by AWS. This is the OpenID Connect authentication method. When using this we authenticate GitHub to assume a role within an organization, when GitHub is authorized to do so it will request temporary credentials which can be used to execute command-line executions like the CDK.&lt;/p>
+&lt;p>The other option would be to generate long-loving access keys and store these in your repositories secrets, this is not the way you want to go and I&amp;rsquo;m not sure why I&amp;rsquo;m even telling this.&lt;/p>
+&lt;p>&lt;strong>💡 Avoid using Long-living-access keys completely, you don&amp;rsquo;t want to deal with refreshing these keys in the long run.&lt;/strong>&lt;/p>
+&lt;h2 id="setting-op-github-openid-connect-with-aws" >Setting op Github OpenID Connect with AWS.
+&lt;span>
+&lt;a href="#setting-op-github-openid-connect-with-aws">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>Before we can make our GitHub Action which executes our deployment we will need to allow GitHub to our AWS Organization. This can be done by setting up an Identity Provider for GitHub within the IAM settings.&lt;/p>
+&lt;p>There is an excellent guide on how to configure the OpenID Identity Provider in the &lt;a href="https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services" target="_blank">GitHub documentation&lt;/a>. This includes all the information you should need to configure it correctly and make it work.&lt;/p>
+&lt;p>As shown in my earlier post about the &lt;a href="https://cino.github.io/posts/static-website-distribution-with-aws-cloudfront/">static website&lt;/a> I find it important to have all my infrastructure as code, that&amp;rsquo;s why I&amp;rsquo;ll show how I&amp;rsquo;ve configured the OpenID Connect Provider in a CDK Stack.&lt;/p>
+&lt;p>For starters, we would need to make an OpenID Connect Provider in AWS, this can be done with the IAM library of the CDK. As mentioned on the GitHub documentation you need to configure the URL and the &amp;ldquo;Audience&amp;rdquo;, when using the CDK you&amp;rsquo;ll see there is no &amp;ldquo;Audience&amp;rdquo; property to configure. This is because this has been named &amp;ldquo;clientIds&amp;rdquo; and works the exact same.&lt;/p>
+&lt;p>Finally, we create an OpenIDConnectPrincipal which will allow GitHub to communicate with our AWS.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-typescript" data-lang="typescript">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">gitHubProvider&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">iam&lt;/span>.&lt;span style="color:#a6e22e">OpenIdConnectProvider&lt;/span>(&lt;span style="color:#66d9ef">this&lt;/span>, &lt;span style="color:#e6db74">&amp;#39;GithubProvider&amp;#39;&lt;/span>, {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">url&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;https://token.actions.githubusercontent.com&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">clientIds&lt;/span>&lt;span style="color:#f92672">:&lt;/span> [&lt;span style="color:#e6db74">&amp;#39;sts.amazonaws.com&amp;#39;&lt;/span>],
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">thumbprints&lt;/span>&lt;span style="color:#f92672">:&lt;/span> [
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#39;6938fd4d98bab03faadb97b34396831e3780aea1&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>});
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">gitHubPrincipal&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">iam&lt;/span>.&lt;span style="color:#a6e22e">OpenIdConnectPrincipal&lt;/span>(&lt;span style="color:#a6e22e">gitHubProvider&lt;/span>);&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;p>The thumbprint is the latest according to this &lt;a href="https://github.blog/changelog/2022-01-13-github-actions-update-on-oidc-based-deployments-to-aws/">GitHub blog&lt;/a> post.&lt;/p>
+&lt;p>Next up, we are going to define what roles GitHub can use, this is an important step as you want to explicitly tell when GitHub should be allowed to assume the given role.&lt;/p>
+&lt;p>Here we create a new role that includes an important condition, here we only allow GitHub to assume this role when the repository is my specific repository and even only from a specific branch. If you don&amp;rsquo;t set this up correctly it could be possible someone else could enter your account.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-typescript" data-lang="typescript">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">deploymentRole&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">iam&lt;/span>.&lt;span style="color:#a6e22e">Role&lt;/span>(&lt;span style="color:#66d9ef">this&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;DeploymentRole&amp;#34;&lt;/span>, {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">assumedBy&lt;/span>: &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">iam&lt;/span>.&lt;span style="color:#a6e22e">WebIdentityPrincipal&lt;/span>(
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">gitHubProvider&lt;/span>.&lt;span style="color:#a6e22e">openIdConnectProviderArn&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">StringLike&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;token.actions.githubusercontent.com:sub&amp;#34;&lt;/span>&lt;span style="color:#f92672">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">`repo:cino/cdk-static-serverless:ref:refs/heads/main`&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ),
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">managedPolicies&lt;/span>&lt;span style="color:#f92672">:&lt;/span> [
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">iam&lt;/span>.&lt;span style="color:#a6e22e">ManagedPolicy&lt;/span>.&lt;span style="color:#a6e22e">fromAwsManagedPolicyName&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;AdministratorAccess&amp;#34;&lt;/span>),
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>});&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;p>Here you can see that we allow the OpenIdConnectProvider to assume the created role, and for this example, I&amp;rsquo;ve given the role the AdministratorAccess role.&lt;/p>
+&lt;p>&lt;strong>💡 Don&amp;rsquo;t give any role AdministratorAccess in production, this is only for the given example. You should create your own policy and specify exactly what you need to be able to accomplish.&lt;/strong>&lt;/p>
+&lt;h2 id="creating-the-github-action-to-execute-the-deploy" >Creating the Github Action to execute the deploy
+&lt;span>
+&lt;a href="#creating-the-github-action-to-execute-the-deploy">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>Now we have authenticated GitHub and can actually execute actions within our AWS account we can go ahead and create a GitHub action to deploy our existing Stack. For this, I&amp;rsquo;ve updated the existing &lt;a href="https://github.com/cino/cdk-static-serverless">Static Website&lt;/a> repository that I created during the previous blog post and made the action run. The complete action can be found at &lt;a hreef="https://github.com/cino/cdk-static-serverless/blob/main/.github/workflows/deploy.yml">this location&lt;/a>.&lt;/p>
+&lt;p>We are lucky enough that the authentication part of our GitHub action has completely been automated by AWS and we simply need to use an existing GitHub action. This is the &lt;a herf="https://github.com/aws-actions/configure-aws-credentials">aws-actions/configure-aws-credentials&lt;/a> action that can authenticate your action in multiple ways.&lt;/p>
+&lt;p>In our Action, we need to add the following part right after checking out our code and everything after this action will be authenticated to perform actions in the AWS Organization. As you can see we specify which role you want to assume and this needs to be the ARN of the created role.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>- &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">Configure AWS credentials&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">uses&lt;/span>: &lt;span style="color:#ae81ff">aws-actions/configure-aws-credentials@v1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">with&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">role-to-assume&lt;/span>: &lt;span style="color:#ae81ff">${{ secrets.AWS_ROLE_TO_ASSUME }}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">aws-region&lt;/span>: &lt;span style="color:#ae81ff">eu-central-1&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;p>Now we are authenticated we can do anything necessary to update our stack, for the given example I&amp;rsquo;ve kept it as simple as possible to make it work by just setting up Node with the managed action from GitHub.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>- &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">Setup Node&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">uses&lt;/span>: &lt;span style="color:#ae81ff">actions/setup-node@v2&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">with&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">node-version&lt;/span>: &lt;span style="color:#ae81ff">14&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;p>This will install node and npm in our action which we will need to install the dependencies which will be the next step.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>- &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">Install dependencies&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">run&lt;/span>: &lt;span style="color:#ae81ff">npm ci&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>- &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">Deploy to CloudFront/S3&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">run&lt;/span>: &lt;span style="color:#ae81ff">npx cdk deploy --require-approval never&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;p>These are the last 2 steps of our action, first, our npm dependencies are installed by running &lt;code>npm ci&lt;/code>, and second, we will run the &lt;code>cdk deploy&lt;/code> command by prefixing this with npx. Npx will download the CDK library and add it to our path so we can use the executable.&lt;/p>
+&lt;h2 id="thats-a-wrap" >That&amp;rsquo;s a wrap
+&lt;span>
+&lt;a href="#thats-a-wrap">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>When all this has been set up you should be able to deploy the CDK project right into your AWS account while using a correct authentication method, without keys that you need to replace every x months. To see the results you can see the output of &lt;a href="https://github.com/cino/cdk-static-serverless/runs/5272810000?check_suite_focus=true">this workflow&lt;/a> that is.&lt;/p></description></item><item><title>Static website distribution with AWS CloudFront</title><link>https://cino.github.io/posts/static-website-distribution-with-aws-cloudfront/</link><pubDate>Fri, 11 Feb 2022 00:00:00 +0000</pubDate><guid>https://cino.github.io/posts/static-website-distribution-with-aws-cloudfront/</guid><description>&lt;p>Having only written about PHP and Servers in the past I am making the switch to Serverless. This has been a long-time wish for me and finally realized this in a personal but also professional environment. That being said, I plan on writing a lot of new content on the blog purely around setting up applications with a serverless mindset, built with AWS CDK (AWS Cloud Development Kit). I will include diagrams and/or flowcharts to explain what is happening and of course, include the source code in a public GitHub repository.&lt;/p>
+&lt;p>The bigger goal for me is to develop a proper application on nothing but serverless services from Amazon to train my skillset and also share the process that I went through.&lt;/p>
+&lt;h2 id="before-we-get-started" >Before we get started
+&lt;span>
+&lt;a href="#before-we-get-started">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>First things first, the way I&amp;rsquo;m making my content won&amp;rsquo;t be a step-by-step guide. At this point, I assume you are at least familiar with Amazon Web Services, Infrastructure as Code and read up at least a little about the &lt;a href="https://docs.aws.amazon.com/cdk/v2/guide/home.html">Cloud Development Kit&lt;/a>.&lt;/p>
+&lt;p>At this moment you should already have the following tools installed:&lt;/p>
+&lt;ul>
+&lt;li>Node/NPM&lt;/li>
+&lt;li>Typescript&lt;/li>
+&lt;li>AWS CDK&lt;/li>
+&lt;/ul>
+&lt;h2 id="what-are-we-building" >What are we building?
+&lt;span>
+&lt;a href="#what-are-we-building">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>The easiest project to experiment with serverless on AWS is with a basic static website. Let&amp;rsquo;s say you only have some HTML/JS/CSS files, we can easily host the website with Amazon S3 + Amazon CloudFront. That means we have a storage provider where we can store our files and a service that helps us serve the files to the visitors. As a bonus, CloudFront serves as a Content Delivery Network which means the files are cached over multiple regions in the world if necessary.&lt;/p>
+&lt;p>For this particular example, I&amp;rsquo;ve chosen &lt;strong>not&lt;/strong> to use a custom domain for the CloudFront distribution. Because at the moment, I don&amp;rsquo;t have a hosted zone setup within AWS and it doesn&amp;rsquo;t really add value at this point.&lt;/p>
+&lt;p>How this would work from a user perspective is quite simple, whenever the user requests an object it would first check if it exists in the cache. When it does, it is as returning the cached file. When it is not in the cache, that&amp;rsquo;s when CloudFront checks if it exists in the origin (S3 in our case) and acts depending on if it is found or not.&lt;/p>
+&lt;img src="https://cino.github.io/img/static-website-distribution-with-aws-cloudfront/flowchart-static-website-distribution-with-aws-cloudfront.drawio.png">
+&lt;h2 id="infrastructure-as-code" >Infrastructure as Code
+&lt;span>
+&lt;a href="#infrastructure-as-code">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>As a best practice, you should use infrastructure as code as much as possible. As said earlier my preferred tool at the moment would be the AWS CDK and this is what I&amp;rsquo;ll show today on how I&amp;rsquo;ve set this up. I&amp;rsquo;ll be going over the main stack I&amp;rsquo;ve created in CDK which can be found &lt;a href="https://github.com/cino/cdk-static-serverless/blob/initial-static-website/lib/cdk-static-serverless-stack.ts">here&lt;/a> for those who like to read along.&lt;/p>
+&lt;p>To start we need to create an S3 Bucket where all our files will be stored. In the example, we will just be storing an index.html and a favicon.ico. As you can see below, we kept it really simple.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-typescript" data-lang="typescript">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">bucket&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">s3&lt;/span>.&lt;span style="color:#a6e22e">Bucket&lt;/span>(&lt;span style="color:#66d9ef">this&lt;/span>, &lt;span style="color:#e6db74">&amp;#39;StaticWebsiteBucket&amp;#39;&lt;/span>, {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">bucketName&lt;/span>: &lt;span style="color:#66d9ef">Stack.of&lt;/span>(&lt;span style="color:#66d9ef">this&lt;/span>).&lt;span style="color:#a6e22e">account&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#e6db74">&amp;#39;-static-website-test&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">websiteIndexDocument&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;index.html&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">publicReadAccess&lt;/span>: &lt;span style="color:#66d9ef">false&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">blockPublicAccess&lt;/span>: &lt;span style="color:#66d9ef">s3.BlockPublicAccess.BLOCK_ALL&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>});&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;p>The only notable comment here is that we disable public access to the bucket which is an actual best practice. Every time you create a bucket: make it private. If you do need it to be public, really ask yourself if it&amp;rsquo;s necessary. In our current situation, all our files are publicly accessible but only when visiting from our CloudFront distribution.&lt;/p>
+&lt;p>After we&amp;rsquo;ve created our S3 Bucket we are going to allow access with an Origin Access Identity where we are basically going to allow CloudFront to access all our files in the S3 Bucket but only on the &lt;code>s3:GetObject&lt;/code> action. Just retrieving the files and nothing else.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-typescript" data-lang="typescript">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">cloudfrontOAI&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">cloudfront&lt;/span>.&lt;span style="color:#a6e22e">OriginAccessIdentity&lt;/span>(&lt;span style="color:#66d9ef">this&lt;/span>, &lt;span style="color:#e6db74">&amp;#39;cloudfront-OAI&amp;#39;&lt;/span>, {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">comment&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">`OAI for &lt;/span>&lt;span style="color:#e6db74">${&lt;/span>&lt;span style="color:#a6e22e">id&lt;/span>&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">`&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>});
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">bucket&lt;/span>.&lt;span style="color:#a6e22e">addToResourcePolicy&lt;/span>(&lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">iam&lt;/span>.&lt;span style="color:#a6e22e">PolicyStatement&lt;/span>({
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">actions&lt;/span>&lt;span style="color:#f92672">:&lt;/span> [&lt;span style="color:#e6db74">&amp;#39;s3:GetObject&amp;#39;&lt;/span>],
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">resources&lt;/span>&lt;span style="color:#f92672">:&lt;/span> [&lt;span style="color:#a6e22e">bucket&lt;/span>.&lt;span style="color:#a6e22e">arnForObjects&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;*&amp;#39;&lt;/span>)],
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">principals&lt;/span>&lt;span style="color:#f92672">:&lt;/span> [&lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">iam&lt;/span>.&lt;span style="color:#a6e22e">CanonicalUserPrincipal&lt;/span>(&lt;span style="color:#a6e22e">cloudfrontOAI&lt;/span>.&lt;span style="color:#a6e22e">cloudFrontOriginAccessIdentityS3CanonicalUserId&lt;/span>)]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}));&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;p>Now the bucket is completely ready we can create the CloudFront distribution where we will use this bucket as an origin source and configure the origin access identity to ensure everybody is up to date on what is allowed.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-typescript" data-lang="typescript">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">distribution&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">cloudfront&lt;/span>.&lt;span style="color:#a6e22e">CloudFrontWebDistribution&lt;/span>(&lt;span style="color:#66d9ef">this&lt;/span>, &lt;span style="color:#e6db74">&amp;#39;StaticWebsiteDistribution&amp;#39;&lt;/span>, {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">originConfigs&lt;/span>&lt;span style="color:#f92672">:&lt;/span> [
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">s3OriginSource&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">s3BucketSource&lt;/span>: &lt;span style="color:#66d9ef">bucket&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">originAccessIdentity&lt;/span>: &lt;span style="color:#66d9ef">cloudfrontOAI&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">behaviors&lt;/span>&lt;span style="color:#f92672">:&lt;/span> [
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">isDefaultBehavior&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">compress&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">allowedMethods&lt;/span>: &lt;span style="color:#66d9ef">cloudfront.CloudFrontAllowedMethods.GET_HEAD_OPTIONS&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>});&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;p>While all the services are now in place within AWS there is only one part missing, how do we get our files in the s3 bucket? This is something that I thought was annoying to deal with but I was completely wrong! In the AWS CDK, there is this beautiful library called &lt;code>aws-s3-deployment&lt;/code> which can automate the deployment from the CDK template.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-typescript" data-lang="typescript">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">s3deploy&lt;/span>.&lt;span style="color:#a6e22e">BucketDeployment&lt;/span>(&lt;span style="color:#66d9ef">this&lt;/span>, &lt;span style="color:#e6db74">&amp;#39;DeployWithInvalidation&amp;#39;&lt;/span>, {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">sources&lt;/span>&lt;span style="color:#f92672">:&lt;/span> [&lt;span style="color:#a6e22e">s3deploy&lt;/span>.&lt;span style="color:#a6e22e">Source&lt;/span>.&lt;span style="color:#a6e22e">asset&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;./static&amp;#39;&lt;/span>)],
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">destinationBucket&lt;/span>: &lt;span style="color:#66d9ef">bucket&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">distribution&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">distributionPaths&lt;/span>&lt;span style="color:#f92672">:&lt;/span> [&lt;span style="color:#e6db74">&amp;#39;/*&amp;#39;&lt;/span>],
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>});&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;p>Here you&amp;rsquo;ll see all the pieces coming together. We are deploying our files from the static folder to our specified bucket and because we are mentioning our CloudFront distribution the deployment will automatically take care of invalidating the caching of these files.&lt;/p>
+&lt;h2 id="interesting-learnings" >Interesting learnings
+&lt;span>
+&lt;a href="#interesting-learnings">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>A couple of things that I found really interesting is that while using Amazon CloudFront the most important statistic is of course your cache hit/miss ratio. When the percentage of misses is too high there is probably something wrong with your setup. However, in my initial deployment, I had a lot of errors in the CloudFront console. The reason behind it was that I was missing a favicon.ico in the static website. This was a logical result of requesting the website from the browser, on every request the browser would try to retrieve the favicon to display in the tab bar. Just for that statistic alone, my advice would be, just add a favicon to the website and never think about it again.&lt;/p>
+&lt;h2 id="closing-note" >Closing note
+&lt;span>
+&lt;a href="#closing-note">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>This is the easiest way to get started with a serverless website. It&amp;rsquo;s fairly simple to set up but covers the basics of what you need to know and how to progress in the world of serverless. However, this is by far not the production-ready state you want to run your application. For starters, you should use your own domain instead of the *.cloudfront.net endpoint and that would give you some extra work with configuring Route53 + SSL Certificate (in combination with CloudFront of course).&lt;/p>
+&lt;p>Besides that, at the current source code, it is necessary to deploy every change yourself. This is not something you want, it would be much nicer to have this in an automated pipeline in for example AWS CodePipeline or my preferred way of deploying which is with GitHub Actions.&lt;/p>
+&lt;p>In the next post, I&amp;rsquo;ll be talking about how to set up your GitHub repository to deploy on every update!&lt;/p>
+&lt;p>Github: &lt;a href="https://github.com/cino/cdk-static-serverless/tree/initial-static-website">https://github.com/cino/cdk-static-serverless/tree/initial-static-website&lt;/a>&lt;/p></description></item><item><title>Optimizing PHP-FPM</title><link>https://cino.github.io/posts/optimizing-php-fpm/</link><pubDate>Thu, 25 Apr 2019 00:00:00 +0000</pubDate><guid>https://cino.github.io/posts/optimizing-php-fpm/</guid><description>&lt;p>As mentioned in the previous post about &lt;a href="https://cino.github.io/posts/laravel-forge-setting-it-up-the-right-way/">laravel forge and setting it up the right way&lt;/a> there was going to be a separate post just about PHP-FPM and how to configure it correctly.&lt;/p>
+&lt;h2 id="what-is-fpm" >What is FPM?
+&lt;span>
+&lt;a href="#what-is-fpm">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>PHP-FPM stands for “Fast Process Manager” and is mostly being used in combination with an Nginx webserver. If you look at the config of an Nginx webserver which is set up to be used with PHP-fpm you’ll find a proxy pass that points to the PHP-FPM socket, meaning that whenever a certain request lands in Nginx it will be sent towards the PHP-FPM socket.&lt;/p>
+&lt;h2 id="how-to-spot-php-fpm-problems" >How to spot PHP-FPM problems
+&lt;span>
+&lt;a href="#how-to-spot-php-fpm-problems">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>Spotting PHP-FPM problems on your server is actually quite easy since PHP will stop working, you’ll receive 5xx errors, and when looking into your PHP fpm log file /var/log/php7.4-fpm.log (Or change to the correct version, can also be located in another location depending on configuration but this should be the default) there are errors like:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">```&lt;/span>WARNING: &lt;span style="color:#f92672">[&lt;/span>pool www&lt;span style="color:#f92672">]&lt;/span> server reached pm.max_children setting &lt;span style="color:#f92672">(&lt;/span>25&lt;span style="color:#f92672">)&lt;/span>, consider raising it&lt;span style="color:#e6db74">```&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;p>What this means is that you’ve reached the point where there are more nginx processes being sent towards the PHP-FPM socket than it’s able to handle. This is easily solved by looking critically at the configuration options within the PHP-fpm pool located at &lt;code>/var/etc/php/7.4/fpm/pool.d/www.conf&lt;/code> (Once again, the file could be at another location. This is at an Ubuntu VM set up by Laravel Forge.)&lt;/p>
+&lt;h2 id="what-are-the-configuration-options" >What are the configuration options?
+&lt;span>
+&lt;a href="#what-are-the-configuration-options">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>FPM can be configured a whole lot more than we are going to discuss here, the options we are looking at are:&lt;/p>
+&lt;h3 id="pm" >pm
+&lt;span>
+&lt;a href="#pm">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h3>&lt;p>This is used to set how the process manager will control the number of child processes. There are 3 options you can choose out: static, dynamic and ondemand. These are all 3 valid options with different use cases:&lt;/p>
+&lt;p>&lt;strong>static&lt;/strong>: A fixed number of child processes, this also means that there are always a fixed amount of processes that are reserving resources. This could be a good option if you have a very consistent amount of traffic.&lt;/p>
+&lt;p>&lt;strong>ondemand&lt;/strong>: There will be zero processes spawned by default and will only be created once they are requested. After x amount of seconds, the process will be killed again. This does mean that because the process needs to be started again and again this will be the slowest option.&lt;/p>
+&lt;p>&lt;strong>dynamic&lt;/strong>: The most common option and in most situations the best is dynamic, here it is possible to use the configuration options below and optimize it to start with a set amount of default processes and allow it to scale up when necessary&lt;/p>
+&lt;h3 id="pmmax_children" >pm.max_children
+&lt;span>
+&lt;a href="#pmmax_children">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h3>&lt;p>The number of child processes are created in static mode and also the amount of maximum simultaneous children that can be created while using the dynamic mode. It can be a bit confusing since with static these will be created instantly while for dynamic it is a limit.&lt;/p>
+&lt;h4 id="pmstart_servers" >pm.start_servers
+&lt;span>
+&lt;a href="#pmstart_servers">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h4>&lt;p>The number of child processes that will be created on startup when using dynamic mode.&lt;/p>
+&lt;h4 id="pmmin_spare_servers" >pm.min_spare_servers
+&lt;span>
+&lt;a href="#pmmin_spare_servers">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h4>&lt;p>This refers to the minimum amount of idle processes, which are necessary because this means once you have less than the minimum amount of spare processes new process will be created in advance. This will help out once you actually need that process because it’s already started.&lt;/p>
+&lt;h4 id="pmmax_spare_servers" >pm.max_spare_servers
+&lt;span>
+&lt;a href="#pmmax_spare_servers">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h4>&lt;p>Logically these are the maximum of spare processes, once the traffic goes down and there are more and more spare processes php-fpm will start killing them to free op server resources.
+pm.max_requests&lt;/p>
+&lt;p>The number of requests a process can process before being killed and re-spawned, this can be very helpful if there is a memory leak somewhere in your application that you cannot solve yourself (Always, but always fix memory leaks). The default value of max_requests is set to 0 which means infinite, I’d suggest changing this to a number you are comfortable with, for example, 100.&lt;/p>
+&lt;h2 id="calculating-the-optimal-settings" >Calculating the optimal settings
+&lt;span>
+&lt;a href="#calculating-the-optimal-settings">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>For the max_children the option we need to make sure we are aware of how much memory each request is necessary, or at least an average per request. The reason behind this is that it’s not possible to run more simultaneous requests than the amount of memory combined is available on your server. Imagine having 4GB of ram and trying to run 100 processes with 128MB of memory consumption, this is doomed to fail so we can protect the server against it.&lt;/p>
+&lt;p>So the basic formula for the max_children is: &lt;code>averageProcessMemory / $availableMemory&lt;/code>.&lt;/p>
+&lt;p>However, since we are not able to use all the memory of the server you’ll need to take some buffer into account. Luckily, Chris Moore created a simple calculator that can help us with the calculation.&lt;/p>
+&lt;img src="https://cino.github.io/img/optimizing-php-fpm/spot13-pmcalculator.webp">
+&lt;p>So, as you can see we need to fill in 4 variables: Total Ram, Reserved Ram, Ram Buffer% &amp;amp; Process size. The first and last speak for themselves. The reserved ram is the amount of ram that is already in use by your server, for example when you are running a database on the same server that also relies on memory you like to make sure it can access it. The last variable is the RAM Buffer %, it is highly advised as well to have a percentage of RAM available because otherwise, you’re going to kill your server. It’s safer to have PHP-fpm kill some requests than the server being full of memory and stops responding.&lt;/p>
+&lt;h2 id="example-configuration" >Example configuration
+&lt;span>
+&lt;a href="#example-configuration">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>Just to make life easy I’ve added a small overview of how many processes can simultaneously be run on a server with 4GB of ram and different memory process sizes. You can see as the memory per process increases the amount of children decreases. This should help you realize to make sure you are aware of the process size on your server and optimize the process manager for maximum usage.&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Memory per process&lt;/th>
+&lt;th>40MB&lt;/th>
+&lt;th>64MB&lt;/th>
+&lt;th>128MB&lt;/th>
+&lt;th>256MB&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>pm.max_children&lt;/td>
+&lt;td>69&lt;/td>
+&lt;td>43&lt;/td>
+&lt;td>21&lt;/td>
+&lt;td>10&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>pm.start_servers&lt;/td>
+&lt;td>17&lt;/td>
+&lt;td>10&lt;/td>
+&lt;td>5&lt;/td>
+&lt;td>2&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>pm.min_spare_servers&lt;/td>
+&lt;td>17&lt;/td>
+&lt;td>10&lt;/td>
+&lt;td>5&lt;/td>
+&lt;td>2&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>pm.max_spare_servers&lt;/td>
+&lt;td>51&lt;/td>
+&lt;td>32&lt;/td>
+&lt;td>15&lt;/td>
+&lt;td>7&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>This example is for when you have a server with a maximum of 4GB of ram.&lt;/p></description></item><item><title>Laravel Forge: setting it up the right way</title><link>https://cino.github.io/posts/laravel-forge-setting-it-up-the-right-way/</link><pubDate>Sat, 20 Apr 2019 00:00:00 +0000</pubDate><guid>https://cino.github.io/posts/laravel-forge-setting-it-up-the-right-way/</guid><description>&lt;p>For the last couple of years, I’ve been creating servers with Laravel Forge and normally I would advise against doing this (In favor of running containers or other load balanced tasks), but for the sake of giving advice to those who do want to do it, this is the first post I’ll spend time on it.&lt;/p>
+&lt;p>For the record, I’ll be writing from an AWS perspective since this is the only provider I have extensive experience with on Laravel Forge but I’ll expect the others to work quite the same.&lt;/p>
+&lt;h2 id="first-things-first" >First things first
+&lt;span>
+&lt;a href="#first-things-first">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>When you start to use Laravel Forge with AWS you’ll need to create an IAM user with the right amount of permissions to create and manage your servers. This should always be from the least access principle. The documentation of Laravel Forge suggests you’ll create a user with the policies &lt;code>AmazonEC2FullAccess&lt;/code> and &lt;code>AmazonVPCFullAccess&lt;/code>. However, this looks like a bit too much access in my opinion and my advice would be to initially grant access with these policies and closely monitor what features are actually necessary with the IAM Access Advisor.&lt;/p>
+&lt;p>When creating the Laravel Forge user you will need to enable programmatic access to provide Forge with an access key and secret. I’d like to point out that it is &lt;strong>recommended&lt;/strong> to rotate these credentials every 90 days but I’ll suggest making a reminder for every &lt;strong>60 days&lt;/strong>. &lt;em>Personal preferences though&lt;/em>.&lt;/p>
+&lt;h2 id="networking" >Networking
+&lt;span>
+&lt;a href="#networking">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>This is actually something that annoys me quite a lot, when using a cloud provider for your servers it can be confusing to find out that you are using a double “firewall”. For example, in AWS we use the concept of security groups where you’ll define the ports which are open and for whom. When using Laravel Forge the server will also have UFW installed. These two different will have different ports open; on UFW only ports 22, 80, and 443 will be opened, which is correct. On the AWS Security Group it will look like this:&lt;/p>
+&lt;img src="https://cino.github.io/img/laravel-forge-setting-it-up-the-right-way/laravel-forge-ec2-security-group-example.webp">
+&lt;p>Especially when you see inbound ports 0-65535 open it should warn you that something isn’t as it should be. AWS Security Advisors will also advise you to look at this because it is uncommon. My first step would be to modify this to allow SSH from the Laravel Forge servers (IPs are available in their &lt;a href="https://forge.laravel.com/docs/1.0/introduction.html#forge-ip-addresses">documentation&lt;/a>), your own IP/bastion, and just HTTP/HTTPS for the web.&lt;/p>
+&lt;p>Whenever someone will try to access any other port on your domain it will be killed on network-level within AWS and will never even reach your server.&lt;/p>
+&lt;p>Another big reason for setting these rules on the security group is that your AWS Console actually shows you the active rules applied to your instance. It can be really confusing if you’re going through the console, seeing all the ports open and when trying to connect realizing there is a UFW active on the server level.&lt;/p>
+&lt;h2 id="source-provider-credentials" >Source Provider Credentials
+&lt;span>
+&lt;a href="#source-provider-credentials">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>Alright, this is one that bit me in the ass pretty hard. When you add a source provider like GitHub to your Laravel Forge account the default behavior is that Laravel Forge generates an SSH key on the server and adds this key to the Source Provider user on the account level. This means that this specific server can clone &lt;strong>any&lt;/strong> repository that the user has access to.&lt;/p>
+&lt;p>As mentioned when providing Laravel Forge access to AWS we should provide access based on the least access principle, if you’re granting git access this way &lt;strong>you’re doing it wrong&lt;/strong>. So please, disable the following checkbox when creating a server.&lt;/p>
+&lt;img src="https://cino.github.io/img/laravel-forge-setting-it-up-the-right-way/laravel-forge-ssh-key-source-control-providers.webp">
+&lt;p>The correct way to go forward is when deploying a site on the newly created server instance is to create a deploy key in the repository you’d like the server to have access to.&lt;/p>
+&lt;p>This is also documented in the documentation of Laravel Forge but as the default behavior is the less-secure behavior I found it more than important to mention this.&lt;/p>
+&lt;p>Just to give you an example, imagine having 50+ servers managed by Laravel Forge and every single server has access to all of your GitHub repositories (when the user has access to your complete organization) and &lt;strong>one&lt;/strong> of these servers is compromised, the source code of all your projects are compromised. This seems like a pretty big risk to me.&lt;/p>
+&lt;h2 id="php--memory" >PHP &amp;amp; Memory
+&lt;span>
+&lt;a href="#php--memory">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>The main usage of Laravel Forge is (as expected) for web development in PHP and thus PHP is configured when creating a server. However, when you look into the PHP configuration you’ll find that the memory_limit is set to 512MB which is crazy high for a normal web application. (WordPress defaults to 40 for example). My first step would be to lower this to 128MB or even 64MB if you are sure you don’t need more.&lt;/p>
+&lt;h3 id="php-fpm" >PHP-FPM
+&lt;span>
+&lt;a href="#php-fpm">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h3>&lt;p>I’m planning on writing an extensive post about php-fpm and the settings around &lt;code>pm.max_children&lt;/code>, &lt;code>pm.start_servers&lt;/code>, &lt;code>pm.min_spare_servers&lt;/code> and &lt;code>pm.max_spare_servers&lt;/code> for now, I’m going to keep it as simple as advising you to visit the &lt;a href="https://spot13.com/pmcalculator/">calculator&lt;/a> made by &lt;a href="https://spot13.com">Chris Moore&lt;/a>.&lt;/p>
+&lt;p>Make sure you enter the correct values in the calculator for the amount of memory your server has and the max memory consumption per request setup as memory_limit in the previously mentioned configuration.&lt;/p>
+&lt;p>Update: PHP FPM and Memory&lt;/p>
+&lt;h2 id="databases" >Databases
+&lt;span>
+&lt;a href="#databases">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>You have the option to auto-create your Mysql database which will be fine in most cases. Nothing special on that part besides since we never explicitly opened the 3306 port to the public you’ll need to access the database with an SSH connection which is actually displayed on the database page these days!
+That’s a wrap&lt;/p>
+&lt;p>This is about it for my main frustrations of the things I change immediately after setting up a new instance with Laravel Forge. There are many other Laravel Forge-related topics I’m going to rant write about as there are more small things that need adjustment.&lt;/p></description></item><item><title>First post again</title><link>https://cino.github.io/posts/first-post-again/</link><pubDate>Thu, 18 Apr 2019 00:00:00 +0000</pubDate><guid>https://cino.github.io/posts/first-post-again/</guid><description>&lt;p>Ah, we are back! Once again, this will be the third try of starting and actually updating a personal blog. I’m not exactly sure what I wrote down the last time but I’m planning the same.&lt;/p>
+&lt;p>Alright, let me explain again. I once had the idea of putting my random thoughts about anything tech-related just out there, which means the subjects of this blog can be quite diverse.&lt;/p>
+&lt;p>If you just stumbled across this website and you’re thinking, who is this guy? Check out the about me page where I wrote a little bit about myself and will try to update if anything changes.&lt;/p></description></item><item><title>About me</title><link>https://cino.github.io/about/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://cino.github.io/about/</guid><description>&lt;p>My name is Ricardo Cino, I&amp;rsquo;m a Software Solution Engineer from the Netherlands with a main focus of building Serverless applications on AWS.&lt;/p>
+&lt;p>This website is a personal blog where I&amp;rsquo;m writing about topics that interest me at the moment, which can be around &lt;strong>Cloud&lt;/strong>, &lt;strong>AWS&lt;/strong>, &lt;strong>Home Automation&lt;/strong>, &lt;strong>Random subjects :)&lt;/strong> but most of all about anything in the computer space.&lt;/p>
+&lt;p>Over the last couple of years I&amp;rsquo;ve been collectiong a few certifications in the AWS area and will continue to do so, as that is why most of the content I&amp;rsquo;m writing is actually going to be about AWS.&lt;/p>
+&lt;p>&lt;a href="https://www.credly.com/badges/0bf2820c-7de9-4646-b0b8-f5578e152ea2">&lt;img src="aws-certified-cloud-practicioner.png" style="max-width:120px;display:inline-block;">&lt;/a>
+&lt;a href="https://www.credly.com/badges/49078dee-dedc-4284-ad91-1637cc00c3e7">&lt;img src="aws-certified-sysops-administrator-associate.png" style="max-width:120px;display:inline-block;">&lt;/a>
+&lt;a href="https://www.credly.com/badges/98edcc17-984b-4d7e-bb9a-b441c868fcdb">&lt;img src="aws-certified-developer-associate.png" style="max-width:120px;display:inline-block;">&lt;/a>
+&lt;a href="https://www.credly.com/badges/62f41241-3a52-4b20-8e16-79a16509540d">&lt;img src="aws-certified-solutions-architect-associate.png" style="max-width:120px;display:inline-block;">&lt;/a>
+&lt;a href="https://www.credly.com/badges/7faf7484-d168-4918-ba48-c13b85b75d39">&lt;img src="aws-certified-devops-engineer-professional.png" style="max-width:120px;display:inline-block;">&lt;/a>
+&lt;a href="#">&lt;img src="aws-certified-solutions-architect-professional.png" style="max-width:120px;display:inline-block;filter: grayscale(1);">&lt;/a>&lt;/p>
+&lt;p>&lt;span style="color:gray">&lt;sub>* Currently working on archieving the Solutions Architect Professional&lt;/sub>&lt;/span>&lt;/p></description></item></channel></rss>

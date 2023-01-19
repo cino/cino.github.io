@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>php on Cino</title><link>https://cino.github.io/tags/php/</link><description>Cino (php)</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 25 Apr 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://cino.github.io/tags/php/index.xml" rel="self" type="application/rss+xml"/><item><title>Optimizing PHP-FPM</title><link>https://cino.github.io/posts/optimizing-php-fpm/</link><pubDate>Thu, 25 Apr 2019 00:00:00 +0000</pubDate><guid>https://cino.github.io/posts/optimizing-php-fpm/</guid><description>&lt;p>As mentioned in the previous post about &lt;a href="https://cino.github.io/posts/laravel-forge-setting-it-up-the-right-way/">laravel forge and setting it up the right way&lt;/a> there was going to be a separate post just about PHP-FPM and how to configure it correctly.&lt;/p>
+&lt;h2 id="what-is-fpm" >What is FPM?
+&lt;span>
+&lt;a href="#what-is-fpm">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>PHP-FPM stands for “Fast Process Manager” and is mostly being used in combination with an Nginx webserver. If you look at the config of an Nginx webserver which is set up to be used with PHP-fpm you’ll find a proxy pass that points to the PHP-FPM socket, meaning that whenever a certain request lands in Nginx it will be sent towards the PHP-FPM socket.&lt;/p>
+&lt;h2 id="how-to-spot-php-fpm-problems" >How to spot PHP-FPM problems
+&lt;span>
+&lt;a href="#how-to-spot-php-fpm-problems">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>Spotting PHP-FPM problems on your server is actually quite easy since PHP will stop working, you’ll receive 5xx errors, and when looking into your PHP fpm log file /var/log/php7.4-fpm.log (Or change to the correct version, can also be located in another location depending on configuration but this should be the default) there are errors like:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">```&lt;/span>WARNING: &lt;span style="color:#f92672">[&lt;/span>pool www&lt;span style="color:#f92672">]&lt;/span> server reached pm.max_children setting &lt;span style="color:#f92672">(&lt;/span>25&lt;span style="color:#f92672">)&lt;/span>, consider raising it&lt;span style="color:#e6db74">```&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;p>What this means is that you’ve reached the point where there are more nginx processes being sent towards the PHP-FPM socket than it’s able to handle. This is easily solved by looking critically at the configuration options within the PHP-fpm pool located at &lt;code>/var/etc/php/7.4/fpm/pool.d/www.conf&lt;/code> (Once again, the file could be at another location. This is at an Ubuntu VM set up by Laravel Forge.)&lt;/p>
+&lt;h2 id="what-are-the-configuration-options" >What are the configuration options?
+&lt;span>
+&lt;a href="#what-are-the-configuration-options">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>FPM can be configured a whole lot more than we are going to discuss here, the options we are looking at are:&lt;/p>
+&lt;h3 id="pm" >pm
+&lt;span>
+&lt;a href="#pm">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h3>&lt;p>This is used to set how the process manager will control the number of child processes. There are 3 options you can choose out: static, dynamic and ondemand. These are all 3 valid options with different use cases:&lt;/p>
+&lt;p>&lt;strong>static&lt;/strong>: A fixed number of child processes, this also means that there are always a fixed amount of processes that are reserving resources. This could be a good option if you have a very consistent amount of traffic.&lt;/p>
+&lt;p>&lt;strong>ondemand&lt;/strong>: There will be zero processes spawned by default and will only be created once they are requested. After x amount of seconds, the process will be killed again. This does mean that because the process needs to be started again and again this will be the slowest option.&lt;/p>
+&lt;p>&lt;strong>dynamic&lt;/strong>: The most common option and in most situations the best is dynamic, here it is possible to use the configuration options below and optimize it to start with a set amount of default processes and allow it to scale up when necessary&lt;/p>
+&lt;h3 id="pmmax_children" >pm.max_children
+&lt;span>
+&lt;a href="#pmmax_children">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h3>&lt;p>The number of child processes are created in static mode and also the amount of maximum simultaneous children that can be created while using the dynamic mode. It can be a bit confusing since with static these will be created instantly while for dynamic it is a limit.&lt;/p>
+&lt;h4 id="pmstart_servers" >pm.start_servers
+&lt;span>
+&lt;a href="#pmstart_servers">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h4>&lt;p>The number of child processes that will be created on startup when using dynamic mode.&lt;/p>
+&lt;h4 id="pmmin_spare_servers" >pm.min_spare_servers
+&lt;span>
+&lt;a href="#pmmin_spare_servers">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h4>&lt;p>This refers to the minimum amount of idle processes, which are necessary because this means once you have less than the minimum amount of spare processes new process will be created in advance. This will help out once you actually need that process because it’s already started.&lt;/p>
+&lt;h4 id="pmmax_spare_servers" >pm.max_spare_servers
+&lt;span>
+&lt;a href="#pmmax_spare_servers">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h4>&lt;p>Logically these are the maximum of spare processes, once the traffic goes down and there are more and more spare processes php-fpm will start killing them to free op server resources.
+pm.max_requests&lt;/p>
+&lt;p>The number of requests a process can process before being killed and re-spawned, this can be very helpful if there is a memory leak somewhere in your application that you cannot solve yourself (Always, but always fix memory leaks). The default value of max_requests is set to 0 which means infinite, I’d suggest changing this to a number you are comfortable with, for example, 100.&lt;/p>
+&lt;h2 id="calculating-the-optimal-settings" >Calculating the optimal settings
+&lt;span>
+&lt;a href="#calculating-the-optimal-settings">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>For the max_children the option we need to make sure we are aware of how much memory each request is necessary, or at least an average per request. The reason behind this is that it’s not possible to run more simultaneous requests than the amount of memory combined is available on your server. Imagine having 4GB of ram and trying to run 100 processes with 128MB of memory consumption, this is doomed to fail so we can protect the server against it.&lt;/p>
+&lt;p>So the basic formula for the max_children is: &lt;code>averageProcessMemory / $availableMemory&lt;/code>.&lt;/p>
+&lt;p>However, since we are not able to use all the memory of the server you’ll need to take some buffer into account. Luckily, Chris Moore created a simple calculator that can help us with the calculation.&lt;/p>
+&lt;img src="https://cino.github.io/img/optimizing-php-fpm/spot13-pmcalculator.webp">
+&lt;p>So, as you can see we need to fill in 4 variables: Total Ram, Reserved Ram, Ram Buffer% &amp;amp; Process size. The first and last speak for themselves. The reserved ram is the amount of ram that is already in use by your server, for example when you are running a database on the same server that also relies on memory you like to make sure it can access it. The last variable is the RAM Buffer %, it is highly advised as well to have a percentage of RAM available because otherwise, you’re going to kill your server. It’s safer to have PHP-fpm kill some requests than the server being full of memory and stops responding.&lt;/p>
+&lt;h2 id="example-configuration" >Example configuration
+&lt;span>
+&lt;a href="#example-configuration">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>Just to make life easy I’ve added a small overview of how many processes can simultaneously be run on a server with 4GB of ram and different memory process sizes. You can see as the memory per process increases the amount of children decreases. This should help you realize to make sure you are aware of the process size on your server and optimize the process manager for maximum usage.&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Memory per process&lt;/th>
+&lt;th>40MB&lt;/th>
+&lt;th>64MB&lt;/th>
+&lt;th>128MB&lt;/th>
+&lt;th>256MB&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>pm.max_children&lt;/td>
+&lt;td>69&lt;/td>
+&lt;td>43&lt;/td>
+&lt;td>21&lt;/td>
+&lt;td>10&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>pm.start_servers&lt;/td>
+&lt;td>17&lt;/td>
+&lt;td>10&lt;/td>
+&lt;td>5&lt;/td>
+&lt;td>2&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>pm.min_spare_servers&lt;/td>
+&lt;td>17&lt;/td>
+&lt;td>10&lt;/td>
+&lt;td>5&lt;/td>
+&lt;td>2&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>pm.max_spare_servers&lt;/td>
+&lt;td>51&lt;/td>
+&lt;td>32&lt;/td>
+&lt;td>15&lt;/td>
+&lt;td>7&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>This example is for when you have a server with a maximum of 4GB of ram.&lt;/p></description></item><item><title>Laravel Forge: setting it up the right way</title><link>https://cino.github.io/posts/laravel-forge-setting-it-up-the-right-way/</link><pubDate>Sat, 20 Apr 2019 00:00:00 +0000</pubDate><guid>https://cino.github.io/posts/laravel-forge-setting-it-up-the-right-way/</guid><description>&lt;p>For the last couple of years, I’ve been creating servers with Laravel Forge and normally I would advise against doing this (In favor of running containers or other load balanced tasks), but for the sake of giving advice to those who do want to do it, this is the first post I’ll spend time on it.&lt;/p>
+&lt;p>For the record, I’ll be writing from an AWS perspective since this is the only provider I have extensive experience with on Laravel Forge but I’ll expect the others to work quite the same.&lt;/p>
+&lt;h2 id="first-things-first" >First things first
+&lt;span>
+&lt;a href="#first-things-first">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>When you start to use Laravel Forge with AWS you’ll need to create an IAM user with the right amount of permissions to create and manage your servers. This should always be from the least access principle. The documentation of Laravel Forge suggests you’ll create a user with the policies &lt;code>AmazonEC2FullAccess&lt;/code> and &lt;code>AmazonVPCFullAccess&lt;/code>. However, this looks like a bit too much access in my opinion and my advice would be to initially grant access with these policies and closely monitor what features are actually necessary with the IAM Access Advisor.&lt;/p>
+&lt;p>When creating the Laravel Forge user you will need to enable programmatic access to provide Forge with an access key and secret. I’d like to point out that it is &lt;strong>recommended&lt;/strong> to rotate these credentials every 90 days but I’ll suggest making a reminder for every &lt;strong>60 days&lt;/strong>. &lt;em>Personal preferences though&lt;/em>.&lt;/p>
+&lt;h2 id="networking" >Networking
+&lt;span>
+&lt;a href="#networking">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>This is actually something that annoys me quite a lot, when using a cloud provider for your servers it can be confusing to find out that you are using a double “firewall”. For example, in AWS we use the concept of security groups where you’ll define the ports which are open and for whom. When using Laravel Forge the server will also have UFW installed. These two different will have different ports open; on UFW only ports 22, 80, and 443 will be opened, which is correct. On the AWS Security Group it will look like this:&lt;/p>
+&lt;img src="https://cino.github.io/img/laravel-forge-setting-it-up-the-right-way/laravel-forge-ec2-security-group-example.webp">
+&lt;p>Especially when you see inbound ports 0-65535 open it should warn you that something isn’t as it should be. AWS Security Advisors will also advise you to look at this because it is uncommon. My first step would be to modify this to allow SSH from the Laravel Forge servers (IPs are available in their &lt;a href="https://forge.laravel.com/docs/1.0/introduction.html#forge-ip-addresses">documentation&lt;/a>), your own IP/bastion, and just HTTP/HTTPS for the web.&lt;/p>
+&lt;p>Whenever someone will try to access any other port on your domain it will be killed on network-level within AWS and will never even reach your server.&lt;/p>
+&lt;p>Another big reason for setting these rules on the security group is that your AWS Console actually shows you the active rules applied to your instance. It can be really confusing if you’re going through the console, seeing all the ports open and when trying to connect realizing there is a UFW active on the server level.&lt;/p>
+&lt;h2 id="source-provider-credentials" >Source Provider Credentials
+&lt;span>
+&lt;a href="#source-provider-credentials">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>Alright, this is one that bit me in the ass pretty hard. When you add a source provider like GitHub to your Laravel Forge account the default behavior is that Laravel Forge generates an SSH key on the server and adds this key to the Source Provider user on the account level. This means that this specific server can clone &lt;strong>any&lt;/strong> repository that the user has access to.&lt;/p>
+&lt;p>As mentioned when providing Laravel Forge access to AWS we should provide access based on the least access principle, if you’re granting git access this way &lt;strong>you’re doing it wrong&lt;/strong>. So please, disable the following checkbox when creating a server.&lt;/p>
+&lt;img src="https://cino.github.io/img/laravel-forge-setting-it-up-the-right-way/laravel-forge-ssh-key-source-control-providers.webp">
+&lt;p>The correct way to go forward is when deploying a site on the newly created server instance is to create a deploy key in the repository you’d like the server to have access to.&lt;/p>
+&lt;p>This is also documented in the documentation of Laravel Forge but as the default behavior is the less-secure behavior I found it more than important to mention this.&lt;/p>
+&lt;p>Just to give you an example, imagine having 50+ servers managed by Laravel Forge and every single server has access to all of your GitHub repositories (when the user has access to your complete organization) and &lt;strong>one&lt;/strong> of these servers is compromised, the source code of all your projects are compromised. This seems like a pretty big risk to me.&lt;/p>
+&lt;h2 id="php--memory" >PHP &amp;amp; Memory
+&lt;span>
+&lt;a href="#php--memory">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>The main usage of Laravel Forge is (as expected) for web development in PHP and thus PHP is configured when creating a server. However, when you look into the PHP configuration you’ll find that the memory_limit is set to 512MB which is crazy high for a normal web application. (WordPress defaults to 40 for example). My first step would be to lower this to 128MB or even 64MB if you are sure you don’t need more.&lt;/p>
+&lt;h3 id="php-fpm" >PHP-FPM
+&lt;span>
+&lt;a href="#php-fpm">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h3>&lt;p>I’m planning on writing an extensive post about php-fpm and the settings around &lt;code>pm.max_children&lt;/code>, &lt;code>pm.start_servers&lt;/code>, &lt;code>pm.min_spare_servers&lt;/code> and &lt;code>pm.max_spare_servers&lt;/code> for now, I’m going to keep it as simple as advising you to visit the &lt;a href="https://spot13.com/pmcalculator/">calculator&lt;/a> made by &lt;a href="https://spot13.com">Chris Moore&lt;/a>.&lt;/p>
+&lt;p>Make sure you enter the correct values in the calculator for the amount of memory your server has and the max memory consumption per request setup as memory_limit in the previously mentioned configuration.&lt;/p>
+&lt;p>Update: PHP FPM and Memory&lt;/p>
+&lt;h2 id="databases" >Databases
+&lt;span>
+&lt;a href="#databases">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>You have the option to auto-create your Mysql database which will be fine in most cases. Nothing special on that part besides since we never explicitly opened the 3306 port to the public you’ll need to access the database with an SSH connection which is actually displayed on the database page these days!
+That’s a wrap&lt;/p>
+&lt;p>This is about it for my main frustrations of the things I change immediately after setting up a new instance with Laravel Forge. There are many other Laravel Forge-related topics I’m going to rant write about as there are more small things that need adjustment.&lt;/p></description></item></channel></rss>
