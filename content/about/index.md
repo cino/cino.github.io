@@ -1,6 +1,8 @@
 ---
 title: About me
 type: about
+description: A little bit of information on who I am, what I do, and what I will going to publish on this platform
+author: Ricardo Cino
 menu:
   main:
     title: "About"
