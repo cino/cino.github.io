@@ -24,6 +24,9 @@ jobs:
       - name: Additional NPM packages
         run: npm install -g postcss postcss-cli autoprefixer
 
+      - name: Install theme npm
+        run: cd themes/cino && npm ci
+
       - name: Build
         run: hugo --minify
 
