@@ -1,10 +1,6 @@
-# languageCode: "en-us"
-# baseUrl: "https://cino.io"
-# title: "Cino"
-
 theme = "cino"
 languageCode = "en-us"
-baseurl = "http://example.com/"
+baseurl = "https://cino.io/"
 title = "Cino"
 
 paginate = 10
