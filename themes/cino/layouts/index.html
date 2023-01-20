@@ -1,0 +1,182 @@
+{{ define "main" }}
+<main>
+  <div class="sm:px-8 mt-16 sm:mt-16">
+    <div class="mx-auto max-w-7xl lg:px-8">
+      <div class="relative px-4 sm:px-8 lg:px-12">
+        <div class="mx-auto max-w-2xl lg:max-w-5xl">
+          <header class="max-w-2xl">
+            <h2
+              class="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-2xl"
+            >
+                Ricardo Cino
+            </h1>
+            <p class="mt-6 text-base text-zinc-600 dark:text-zinc-400">
+              Writing about Software developent, Cloud Infrastructure and Infrastructure As Code (mostly on AWS).
+            </p>
+          </header>
+
+          <div class="mt-16 sm:mt-20">
+            <div
+              class="md:border-l md:border-zinc-100 md:pl-6 md:dark:border-zinc-700/40"
+            >
+              <div class="flex max-w-3xl flex-col space-y-16">
+              {{ $paginator := .Paginate .Site.RegularPages }}
+              {{ range $paginator.Pages }}
+                <article class="md:grid md:grid-cols-4 md:items-baseline">
+                  <div
+                    class="md:col-span-3 group relative flex flex-col items-start"
+                  >
+                    <h2
+                      class="text-base font-semibold tracking-tight text-zinc-800 dark:text-zinc-100"
+                    >
+                      <div
+                        class="absolute -inset-y-6 -inset-x-4 z-0 scale-95 bg-zinc-50 opacity-0 transition group-hover:scale-100 group-hover:opacity-100 dark:bg-zinc-800/50 sm:-inset-x-6 sm:rounded-2xl"
+                      ></div>
+                      <a
+                        href="{{ .Permalink}}"
+                        ><span
+                          class="absolute -inset-y-6 -inset-x-4 z-20 sm:-inset-x-6 sm:rounded-2xl"
+                        ></span
+                        ><span class="relative z-10"
+                          >{{ .Title}}</span
+                        ></a
+                      >
+                    </h2>
+                    <time
+                      class="md:hidden relative z-10 order-first mb-3 flex items-center text-sm text-zinc-400 dark:text-zinc-500 pl-3.5"
+                      datetime="2022-09-05"
+                      ><span
+                        class="absolute inset-y-0 left-0 flex items-center"
+                        aria-hidden="true"
+                        ><span
+                          class="h-4 w-0.5 rounded-full bg-zinc-200 dark:bg-zinc-500"
+                        ></span></span
+                      >September 5, 2022</time
+                    >
+                    {{ .Content | replaceRE "<p>" "<p class=\"relative z-10 mt-2 text-sm text-zinc-600 dark:text-zinc-400\">" | safeHTML | truncate 300 }}
+                    </p>
+                    <div
+                      aria-hidden="true"
+                      class="relative z-10 mt-4 flex items-center text-sm font-medium text-teal-500"
+                    >
+                      Read article
+                      <svg
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        aria-hidden="true"
+                        class="ml-1 h-4 w-4 stroke-current"
+                      >
+                        <path
+                          d="M6.75 5.75 9.25 8l-2.5 2.25"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        ></path>
+                      </svg>
+                    </div>
+                  </div>
+                  <time
+                    class="mt-1 hidden md:block relative z-10 order-first mb-3 flex items-center text-sm text-zinc-400 dark:text-zinc-500"
+                    datetime="2022-09-05"
+                    >{{ .Date.Format "January 2, 2006" }}</time
+                  >
+                </article>
+              {{ end }}
+              </div>
+            </div>
+
+          <div class="mt-16 sm:mt-20">
+            <nav class="flex items-center justify-between border-t border-gray-200 px-4 sm:px-0">
+
+            <div class="-mt-px flex w-0 flex-1">
+             {{ if $paginator.HasPrev }}
+                <a href="{{ .Paginator.Prev.URL }}" class="inline-flex items-center border-t-2 border-transparent pt-4 pr-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
+                <!-- Heroicon name: mini/arrow-long-left -->
+                <svg class="mr-3 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M18 10a.75.75 0 01-.75.75H4.66l2.1 1.95a.75.75 0 11-1.02 1.1l-3.5-3.25a.75.75 0 010-1.1l3.5-3.25a.75.75 0 111.02 1.1l-2.1 1.95h12.59A.75.75 0 0118 10z" clip-rule="evenodd" />
+                </svg>
+                </a>
+             {{ end }}
+            </div>
+
+
+            {{ $adjacent_links := 1 }}
+            {{ $max_links := (add (mul $adjacent_links 2) 1) }}
+            {{ $lower_limit := (add $adjacent_links 1) }}
+            {{ $upper_limit := (sub $paginator.TotalPages $adjacent_links) }}
+
+            <!-- First page (if current page is greater than allowed limit) -->
+            {{ if gt $paginator.TotalPages $max_links }}
+                {{ if ge $paginator.PageNumber $max_links }}
+                <a href="{{ $paginator.First.URL }}" aria-label="First" class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">1</a>
+                <span class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500">...</span>
+                {{ end }}
+            {{ end }}
+
+            <!-- Iterate the pager to show pages within ruleset -->
+            {{ range $paginator.Pagers }}
+                {{ $.Scratch.Set "page_number_flag" false }}
+
+                <!-- Identify if the current page is within the ruleset to be shown (or not) -->
+                {{ if gt $paginator.TotalPages $max_links }}
+                    {{ if le $paginator.PageNumber $lower_limit }}
+                        {{ if le .PageNumber $max_links }}
+                            {{ $.Scratch.Set "page_number_flag" true }}
+                        {{ end }}
+                    {{ else if ge $paginator.PageNumber $upper_limit }}
+                        {{ if gt .PageNumber (sub $paginator.TotalPages $max_links) }}
+                            {{ $.Scratch.Set "page_number_flag" true }}
+                        {{ end }}
+                    {{ else }}
+                        {{ if and ( ge .PageNumber (sub $paginator.PageNumber $adjacent_links) ) ( le .PageNumber (add $paginator.PageNumber $adjacent_links) ) }}
+                            {{ $.Scratch.Set "page_number_flag" true }}
+                        {{ end }}
+                    {{ end }}
+                {{ else }}
+                    {{ $.Scratch.Set "page_number_flag" true }}
+                {{ end }}
+
+                {{ if eq ($.Scratch.Get "page_number_flag") true }}
+                    <!-- <a href="{{ .URL }}" aria-label="{{ .PageNumber }}" class="page-tag{{ if eq . $paginator }} current{{ end }}">{{ .PageNumber }}</a> -->
+                    <a
+                        href="{{ .URL }}"
+                        aria-label="{{ .PageNumber }}"
+                        class="
+                            {{ if eq . $paginator }}
+                                inline-flex items-center border-t-2 border-teal-500 px-4 pt-4 text-sm font-medium text-teal-600
+                            {{ else }}
+                                inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700
+                            {{ end }}
+                            "
+                    >{{ .PageNumber }}</a>
+                {{ end }}
+            {{ end }}
+
+            <!-- Show the last page index -->
+            {{ if gt $paginator.TotalPages $max_links }}
+                {{ if le $paginator.PageNumber (sub $paginator.TotalPages (sub $max_links 1)) }}
+                <span class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500">...</span>
+                <a href="{{ $paginator.Last.URL }}" aria-label="Last" class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">{{ $paginator.TotalPages }}</a>
+                {{ end }}
+            {{ end }}
+
+            <div class="-mt-px flex w-0 flex-1 justify-end">
+                {{ if $paginator.HasNext }}
+                    <a href="{{ .Paginator.Next.URL }}" class="inline-flex items-center border-t-2 border-transparent pt-4 pl-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
+                    Older
+                    <!-- Heroicon name: mini/arrow-long-right -->
+                    <svg class="ml-3 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M2 10a.75.75 0 01.75-.75h12.59l-2.1-1.95a.75.75 0 111.02-1.1l3.5 3.25a.75.75 0 010 1.1l-3.5 3.25a.75.75 0 11-1.02-1.1l2.1-1.95H2.75A.75.75 0 012 10z" clip-rule="evenodd" />
+                    </svg>
+                    </a>
+                {{ end }}
+            </div>
+            </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+{{ end }}

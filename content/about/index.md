@@ -1,6 +1,12 @@
 ---
 title: About me
+type: about
+menu:
+  main:
+    title: "About"
+    weight: 120
 ---
+
 My name is Ricardo Cino, I'm a Software Solution Engineer from the Netherlands with a main focus of building Serverless applications on AWS.
 
 This website is a personal blog where I'm writing about topics that interest me at the moment, which can be around **Cloud**, **AWS**, **Home Automation**, **Random subjects :)** but most of all about anything in the computer space.
@@ -14,4 +20,4 @@ Over the last couple of years I've been collectiong a few certifications in the 
 <a href="https://www.credly.com/badges/7faf7484-d168-4918-ba48-c13b85b75d39"><img src="aws-certified-devops-engineer-professional.png" style="max-width:120px;display:inline-block;"></a>
 <a href="#"><img src="aws-certified-solutions-architect-professional.png" style="max-width:120px;display:inline-block;filter: grayscale(1);"></a>
 
-<span style="color:gray"><sub>* Currently working on archieving the Solutions Architect Professional</sub></span>
+<span style="color:gray"><sub>* Currently working on achieving the Solutions Architect Professional</sub></span>

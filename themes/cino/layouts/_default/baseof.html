@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html
+  class="h-full antialiased"
+  style="
+    --header-position: sticky;
+    --content-offset: 0px;
+    --header-height: 64px;
+    --header-mb: 0px;
+    --header-top: 0px;
+    --avatar-top: 0px;
+  "
+  lang="{{ .Site.LanguageCode }}"
+>
+  {{ partial "head.html" . }}
+
+  <body class="flex h-full flex-col bg-zinc-50">
+    <div class="fixed inset-0 flex justify-center sm:px-8">
+      <div class="flex w-full max-w-7xl lg:px-8">
+        <div class="w-full bg-white ring-1 ring-zinc-100"></div>
+      </div>
+    </div>
+
+    <div class="relative">
+      {{- partial "header.html" . -}}
+
+      {{- block "main" . }}{{- end }}
+
+      {{- partial "footer.html" . -}}
+    </div>
+  </body>
+</html>

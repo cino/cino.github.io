@@ -1,0 +1,28 @@
+# languageCode: "en-us"
+# baseUrl: "https://cino.io"
+# title: "Cino"
+
+theme = "cino"
+languageCode = "en-us"
+baseurl = "http://example.com/"
+title = "Cino"
+
+paginate = 10
+
+[build]
+  writeStats = true
+
+# syntax highlight settings
+[markup]
+  [markup.highlight]
+    style = "dracula"
+
+
+[taxonomies]
+category = "categories"
+tag = "tags"
+
+[markup.goldmark.renderer]
+unsafe= true
+
+menu = ['main']
