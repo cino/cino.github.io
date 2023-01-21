@@ -8,7 +8,7 @@ tags = [
 ]
 +++
 
-As mentioned in the previous post about <a href="/posts/2019/laravel-forge-setting-it-up-the-right-way/" target="_blank">laravel forge and setting it up the right way</a> there was going to be a separate post just about PHP-FPM and how to configure it correctly.
+As mentioned in the previous post about <a href="/2019/laravel-forge-setting-it-up-the-right-way/" target="_blank">laravel forge and setting it up the right way</a> there was going to be a separate post just about PHP-FPM and how to configure it correctly.
 
 ## What is FPM?
 

@@ -28,7 +28,7 @@ Before we can make our GitHub Action which executes our deployment we will need 
 
 There is an excellent guide on how to configure the OpenID Identity Provider in the <a href="https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services" target="_blank">GitHub documentation</a>. This includes all the information you should need to configure it correctly and make it work.
 
-As shown in my earlier post about the <a href="/posts/static-website-distribution-with-aws-cloudfront/" target="_blank">static website</a> I find it important to have all my infrastructure as code, that's why I'll show how I've configured the OpenID Connect Provider in a CDK Stack.
+As shown in my earlier post about the <a href="/static-website-distribution-with-aws-cloudfront/" target="_blank">static website</a> I find it important to have all my infrastructure as code, that's why I'll show how I've configured the OpenID Connect Provider in a CDK Stack.
 
 For starters, we would need to make an OpenID Connect Provider in AWS, this can be done with the IAM library of the CDK. As mentioned on the GitHub documentation you need to configure the URL and the "Audience", when using the CDK you'll see there is no "Audience" property to configure. This is because this has been named "clientIds" and works the exact same.
 
