@@ -54,7 +54,7 @@ I’m planning on writing an extensive post about php-fpm and the settings aroun
 
 Make sure you enter the correct values in the calculator for the amount of memory your server has and the max memory consumption per request setup as memory_limit in the previously mentioned configuration.
 
-Update: PHP FPM and Memory
+Update: <a href="/posts/2019/optimizing-php-fpm/" target="_blank">PHP FPM and Memory</a>
 
 ## Databases
 

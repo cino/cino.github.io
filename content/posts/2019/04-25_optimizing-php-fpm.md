@@ -8,7 +8,7 @@ tags = [
 ]
 +++
 
-As mentioned in the previous post about <a href="/posts/laravel-forge-setting-it-up-the-right-way/" target="_blank">laravel forge and setting it up the right way</a> there was going to be a separate post just about PHP-FPM and how to configure it correctly.
+As mentioned in the previous post about <a href="/posts/2019/laravel-forge-setting-it-up-the-right-way/" target="_blank">laravel forge and setting it up the right way</a> there was going to be a separate post just about PHP-FPM and how to configure it correctly.
 
 ## What is FPM?
 
@@ -42,15 +42,15 @@ This is used to set how the process manager will control the number of child pro
 
 The number of child processes are created in static mode and also the amount of maximum simultaneous children that can be created while using the dynamic mode. It can be a bit confusing since with static these will be created instantly while for dynamic it is a limit.
 
-#### pm.start_servers
+### pm.start_servers
 
 The number of child processes that will be created on startup when using dynamic mode.
 
-#### pm.min_spare_servers
+### pm.min_spare_servers
 
 This refers to the minimum amount of idle processes, which are necessary because this means once you have less than the minimum amount of spare processes new process will be created in advance. This will help out once you actually need that process because it’s already started.
 
-#### pm.max_spare_servers
+### pm.max_spare_servers
 
 Logically these are the maximum of spare processes, once the traffic goes down and there are more and more spare processes php-fpm will start killing them to free op server resources.
 pm.max_requests

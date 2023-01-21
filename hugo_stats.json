@@ -250,6 +250,7 @@
       "pmmax_children",
       "pmmax_spare_servers",
       "pmmin_spare_servers",
+      "pmmin_spare_servers-",
       "pmstart_servers",
       "setting-op-github-openid-connect-with-aws",
       "source-provider-credentials",
