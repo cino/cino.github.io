@@ -8,7 +8,7 @@ tags = [
     "serverless"
 ]
 +++
-About a year ago I asked the question on <a href="https://www.reddit.com/r/aws/comments/o3fbge/is_awslambdabasicexecutionrole_not_way_too_open/">Reddit</a> what people thought of the default Lambda role called "AWSLambdaBasicExecutionRole" and why I thought it was way too open to be a default.
+About a year ago I asked the question on <a href="https://www.reddit.com/r/aws/comments/o3fbge/is_awslambdabasicexecutionrole_not_way_too_open/" target="_blank">Reddit</a> what people thought of the default Lambda role called "AWSLambdaBasicExecutionRole" and why I thought it was way too open to be a default.
 
 To this day I  still think this role shouldn't be used at all, but rather be deleted by Amazon itself. While I agree that Amazon wants people to get started as quickly as possible it is not in line with the least access principle. For this reason, I always define the role myself, for starters only allowing the Lambda function to write to its own CloudWatch Log Group. There is no reason for the Lambda function to be able to write to log groups of other services rather than its own.
 <!--more-->
@@ -57,4 +57,4 @@ customRole.attachInlinePolicy(
 );
 {{< / highlight >}}
 
-A full working example can be found in my Github repository containing this and future examples at <a href="https://github.com/cino/cdk-examples/tree/main/lambda-custom-role">this location</a>.
+A full working example can be found in my Github repository containing this and future examples at <a href="https://github.com/cino/cdk-examples/tree/main/lambda-custom-role" target="_blank">this location</a>.

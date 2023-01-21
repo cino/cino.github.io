@@ -15,7 +15,7 @@ The bigger goal for me is to develop a proper application on nothing but serverl
 <!--more-->
 ## Before we get started
 
-First things first, the way I'm making my content won't be a step-by-step guide. At this point, I assume you are at least familiar with Amazon Web Services, Infrastructure as Code and read up at least a little about the <a href="https://docs.aws.amazon.com/cdk/v2/guide/home.html">Cloud Development Kit</a>.
+First things first, the way I'm making my content won't be a step-by-step guide. At this point, I assume you are at least familiar with Amazon Web Services, Infrastructure as Code and read up at least a little about the <a href="https://docs.aws.amazon.com/cdk/v2/guide/home.html" target="_blank">Cloud Development Kit</a>.
 
 At this moment you should already have the following tools installed:
 
@@ -35,7 +35,7 @@ How this would work from a user perspective is quite simple, whenever the user r
 
 ## Infrastructure as Code
 
-As a best practice, you should use infrastructure as code as much as possible. As said earlier my preferred tool at the moment would be the AWS CDK and this is what I'll show today on how I've set this up. I'll be going over the main stack I've created in CDK which can be found <a href="https://github.com/cino/cdk-static-serverless/blob/initial-static-website/lib/cdk-static-serverless-stack.ts">here</a> for those who like to read along.
+As a best practice, you should use infrastructure as code as much as possible. As said earlier my preferred tool at the moment would be the AWS CDK and this is what I'll show today on how I've set this up. I'll be going over the main stack I've created in CDK which can be found <a href="https://github.com/cino/cdk-static-serverless/blob/initial-static-website/lib/cdk-static-serverless-stack.ts" target="_blank">here</a> for those who like to read along.
 
 To start we need to create an S3 Bucket where all our files will be stored. In the example, we will just be storing an index.html and a favicon.ico. As you can see below, we kept it really simple.
 

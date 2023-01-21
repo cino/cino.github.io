@@ -24,7 +24,7 @@ This is actually something that annoys me quite a lot, when using a cloud provid
 
 <img src="/img/laravel-forge-setting-it-up-the-right-way/laravel-forge-ec2-security-group-example.webp">
 
-Especially when you see inbound ports 0-65535 open it should warn you that something isn’t as it should be. AWS Security Advisors will also advise you to look at this because it is uncommon. My first step would be to modify this to allow SSH from the Laravel Forge servers (IPs are available in their <a href="https://forge.laravel.com/docs/1.0/introduction.html#forge-ip-addresses">documentation</a>), your own IP/bastion, and just HTTP/HTTPS for the web.
+Especially when you see inbound ports 0-65535 open it should warn you that something isn’t as it should be. AWS Security Advisors will also advise you to look at this because it is uncommon. My first step would be to modify this to allow SSH from the Laravel Forge servers (IPs are available in their <a href="https://forge.laravel.com/docs/1.0/introduction.html#forge-ip-addresses" target="_blank">documentation</a>), your own IP/bastion, and just HTTP/HTTPS for the web.
 
 Whenever someone will try to access any other port on your domain it will be killed on network-level within AWS and will never even reach your server.
 
@@ -50,7 +50,7 @@ The main usage of Laravel Forge is (as expected) for web development in PHP and 
 
 ### PHP-FPM
 
-I’m planning on writing an extensive post about php-fpm and the settings around `pm.max_children`, `pm.start_servers`, `pm.min_spare_servers` and `pm.max_spare_servers` for now, I’m going to keep it as simple as advising you to visit the <a href="https://spot13.com/pmcalculator/">calculator</a> made by <a href="https://spot13.com">Chris Moore</a>.
+I’m planning on writing an extensive post about php-fpm and the settings around `pm.max_children`, `pm.start_servers`, `pm.min_spare_servers` and `pm.max_spare_servers` for now, I’m going to keep it as simple as advising you to visit the <a href="https://spot13.com/pmcalculator/" target="_blank">calculator</a> made by <a href="https://spot13.com" target="_blank">Chris Moore</a>.
 
 Make sure you enter the correct values in the calculator for the amount of memory your server has and the max memory consumption per request setup as memory_limit in the previously mentioned configuration.
 
