@@ -9,7 +9,7 @@ menu:
     weight: 120
 ---
 
-My name is Ricardo Cino, I'm a Software Solution Engineer from the Netherlands with a main focus of building Serverless applications on AWS.
+My name is Ricardo Cino, I'm a Solution Software Engineer from the Netherlands with a main focus of building Serverless applications on AWS.
 
 This website is a personal blog where I'm writing about topics that interest me at the moment, which can be around **Privacy**, **Cloud**, **AWS**, **Infrastructure**, **Home Automation**, **Random subjects :)** but most of all about anything in the computer space.
 
