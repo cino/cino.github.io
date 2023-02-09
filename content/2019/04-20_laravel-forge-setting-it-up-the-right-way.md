@@ -12,6 +12,8 @@ For the last couple of years, I’ve been creating servers with Laravel Forge an
 
 For the record, I’ll be writing from an AWS perspective since this is the only provider I have extensive experience with on Laravel Forge but I’ll expect the others to work quite the same.
 
+<!--more-->
+
 ## First things first
 
 When you start to use Laravel Forge with AWS you’ll need to create an IAM user with the right amount of permissions to create and manage your servers. This should always be from the least access principle. The documentation of Laravel Forge suggests you’ll create a user with the policies `AmazonEC2FullAccess` and `AmazonVPCFullAccess`. However, this looks like a bit too much access in my opinion and my advice would be to initially grant access with these policies and closely monitor what features are actually necessary with the IAM Access Advisor.
