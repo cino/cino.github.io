@@ -3,6 +3,7 @@
     "tags": [
       "a",
       "article",
+      "blockquote",
       "body",
       "code",
       "div",
@@ -241,6 +242,7 @@
       "z-50"
     ],
     "ids": [
+      "additional-resources",
       "before-we-get-started",
       "but-why-should-i",
       "calculating-the-optimal-settings",
@@ -250,6 +252,7 @@
       "example-configuration",
       "first-things-first",
       "going-forward",
+      "how",
       "how-to-authenticate-the-github-action",
       "how-to-spot-php-fpm-problems",
       "infrastructure-as-code",
@@ -262,6 +265,8 @@
       "pmmax_spare_servers",
       "pmmin_spare_servers",
       "pmstart_servers",
+      "rancher-or-docker-desktop",
+      "resources",
       "setting-op-github-openid-connect-with-aws",
       "source-provider-credentials",
       "thats-a-wrap",
