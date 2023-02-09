@@ -242,6 +242,7 @@
     ],
     "ids": [
       "before-we-get-started",
+      "but-why-should-i",
       "calculating-the-optimal-settings",
       "closing-note",
       "creating-the-github-action-to-execute-the-deploy",
