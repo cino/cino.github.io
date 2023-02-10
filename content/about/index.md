@@ -27,8 +27,8 @@ Over the last couple of years I've been collectiong a few certifications in the 
 
 <hr />
 
-<a href="https://www.credly.com/earner/earned/badge/d43310a4-494c-4ac1-a59f-22c187ee683e" target="_blank"><img src="aws-learning-serverless.png" style="max-width:120px;display:inline-block;" alt="AWS Learning: Serverless Logo"></a>
 <a href="#" target="_blank"><img src="aws-learning-architecting.png" style="max-width:120px;display:inline-block;" alt="AWS Learning: Architecting Logo"></a>
 <a href="https://www.credly.com/earner/earned/badge/a2674565-9542-468b-ac5b-e6809e05c164" target="_blank"><img src="aws-learning-aws-for-games-cloud-game-development.png" style="max-width:120px;display:inline-block;" alt="AWS Learning: AWS for Games: Cloud Game Development Logo"></a>
+<a href="https://www.credly.com/earner/earned/badge/d43310a4-494c-4ac1-a59f-22c187ee683e" target="_blank"><img src="aws-learning-serverless.png" style="max-width:120px;display:inline-block;" alt="AWS Learning: Serverless Logo"></a>
 <a href="https://www.credly.com/badges/c0057580-9ba2-4ad7-9063-46f3eb263458" target="_blank"><img src="aws-learning-storage-core.png" style="max-width:120px;display:inline-block;" alt="AWS Learning: Storage Core Logo"></a>
 <a href="https://www.credly.com/badges/f9e98281-5f7d-4ee4-aa55-93f1aa001e38" target="_blank"><img src="aws-learning-storage-technologist.png" style="max-width:120px;display:inline-block;" alt="AWS Learning: Storage Technologist Logo"></a>

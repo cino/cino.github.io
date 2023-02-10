@@ -243,6 +243,11 @@
     ],
     "ids": [
       "additional-resources",
+      "aws-learning-architecting",
+      "aws-learning-aws-for-games-cloud-game-development",
+      "aws-learning-serverless",
+      "aws-learning-storage-core",
+      "aws-learning-storage-technologist",
       "before-we-get-started",
       "but-why-should-i",
       "calculating-the-optimal-settings",
@@ -266,15 +271,18 @@
       "pmmin_spare_servers",
       "pmstart_servers",
       "rancher-or-docker-desktop",
-      "resources",
       "setting-op-github-openid-connect-with-aws",
       "source-provider-credentials",
+      "summary",
       "thats-a-wrap",
       "the-design",
+      "the-paths",
       "the-plan",
       "what-are-the-configuration-options",
+      "what-are-the-topics",
       "what-are-we-building",
-      "what-is-fpm"
+      "what-is-fpm",
+      "why-did-i-take-these"
     ]
   }
 }
