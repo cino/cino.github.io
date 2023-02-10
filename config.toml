@@ -4,7 +4,6 @@ baseurl = "https://cino.io/"
 title = "Cino"
 
 paginate = 10
-
 [build]
   writeStats = true
 

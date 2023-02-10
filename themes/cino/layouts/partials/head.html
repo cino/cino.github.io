@@ -22,4 +22,16 @@
         {{- $styles := $styles| minify | fingerprint | resources.PostProcess -}}
     <link rel="stylesheet" href="{{ $styles.Permalink }}" integrity="{{ $styles.Data.Integrity }}">
     {{ end -}}
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GCGJ9S1XSX"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-GCGJ9S1XSX', {
+        'anonymize_ip': true
+    });
+    </script>
 </head>
