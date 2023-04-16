@@ -1,182 +1,147 @@
 {{ define "main" }}
 <main>
-  <div class="sm:px-8 mt-16 sm:mt-16">
-    <div class="mx-auto max-w-7xl lg:px-8">
-      <div class="relative px-4 sm:px-8 lg:px-12">
-        <div class="mx-auto max-w-2xl lg:max-w-5xl">
-          <header class="max-w-2xl">
-            <h2
-              class="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-2xl"
-            >
-                Ricardo Cino
-            </h1>
-            <p class="mt-6 text-base text-zinc-600 dark:text-zinc-400">
-              Writing about Software developent, Cloud Infrastructure and Infrastructure As Code (mostly on AWS).
-            </p>
-          </header>
-
-          <div class="mt-16 sm:mt-20">
-            <div
-              class="md:border-l md:border-zinc-100 md:pl-6 md:dark:border-zinc-700/40"
-            >
-              <div class="flex max-w-3xl flex-col space-y-16">
-              {{ $paginator := .Paginate .Site.RegularPages }}
-              {{ range $paginator.Pages }}
-                <article class="md:grid md:grid-cols-4 md:items-baseline">
-                  <div
-                    class="md:col-span-3 group relative flex flex-col items-start"
-                  >
-                    <h2
-                      class="text-base font-semibold tracking-tight text-zinc-800 dark:text-zinc-100"
-                    >
-                      <div
-                        class="absolute -inset-y-6 -inset-x-4 z-0 scale-95 bg-zinc-50 opacity-0 transition group-hover:scale-100 group-hover:opacity-100 dark:bg-zinc-800/50 sm:-inset-x-6 sm:rounded-2xl"
-                      ></div>
-                      <a
-                        href="{{ .Permalink}}"
-                        ><span
-                          class="absolute -inset-y-6 -inset-x-4 z-20 sm:-inset-x-6 sm:rounded-2xl"
-                        ></span
-                        ><span class="relative z-10"
-                          >{{ .Title}}</span
-                        ></a
-                      >
-                    </h2>
-                    <time
-                      class="md:hidden relative z-10 order-first mb-3 flex items-center text-sm text-zinc-400 dark:text-zinc-500 pl-3.5"
-                      datetime="{{ .Date.Format "2006-01-02" }}"
-                      ><span
-                        class="absolute inset-y-0 left-0 flex items-center"
-                        aria-hidden="true"
-                        ><span
-                          class="h-4 w-0.5 rounded-full bg-zinc-200 dark:bg-zinc-500"
-                        ></span></span
-                      >{{ .Date.Format "January 2, 2006" }}</time
-                    >
-                    {{ .Summary | replaceRE "<p>" "<p class=\"relative z-10 mt-2 text-sm text-zinc-600 dark:text-zinc-400\">" | safeHTML | truncate 300 }}
-                    </p>
-                    <div
-                      aria-hidden="true"
-                      class="relative z-10 mt-4 flex items-center text-sm font-medium text-teal-500"
-                    >
-                      Read article
-                      <svg
-                        viewBox="0 0 16 16"
-                        fill="none"
-                        aria-hidden="true"
-                        class="ml-1 h-4 w-4 stroke-current"
-                      >
-                        <path
-                          d="M6.75 5.75 9.25 8l-2.5 2.25"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        ></path>
-                      </svg>
-                    </div>
+   <div class="sm:px-8 mt-9">
+      <div class="mx-auto max-w-7xl lg:px-8">
+         <div class="relative px-4 sm:px-8 lg:px-12">
+            <div class="mx-auto max-w-2xl lg:max-w-5xl">
+               <div class="max-w-2xl">
+                  <h1 class="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
+                    Ricardo Cino
+                  </h1>
+                  <p class="mt-6 text-base text-zinc-600 dark:text-zinc-400">
+                    a software engineer with a passion for infrastructure and high availability applications. With years of experience in building business critical applications, a passion for infrastructure as code and building on Amazon Web Services.
+                  </p>
+                  <div class="mt-6 flex gap-6">
+                     <a class="group -m-1 p-1" aria-label="Follow on Twitter" href="https://twitter.com/ricardocino" target="_blank">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" class="h-6 w-6 fill-zinc-500 transition group-hover:fill-zinc-600 dark:fill-zinc-400 dark:group-hover:fill-zinc-300">
+                           <path d="M20.055 7.983c.011.174.011.347.011.523 0 5.338-3.92 11.494-11.09 11.494v-.003A10.755 10.755 0 0 1 3 18.186c.308.038.618.057.928.058a7.655 7.655 0 0 0 4.841-1.733c-1.668-.032-3.13-1.16-3.642-2.805a3.753 3.753 0 0 0 1.76-.07C5.07 13.256 3.76 11.6 3.76 9.676v-.05a3.77 3.77 0 0 0 1.77.505C3.816 8.945 3.288 6.583 4.322 4.737c1.98 2.524 4.9 4.058 8.034 4.22a4.137 4.137 0 0 1 1.128-3.86A3.807 3.807 0 0 1 19 5.274a7.657 7.657 0 0 0 2.475-.98c-.29.934-.9 1.729-1.713 2.233A7.54 7.54 0 0 0 22 5.89a8.084 8.084 0 0 1-1.945 2.093Z"></path>
+                        </svg>
+                     </a>
+                     <a class="group -m-1 p-1" aria-label="Follow on Mastodon" href="https://fosstodon.org/@cino" target="_blank">
+                        <svg viewBox="0 0 16 16" aria-hidden="true" class="h-6 w-6 fill-zinc-500 transition group-hover:fill-zinc-600 dark:fill-zinc-400 dark:group-hover:fill-zinc-300">
+                            <path fill="#828282" d="M 15.659 9.592 C 15.424 10.72 13.553 11.956 11.404 12.195 C 10.283 12.32 9.18 12.434 8.003 12.384 C 6.079 12.302 4.56 11.956 4.56 11.956 C 4.56 12.13 4.572 12.297 4.595 12.452 C 4.845 14.224 6.478 14.33 8.025 14.379 C 9.586 14.429 10.976 14.02 10.976 14.02 L 11.04 15.337 C 11.04 15.337 9.948 15.884 8.003 15.984 C 6.93 16.039 5.598 15.959 4.047 15.576 C 0.683 14.746 0.104 11.4 0.015 8.006 C -0.012 6.998 0.005 6.048 0.005 5.253 C 0.005 1.782 2.443 0.765 2.443 0.765 C 3.672 0.238 5.782 0.017 7.975 0 L 8.029 0 C 10.221 0.017 12.332 0.238 13.561 0.765 C 13.561 0.765 15.999 1.782 15.999 5.253 C 15.999 5.253 16.03 7.814 15.659 9.592 Z M 13.124 5.522 L 13.124 9.725 L 11.339 9.725 L 11.339 5.646 C 11.339 4.786 10.951 4.35 10.175 4.35 C 9.317 4.35 8.887 4.867 8.887 5.891 L 8.887 8.124 L 7.113 8.124 L 7.113 5.891 C 7.113 4.867 6.683 4.35 5.825 4.35 C 5.049 4.35 4.661 4.786 4.661 5.646 L 4.661 9.725 L 2.876 9.725 L 2.876 5.522 C 2.876 4.663 3.111 3.981 3.582 3.476 C 4.067 2.971 4.703 2.712 5.493 2.712 C 6.406 2.712 7.098 3.039 7.555 3.695 L 8 4.39 L 8.445 3.695 C 8.902 3.039 9.594 2.712 10.507 2.712 C 11.297 2.712 11.933 2.971 12.418 3.476 C 12.889 3.981 13.124 4.663 13.124 5.522 Z" style="stroke:none;stroke-miterlimit:10;fill-rule:evenodd;"/>
+                          </svg>
+                     </a>
+                     <a class="group -m-1 p-1" aria-label="Follow on GitHub" href="https://github.com/cino" target="_blank">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" class="h-6 w-6 fill-zinc-500 transition group-hover:fill-zinc-600 dark:fill-zinc-400 dark:group-hover:fill-zinc-300">
+                           <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.475 2 2 6.588 2 12.253c0 4.537 2.862 8.369 6.838 9.727.5.09.687-.218.687-.487 0-.243-.013-1.05-.013-1.91C7 20.059 6.35 18.957 6.15 18.38c-.113-.295-.6-1.205-1.025-1.448-.35-.192-.85-.667-.013-.68.788-.012 1.35.744 1.538 1.051.9 1.551 2.338 1.116 2.912.846.088-.666.35-1.115.638-1.371-2.225-.256-4.55-1.14-4.55-5.062 0-1.115.387-2.038 1.025-2.756-.1-.256-.45-1.307.1-2.717 0 0 .837-.269 2.75 1.051.8-.23 1.65-.346 2.5-.346.85 0 1.7.115 2.5.346 1.912-1.333 2.75-1.05 2.75-1.05.55 1.409.2 2.46.1 2.716.637.718 1.025 1.628 1.025 2.756 0 3.934-2.337 4.806-4.562 5.062.362.32.675.936.675 1.897 0 1.371-.013 2.473-.013 2.82 0 .268.188.589.688.486a10.039 10.039 0 0 0 4.932-3.74A10.447 10.447 0 0 0 22 12.253C22 6.588 17.525 2 12 2Z"></path>
+                        </svg>
+                     </a>
+                     <a class="group -m-1 p-1" aria-label="Follow on LinkedIn" href="https://www.linkedin.com/in/cinoricardo/" target="_blank">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" class="h-6 w-6 fill-zinc-500 transition group-hover:fill-zinc-600 dark:fill-zinc-400 dark:group-hover:fill-zinc-300">
+                           <path d="M18.335 18.339H15.67v-4.177c0-.996-.02-2.278-1.39-2.278-1.389 0-1.601 1.084-1.601 2.205v4.25h-2.666V9.75h2.56v1.17h.035c.358-.674 1.228-1.387 2.528-1.387 2.7 0 3.2 1.778 3.2 4.091v4.715zM7.003 8.575a1.546 1.546 0 01-1.548-1.549 1.548 1.548 0 111.547 1.549zm1.336 9.764H5.666V9.75H8.34v8.589zM19.67 3H4.329C3.593 3 3 3.58 3 4.297v15.406C3 20.42 3.594 21 4.328 21h15.338C20.4 21 21 20.42 21 19.703V4.297C21 3.58 20.4 3 19.666 3h.003z"></path>
+                        </svg>
+                     </a>
                   </div>
-                  <time
-                    class="mt-1 hidden md:block relative z-10 order-first mb-3 flex items-center text-sm text-zinc-400 dark:text-zinc-500"
-                    datetime="{{ .Date.Format "2006-01-02" }}"
-                    >{{ .Date.Format "January 2, 2006" }}</time
-                  >
-                </article>
-              {{ end }}
-              </div>
+               </div>
             </div>
-
-          <div class="mt-16 sm:mt-20">
-            <nav class="flex items-center justify-between border-t border-gray-200 px-4 sm:px-0">
-
-            <div class="-mt-px flex w-0 flex-1">
-             {{ if $paginator.HasPrev }}
-                <a href="{{ .Paginator.Prev.URL }}" class="inline-flex items-center border-t-2 border-transparent pt-4 pr-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
-                <!-- Heroicon name: mini/arrow-long-left -->
-                <svg class="mr-3 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M18 10a.75.75 0 01-.75.75H4.66l2.1 1.95a.75.75 0 11-1.02 1.1l-3.5-3.25a.75.75 0 010-1.1l3.5-3.25a.75.75 0 111.02 1.1l-2.1 1.95h12.59A.75.75 0 0118 10z" clip-rule="evenodd" />
-                </svg>
-                </a>
-             {{ end }}
-            </div>
-
-
-            {{ $adjacent_links := 1 }}
-            {{ $max_links := (add (mul $adjacent_links 2) 1) }}
-            {{ $lower_limit := (add $adjacent_links 1) }}
-            {{ $upper_limit := (sub $paginator.TotalPages $adjacent_links) }}
-
-            <!-- First page (if current page is greater than allowed limit) -->
-            {{ if gt $paginator.TotalPages $max_links }}
-                {{ if ge $paginator.PageNumber $max_links }}
-                <a href="{{ $paginator.First.URL }}" aria-label="First" class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">1</a>
-                <span class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500">...</span>
-                {{ end }}
-            {{ end }}
-
-            <!-- Iterate the pager to show pages within ruleset -->
-            {{ range $paginator.Pagers }}
-                {{ $.Scratch.Set "page_number_flag" false }}
-
-                <!-- Identify if the current page is within the ruleset to be shown (or not) -->
-                {{ if gt $paginator.TotalPages $max_links }}
-                    {{ if le $paginator.PageNumber $lower_limit }}
-                        {{ if le .PageNumber $max_links }}
-                            {{ $.Scratch.Set "page_number_flag" true }}
-                        {{ end }}
-                    {{ else if ge $paginator.PageNumber $upper_limit }}
-                        {{ if gt .PageNumber (sub $paginator.TotalPages $max_links) }}
-                            {{ $.Scratch.Set "page_number_flag" true }}
-                        {{ end }}
-                    {{ else }}
-                        {{ if and ( ge .PageNumber (sub $paginator.PageNumber $adjacent_links) ) ( le .PageNumber (add $paginator.PageNumber $adjacent_links) ) }}
-                            {{ $.Scratch.Set "page_number_flag" true }}
-                        {{ end }}
-                    {{ end }}
-                {{ else }}
-                    {{ $.Scratch.Set "page_number_flag" true }}
-                {{ end }}
-
-                {{ if eq ($.Scratch.Get "page_number_flag") true }}
-                    <!-- <a href="{{ .URL }}" aria-label="{{ .PageNumber }}" class="page-tag{{ if eq . $paginator }} current{{ end }}">{{ .PageNumber }}</a> -->
-                    <a
-                        href="{{ .URL }}"
-                        aria-label="{{ .PageNumber }}"
-                        class="
-                            {{ if eq . $paginator }}
-                                inline-flex items-center border-t-2 border-teal-500 px-4 pt-4 text-sm font-medium text-teal-600
-                            {{ else }}
-                                inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700
-                            {{ end }}
-                            "
-                    >{{ .PageNumber }}</a>
-                {{ end }}
-            {{ end }}
-
-            <!-- Show the last page index -->
-            {{ if gt $paginator.TotalPages $max_links }}
-                {{ if le $paginator.PageNumber (sub $paginator.TotalPages (sub $max_links 1)) }}
-                <span class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500">...</span>
-                <a href="{{ $paginator.Last.URL }}" aria-label="Last" class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">{{ $paginator.TotalPages }}</a>
-                {{ end }}
-            {{ end }}
-
-            <div class="-mt-px flex w-0 flex-1 justify-end">
-                {{ if $paginator.HasNext }}
-                    <a href="{{ .Paginator.Next.URL }}" class="inline-flex items-center border-t-2 border-transparent pt-4 pl-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
-                    Older
-                    <!-- Heroicon name: mini/arrow-long-right -->
-                    <svg class="ml-3 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                        <path fill-rule="evenodd" d="M2 10a.75.75 0 01.75-.75h12.59l-2.1-1.95a.75.75 0 111.02-1.1l3.5 3.25a.75.75 0 010 1.1l-3.5 3.25a.75.75 0 11-1.02-1.1l2.1-1.95H2.75A.75.75 0 012 10z" clip-rule="evenodd" />
-                    </svg>
-                    </a>
-                {{ end }}
-            </div>
-            </nav>
-            </div>
-          </div>
-        </div>
+         </div>
       </div>
-    </div>
-  </div>
+   </div>
+
+   <div class="sm:px-8 mt-24 md:mt-28">
+      <div class="mx-auto max-w-7xl lg:px-8">
+         <div class="relative px-4 sm:px-8 lg:px-12">
+            <div class="mx-auto max-w-2xl lg:max-w-5xl">
+               <div class="mx-auto grid max-w-xl grid-cols-1 gap-y-20 lg:max-w-none lg:grid-cols-2">
+                  <div class="flex flex-col gap-16">
+
+
+
+                   {{ range first 3 .Site.RegularPages }}
+                     <article class="group relative flex flex-col items-start">
+                        <h2 class="text-base font-semibold tracking-tight text-zinc-800 dark:text-zinc-100">
+                           <div class="absolute -inset-x-4 -inset-y-6 z-0 scale-95 bg-zinc-50 opacity-0 transition group-hover:scale-100 group-hover:opacity-100 dark:bg-zinc-800/50 sm:-inset-x-6 sm:rounded-2xl"></div>
+                           <a href="{{ .Permalink}}">
+                            <span class="absolute -inset-x-4 -inset-y-6 z-20 sm:-inset-x-6 sm:rounded-2xl"></span>
+                            <span class="relative z-10">{{ .Title}}</span>
+                          </a>
+                        </h2>
+                        <time class="relative z-10 order-first mb-3 flex items-center text-sm text-zinc-400 dark:text-zinc-500 pl-3.5" datetime="{{ .Date.Format "2006-01-02" }}">
+                          <span class="absolute inset-y-0 left-0 flex items-center" aria-hidden="true"><span class="h-4 w-0.5 rounded-full bg-zinc-200 dark:bg-zinc-500"></span></span>{{ .Date.Format "January 2, 2006" }}</time>
+                        <p class="relative z-10 mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+                          {{ .Summary | replaceRE "<p>" "<p class=\"relative z-10 mt-2 text-sm text-zinc-600 dark:text-zinc-400\">" | safeHTML | truncate 300 }}
+                        </p>
+                        <div aria-hidden="true" class="relative z-10 mt-4 flex items-center text-sm font-medium text-teal-500">
+                           Read article
+                           <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" class="ml-1 h-4 w-4 stroke-current">
+                              <path d="M6.75 5.75 9.25 8l-2.5 2.25" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                           </svg>
+                        </div>
+                     </article>
+                     {{- end}}
+                  </div>
+
+                  <div class="space-y-10 lg:pl-16 xl:pl-24">
+                     <div class="rounded-2xl border border-zinc-100 p-6 dark:border-zinc-700/40">
+                        <h2 class="flex text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="h-6 w-6 flex-none">
+                              <path d="M2.75 9.75a3 3 0 0 1 3-3h12.5a3 3 0 0 1 3 3v8.5a3 3 0 0 1-3 3H5.75a3 3 0 0 1-3-3v-8.5Z" class="fill-zinc-100 stroke-zinc-400 dark:fill-zinc-100/10 dark:stroke-zinc-500"></path>
+                              <path d="M3 14.25h6.249c.484 0 .952-.002 1.316.319l.777.682a.996.996 0 0 0 1.316 0l.777-.682c.364-.32.832-.319 1.316-.319H21M8.75 6.5V4.75a2 2 0 0 1 2-2h2.5a2 2 0 0 1 2 2V6.5" class="stroke-zinc-400 dark:stroke-zinc-500"></path>
+                           </svg>
+                           <span class="ml-3">Work</span>
+                        </h2>
+                        <p class="relative z-10 mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+                          Whether you need a second pair of eyes for code review or expert advice on infrastructure as code or high availability, I'm here to help.
+                          <br /><br />
+                          Looking for expert help to solve the problems you're facing? Contact me to see if I can be of assistance.
+                        </p>
+                        <a href="mailto:info@cino.io" class="inline-flex items-center gap-2 justify-center rounded-md py-2 px-3 text-sm outline-offset-2 transition active:transition-none bg-zinc-50 font-medium text-zinc-900 hover:bg-zinc-100 active:bg-zinc-100 active:text-zinc-900/60 dark:bg-zinc-800/50 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-50 dark:active:bg-zinc-800/50 dark:active:text-zinc-50/70 group mt-6 w-full" href="/#">
+                           Contact me
+                           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="h-6 w-6 flex-none">
+                            <path d="M2.75 7.75a3 3 0 0 1 3-3h12.5a3 3 0 0 1 3 3v8.5a3 3 0 0 1-3 3H5.75a3 3 0 0 1-3-3v-8.5Z" class="fill-zinc-100 stroke-zinc-400 dark:fill-zinc-100/10 dark:stroke-zinc-500"></path>
+                            <path d="m4 6 6.024 5.479a2.915 2.915 0 0 0 3.952 0L20 6" class="stroke-zinc-400 dark:stroke-zinc-500"></path>
+                          </svg>
+                        </a>
+                     </div>
+
+                     <div class="rounded-2xl border border-zinc-100 p-6 dark:border-zinc-700/40">
+                        <h2 class="flex text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                           <!-- <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="h-6 w-6 flex-none">
+                              <path d="M2.75 9.75a3 3 0 0 1 3-3h12.5a3 3 0 0 1 3 3v8.5a3 3 0 0 1-3 3H5.75a3 3 0 0 1-3-3v-8.5Z" class="fill-zinc-100 stroke-zinc-400 dark:fill-zinc-100/10 dark:stroke-zinc-500"></path>
+                              <path d="M3 14.25h6.249c.484 0 .952-.002 1.316.319l.777.682a.996.996 0 0 0 1.316 0l.777-.682c.364-.32.832-.319 1.316-.319H21M8.75 6.5V4.75a2 2 0 0 1 2-2h2.5a2 2 0 0 1 2 2V6.5" class="stroke-zinc-400 dark:stroke-zinc-500"></path>
+                            </svg> -->
+                           <svg viewBox="0 0 32 32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="h-6 w-6 flex-none">
+                            <path class="cls-1" d="M28,5H4A2,2,0,0,0,2,7V24a2,2,0,0,0,2,2H18v3a1,1,0,0,0,.53.88,1,1,0,0,0,1-.05L22,28.2l2.45,1.63A1,1,0,0,0,26,29V26h2a2,2,0,0,0,2-2V7A2,2,0,0,0,28,5ZM22.59,21.94a3,3,0,1,1,2.35-2.35A3,3,0,0,1,22.59,21.94ZM24,27.13l-1.45-1a1,1,0,0,0-1.1,0l-1.45,1V23.58a5,5,0,0,0,4,0ZM28,24H26V22s0,0,0,0a4.93,4.93,0,0,0,.88-4.1A5,5,0,0,0,17,19a4.93,4.93,0,0,0,1,3s0,0,0,0v2H4V7H28Z"/>
+                            <path class="cls-1" d="M7,12H25a1,1,0,0,0,0-2H7a1,1,0,0,0,0,2Z"/>
+                            <path class="cls-1" d="M7,16h8a1,1,0,0,0,0-2H7a1,1,0,0,0,0,2Z"/>
+                            <path class="cls-1" d="M7,20h8a1,1,0,0,0,0-2H7a1,1,0,0,0,0,2Z" />
+                          </svg>
+                           <span class="ml-3">Certifications</span>
+                        </h2>
+                        <ol class="mt-6 space-y-4">
+                           <li class="flex gap-4">
+                              <dl class="flex flex-auto flex-wrap gap-x-2">
+                                 <dd class="flex-none text-sm font-medium text-zinc-900 dark:text-zinc-100">AWS Certified DevOps Engineer</dd>
+                                 <dd class="ml-auto text-xs text-zinc-400 dark:text-zinc-500" aria-label="2021 until Present"><time datetime="2021">2021</time> <span aria-hidden="true">—</span> <time datetime="2023">Present</time></dd>
+                              </dl>
+                            </li>
+                           <li class="flex gap-4">
+                              <dl class="flex flex-auto flex-wrap gap-x-2">
+                                 <dd class="flex-none text-sm font-medium text-zinc-900 dark:text-zinc-100">AWS Certified Solutions Architect</dd>
+                                 <dd class="ml-auto text-xs text-zinc-400 dark:text-zinc-500" aria-label="2020 until Present"><time datetime="2020">2020</time> <span aria-hidden="true">—</span> <time datetime="2023">Present</time></dd>
+                              </dl>
+                            </li>
+                            </li>
+                           <li class="flex gap-4">
+                              <dl class="flex flex-auto flex-wrap gap-x-2">
+                                 <dd class="flex-none text-sm font-medium text-zinc-900 dark:text-zinc-100">Laravel Certified Developer</dd>
+                                 <dd class="ml-auto text-xs text-zinc-400 dark:text-zinc-500" aria-label="2020 until Present"><time datetime="2020">2020</time> <span aria-hidden="true">—</span> <time datetime="2023">Present</time></dd>
+                              </dl>
+                            </li>
+                           <li class="flex gap-4">
+                              <dl class="flex flex-auto flex-wrap gap-x-2">
+                                 <dd class="flex-none text-sm font-medium text-zinc-900 dark:text-zinc-100">Certified ScrumMaster®</dd>
+                                 <dd class="ml-auto text-xs text-zinc-400 dark:text-zinc-500" aria-label="2016 until 2018"><time datetime="2016">2016</time> <span aria-hidden="true">—</span> <time datetime="2018">2018</time></dd>
+                              </dl>
+                           </li>
+                        </ol>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
 </main>
 {{ end }}

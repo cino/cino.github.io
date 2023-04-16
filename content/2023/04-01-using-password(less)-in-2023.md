@@ -27,6 +27,7 @@ Since using credentials online there have been countless attempts of hackers to 
 These breaches should scare you if you use the same password over and over again as the possibility is that if your password is in one of the breaches, and the password was in plain text, or not properly encrypted that someone would be able to enter all your accounts. A simple solution for this would already to not use the same password over and over again but always use an unique password for each new application. More on this later.
 
 ## Most common authentication methods
+
 ### Traditional Username / Password
 
 The traditional method of using usernames and passwords for authentication has been the cornerstone of digital security for decades. However, this approach has increasingly become a matter of concern due to its inherent vulnerabilities. A major issue with usernames and passwords is their susceptibility to brute force attacks, wherein an attacker systematically attempts various combinations of characters until they crack the correct credentials.
@@ -40,6 +41,7 @@ Using a password manager is a great way to securely store and manage your passwo
 There are two types of password managers: cloud-based and self-hosted. Cloud-based password managers store encrypted password data on remote servers operated by the password manager company. Self-hosted password managers store encrypted password data on local servers controlled by the user.
 
 The most popular password managers are:
+
 - 1Password: A cloud-based password manager that offers features like automatic password generation, password sharing, and 2FA.
 - Bitwarden: A cloud-based password manager that is open-source and offers features like secure password sharing, 2FA, and encrypted file storage.
 - KeePass: A self-hosted password manager that stores encrypted password data locally on the user's device and offers features like automatic password generation and strong encryption.

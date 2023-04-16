@@ -1,6 +1,6 @@
 ---
 title: Home
-description: Writing about Software developent, Cloud Infrastructure and Infrastructure As Code (mostly on AWS).
+description: Blabla.
 menu:
   main:
     title: "Home"
