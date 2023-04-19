@@ -67,6 +67,8 @@ Push message authentication is a way to make sure it's really you trying to acce
 
 <img src="/img/using-passwords-in-2023/push-notification-request.webp">
 
+<p style="text-align: center;"><i><a href="https://www.twilio.com/blog/how-is-push-authentication-different-from-push-notifications">Image source</a> : Ignore the article.</i></p>
+
 ## Introducing WebAuthn / FIDO2
 
 ## What is FIDO 2 / WebAuthn
