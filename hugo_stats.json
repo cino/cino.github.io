@@ -240,8 +240,10 @@
       "aws-learning-storage-technologist",
       "before-we-get-started",
       "but-why-should-i",
+      "but-you-can-also-rotate-the-value-with-parameter-store",
       "calculating-the-optimal-settings",
       "closing-note",
+      "createsecret",
       "creating-the-github-action-to-execute-the-deploy",
       "current-support",
       "databases",
@@ -260,6 +262,8 @@
       "most-common-authentication-methods",
       "my-take",
       "networking",
+      "parameter-store",
+      "parameter-store-vs-secrets",
       "php--memory",
       "php-fpm",
       "pm",
@@ -267,12 +271,17 @@
       "pmmax_spare_servers",
       "pmmin_spare_servers",
       "pmstart_servers",
+      "pricing",
       "push-notification",
       "rancher-or-docker-desktop",
+      "secret-rotation-example",
+      "secrets",
+      "setsecret",
       "setting-op-github-openid-connect-with-aws",
       "source-provider-credentials",
       "summary",
       "temporarily-one-time-passwords-totp",
+      "testsecret",
       "thats-a-wrap",
       "the-design",
       "the-paths",
@@ -285,7 +294,9 @@
       "what-are-we-building",
       "what-is-fido-2--webauthn",
       "what-is-fpm",
-      "why-did-i-take-these"
+      "when-to-use-aws-secrets",
+      "why-did-i-take-these",
+      "why-use-parameter-store"
     ]
   }
 }
