@@ -145,7 +145,7 @@ const purgecss = require('@fullhuman/postcss-purgecss')({
     }
 })
 
-module.exports = {    
+module.exports = {
     plugins: [
         require('tailwindcss')(themeDir + 'assets/css/tailwind.config.js'),
         require('autoprefixer')({
@@ -160,7 +160,7 @@ During the build process Hugo Pipes checks this variable too and build the `styl
 
 ```html
 {{ $styles := resources.Get "css/styles.css" | postCSS (dict "config" "./assets/css/postcss.config.js") }}
-{{ if .Site.IsServer }}
+{{ if hugo.IsServer }}
     <link rel="stylesheet" href="{{ $styles.RelPermalink }}">
 {{ else }}
     {{ $styles := $styles| minify | fingerprint | resources.PostProcess }}

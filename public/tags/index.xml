@@ -2,13 +2,221 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Cino</title>
-    <link>https://cino.github.io/tags/</link>
-    <description>Cino (Tags)</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <link>http://localhost:1313/tags/</link>
+    <description>Recent content in Tags on Cino</description>
+    <generator>Hugo</generator>
     <language>en-us</language>
-    
-    <atom:link href="https://cino.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Wed, 19 Jul 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Amazon Web Services</title>
+      <link>http://localhost:1313/tags/amazon-web-services/</link>
+      <pubDate>Wed, 19 Jul 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/amazon-web-services/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Aws</title>
+      <link>http://localhost:1313/tags/aws/</link>
+      <pubDate>Wed, 19 Jul 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/aws/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Cloudwatch Event</title>
+      <link>http://localhost:1313/tags/cloudwatch-event/</link>
+      <pubDate>Wed, 19 Jul 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/cloudwatch-event/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Lambda</title>
+      <link>http://localhost:1313/tags/lambda/</link>
+      <pubDate>Wed, 19 Jul 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/lambda/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Parameter Store</title>
+      <link>http://localhost:1313/tags/parameter-store/</link>
+      <pubDate>Wed, 19 Jul 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/parameter-store/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Rotation</title>
+      <link>http://localhost:1313/tags/rotation/</link>
+      <pubDate>Wed, 19 Jul 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/rotation/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Secrets</title>
+      <link>http://localhost:1313/tags/secrets/</link>
+      <pubDate>Wed, 19 Jul 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/secrets/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Serverless</title>
+      <link>http://localhost:1313/tags/serverless/</link>
+      <pubDate>Wed, 19 Jul 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/serverless/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>1password</title>
+      <link>http://localhost:1313/tags/1password/</link>
+      <pubDate>Fri, 31 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/1password/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Bitwarden</title>
+      <link>http://localhost:1313/tags/bitwarden/</link>
+      <pubDate>Fri, 31 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/bitwarden/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Fido</title>
+      <link>http://localhost:1313/tags/fido/</link>
+      <pubDate>Fri, 31 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/fido/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Lastpass</title>
+      <link>http://localhost:1313/tags/lastpass/</link>
+      <pubDate>Fri, 31 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/lastpass/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Passwordless</title>
+      <link>http://localhost:1313/tags/passwordless/</link>
+      <pubDate>Fri, 31 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/passwordless/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Passwords</title>
+      <link>http://localhost:1313/tags/passwords/</link>
+      <pubDate>Fri, 31 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/passwords/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Privacy</title>
+      <link>http://localhost:1313/tags/privacy/</link>
+      <pubDate>Fri, 31 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/privacy/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Security</title>
+      <link>http://localhost:1313/tags/security/</link>
+      <pubDate>Fri, 31 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/security/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>WebAuthn</title>
+      <link>http://localhost:1313/tags/webauthn/</link>
+      <pubDate>Fri, 31 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/webauthn/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Yubikey</title>
+      <link>http://localhost:1313/tags/yubikey/</link>
+      <pubDate>Fri, 31 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/yubikey/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Achievements</title>
+      <link>http://localhost:1313/tags/achievements/</link>
+      <pubDate>Fri, 10 Feb 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/achievements/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Badges</title>
+      <link>http://localhost:1313/tags/badges/</link>
+      <pubDate>Fri, 10 Feb 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/badges/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Learning</title>
+      <link>http://localhost:1313/tags/learning/</link>
+      <pubDate>Fri, 10 Feb 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/learning/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Skill Builder</title>
+      <link>http://localhost:1313/tags/skill-builder/</link>
+      <pubDate>Fri, 10 Feb 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/skill-builder/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Container</title>
+      <link>http://localhost:1313/tags/container/</link>
+      <pubDate>Thu, 09 Feb 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/container/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Devcontainer</title>
+      <link>http://localhost:1313/tags/devcontainer/</link>
+      <pubDate>Thu, 09 Feb 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/devcontainer/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Docker</title>
+      <link>http://localhost:1313/tags/docker/</link>
+      <pubDate>Thu, 09 Feb 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/docker/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Microsoft</title>
+      <link>http://localhost:1313/tags/microsoft/</link>
+      <pubDate>Thu, 09 Feb 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/microsoft/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Rancher</title>
+      <link>http://localhost:1313/tags/rancher/</link>
+      <pubDate>Thu, 09 Feb 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/rancher/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Vscode</title>
+      <link>http://localhost:1313/tags/vscode/</link>
+      <pubDate>Thu, 09 Feb 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/vscode/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Til</title>
+      <link>http://localhost:1313/tags/til/</link>
+      <pubDate>Sun, 03 Apr 2022 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/til/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Php</title>
+      <link>http://localhost:1313/tags/php/</link>
+      <pubDate>Thu, 25 Apr 2019 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/php/</guid>
+      <description></description>
+    </item>
   </channel>
 </rss>
