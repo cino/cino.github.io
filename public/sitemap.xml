@@ -2,22 +2,58 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/2023/</loc>
-    <lastmod>2023-07-19T00:00:00+00:00</lastmod>
+    <loc>http://localhost:1313/2024/</loc>
+    <lastmod>2024-11-11T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/amazon-web-services/</loc>
-    <lastmod>2023-07-19T00:00:00+00:00</lastmod>
+    <lastmod>2024-11-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/2024/avoid-cloudformation-stack-outputs/</loc>
+    <lastmod>2024-11-11T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/aws/</loc>
+    <lastmod>2024-11-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/aws-cdk/</loc>
+    <lastmod>2024-11-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/aws-cloud-development-kit/</loc>
+    <lastmod>2024-11-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/cloudformation/</loc>
+    <lastmod>2024-11-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/</loc>
+    <lastmod>2024-11-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/iac/</loc>
+    <lastmod>2024-11-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/infrastructure-as-code/</loc>
+    <lastmod>2024-11-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/outputs/</loc>
+    <lastmod>2024-11-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/ssm-parameters/</loc>
+    <lastmod>2024-11-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/stacks/</loc>
+    <lastmod>2024-11-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/</loc>
+    <lastmod>2024-11-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/2024/multiple-ways-to-retrieve-ssm-parameters-cdk/</loc>
+    <lastmod>2024-11-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/2023/</loc>
     <lastmod>2023-07-19T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/2023/aws-parameter-store-vs-aws-secrets/</loc>
     <lastmod>2023-07-19T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/cloudwatch-event/</loc>
-    <lastmod>2023-07-19T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/</loc>
     <lastmod>2023-07-19T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/lambda/</loc>
@@ -33,9 +69,6 @@
     <lastmod>2023-07-19T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/serverless/</loc>
-    <lastmod>2023-07-19T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/</loc>
     <lastmod>2023-07-19T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/1password/</loc>
