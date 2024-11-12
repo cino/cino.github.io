@@ -12,7 +12,7 @@ tags = [
 ]
 +++
 
-Until recently I was totally sleeping on [AWS CloudShell](https://aws.amazon.com/cloudshell/) and I'm glad I finally gave it a try. CloudShell gives you a shell environment in your browser and to my surprise you can start an instance within your own VPC!
+Until recently, I was completely unaware of [AWS CloudShell](https://aws.amazon.com/cloudshell/), and I'm glad I finally decided to give it a try. CloudShell provides a shell environment right in your browser, and to my surprise, you can start an instance within your own VPC!
 
 <!--more-->
 
