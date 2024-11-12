@@ -46,7 +46,7 @@ _Full example: [example-with-stack-outputs.ts](https://github.com/cino/cdk-examp
 
 When building your infrastructure in this way you will see that the CDK will automatically output the identifier of the DynamoDB table in CloudFormation.
 
-<img src="/img/2024/avoid-cloudformation-stack-outputs/datastack-output.png">
+<img src="/img/2024/avoid-cloudformation-stack-outputs/datastack-output.png" alt="CloudFormation stack output example">
 
 This value is imported by the AppStack during the synthesize phase and used to retrieve the DynamoDB Table. Now you have a hard dependency between the two stacks. When we now try to delete the AppStack we will get the following error:
 

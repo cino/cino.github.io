@@ -169,7 +169,7 @@
 </span></span><span style="display:flex;"><span><span style="color:#ff79c6">new</span> AppStack(app, <span style="color:#f1fa8c">&#34;AppStack&#34;</span>, { table });
 </span></span></code></pre></div><p><em>Full example: <a href="https://github.com/cino/cdk-examples/blob/main/avoid-cloudformation-outputs/lib/stacks/example-with-stack-outputs.ts">example-with-stack-outputs.ts</a></em></p>
 <p>When building your infrastructure in this way you will see that the CDK will automatically output the identifier of the DynamoDB table in CloudFormation.</p>
-<img src="/img/2024/avoid-cloudformation-stack-outputs/datastack-output.png">
+<img src="/img/2024/avoid-cloudformation-stack-outputs/datastack-output.png" alt="CloudFormation stack output example">
 <p>This value is imported by the AppStack during the synthesize phase and used to retrieve the DynamoDB Table. Now you have a hard dependency between the two stacks. When we now try to delete the AppStack we will get the following error:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#ff79c6">const</span> { table } <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> DataStack(app, <span style="color:#f1fa8c">&#34;DataStack&#34;</span>);
 </span></span><span style="display:flex;"><span><span style="color:#6272a4">// new AppStack(app, &#34;AppStack&#34;, { table });

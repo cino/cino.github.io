@@ -6,8 +6,15 @@
     <description>Recent content in Home on Cino</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 11 Nov 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 12 Nov 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>TIL #3 - AWS CloudShell in your own vpc</title>
+      <link>http://localhost:1313/2024/aws-cloudshell-in-your-own-vpc/</link>
+      <pubDate>Tue, 12 Nov 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/2024/aws-cloudshell-in-your-own-vpc/</guid>
+      <description>&lt;p&gt;Until recently I was totally sleeping on &lt;a href=&#34;https://aws.amazon.com/cloudshell/&#34;&gt;AWS CloudShell&lt;/a&gt; and I&amp;rsquo;m glad I finally gave it a try. CloudShell gives you a shell environment in your browser and to my surprise you can start an instance within your own VPC!&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Avoiding CloudFormation Stack Outputs</title>
       <link>http://localhost:1313/2024/avoid-cloudformation-stack-outputs/</link>
