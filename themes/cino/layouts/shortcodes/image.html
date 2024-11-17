@@ -2,5 +2,5 @@
 {{ $webp := $image.Process "webp" }}
 <picture>
   <source srcset="{{ $webp.RelPermalink }}" type="image/webp">
-  <img src="{{ $image.RelPermalink }}" alt="{{ (.Get "alt")}}">
+  <img loading="lazy" src="{{ $image.RelPermalink }}" alt="{{ (.Get "alt")}}">
 </picture>
