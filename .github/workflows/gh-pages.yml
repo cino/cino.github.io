@@ -19,7 +19,7 @@ jobs:
         uses: peaceiris/actions-hugo@v3
         with:
           hugo-version: 'latest'
-          # extended: true
+          extended: true
 
       - name: Additional NPM packages
         run: npm install -g postcss postcss-cli autoprefixer
