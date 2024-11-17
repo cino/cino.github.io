@@ -13,6 +13,11 @@ tags = [
     "infrastructure as code",
     "iac",
 ]
+
+[meta]
+title = "TIL #2 - Multiple ways to retrieve SSM parameters in AWS CDK"
+description = "When working with AWS CDK you can retrieve SSM parameters in multiple ways. In this post, I'll go over the different ways to retrieve SSM parameters in AWS CDK and when to use them."
+
 +++
 
 When working with AWS CDK and using SSM Parameters to store information in between stacks there are multiple ways to retrieve the value, with both advantages and disadvantages. In this post, I'll go over the different ways to retrieve SSM parameters in AWS CDK and when to use them.
