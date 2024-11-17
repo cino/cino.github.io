@@ -2,6 +2,7 @@ theme = "cino"
 languageCode = "en-us"
 baseurl = "https://cino.io/"
 title = "Cino"
+enableRobotsTXT = true
 
 [pagination]
   pagerSize = 10
