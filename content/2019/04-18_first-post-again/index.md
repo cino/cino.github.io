@@ -2,6 +2,7 @@
 author = "Ricardo Cino"
 title = "First post again"
 slug = "first-post-again"
+description = "The third try of starting and actually updating a personal blog."
 date = "2019-04-18"
 +++
 Ah, we are back! Once again, this will be the third try of starting and actually updating a personal blog. I’m not exactly sure what I wrote down the last time but I’m planning the same.

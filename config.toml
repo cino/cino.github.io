@@ -4,6 +4,10 @@ baseurl = "https://cino.io/"
 title = "Cino"
 enableRobotsTXT = true
 
+[services]
+  [services.googleAnalytics]
+    id = 'G-GCGJ9S1XSX'
+
 [pagination]
   pagerSize = 10
 

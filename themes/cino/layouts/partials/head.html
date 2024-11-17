@@ -4,36 +4,10 @@
     <title>{{ block "title" . }}
     {{- .Title }} - {{ .Site.Title -}}
     {{ end }}</title>
-    {{- if .Keywords }}
-    <meta name="keywords" content="{{ delimit .Keywords "," }}" />
-    {{ end -}}
-    {{- if .Params.Author }}
-    <meta name="author" content="{{ .Params.Author}}" />
-    {{ end -}}
-    {{ hugo.Generator }}
 
-    {{- if .Params.Meta.Title }}
-    <meta property="og:title" content="{{ .Params.Meta.Title }}">
-    <meta property="twitter:title" content="{{ .Params.Meta.Title }}">
-    {{- else }}
-    <meta property="og:title" content="{{- .Title }} - {{ .Site.Title -}}">
-    <meta property="twitter:title" content="{{- .Title }} - {{ .Site.Title -}}">
-    {{ end -}}
-    {{- if .Params.Meta.Description }}
-    <meta property="og:description" content="{{ .Params.Meta.Description }}">
-    <meta property="twitter:description" content="{{ .Params.Meta.Description }}">
-    <meta name="description" content="{{ .Params.Meta.Description }}" />
-    {{- else }}
-    <meta property="og:description" content="{{ .Description }}">
-    <meta property="twitter:description" content="{{ .Description }}">
-    <meta name="description" content="{{ .Description }}" />
-    {{ end -}}
-    {{- if .Params.Meta.Image }}
-    <meta property="og:image" content="{{ .Params.Meta.Image }}">
-    <meta property="twitter:image" content="{{ .Params.Meta.Image }}">
-    {{ end -}}
-    <meta property="og:url" content="{{ .Permalink }}">
-    <meta property="twitter:card" content="summary">
+    {{ template "_internal/opengraph.html" . }}
+    {{ template "_internal/twitter_cards.html" . }}
+    {{ template "_internal/schema.html" . }}
 
     {{- $styles := resources.Get "css/styles.css" | postCSS (dict "config" "./assets/css/postcss.config.js") -}}
     {{- if hugo.IsServer }}
@@ -45,13 +19,5 @@
 
     <meta name="fediverse:creator" content="@cino@fosstodon.org">
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GCGJ9S1XSX"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-GCGJ9S1XSX');
-    </script>
+    {{ template "_internal/google_analytics.html" . }}
 </head>
