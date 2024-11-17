@@ -8,5 +8,5 @@
   <source media="(min-width: 600px)" srcset="{{ $resizedDesktopWebP.RelPermalink }}" type="image/webp">
   <source media="(min-width: 300px)" srcset="{{ $resized600x.RelPermalink }}" type="image/webp">
   <source media="(max-width: 300px)" srcset="{{ $resized300x.RelPermalink }}" type="image/webp">
-  <img loading="lazy" src="{{ $resizedDesktop.RelPermalink }}" alt="{{ (.Get "alt")}}">
+  <img loading="lazy" src="{{ $resizedDesktop.RelPermalink }}" alt="{{ (.Get "alt")}}" width="100%" height="{{ $resizedDesktop.Height}}">
 </picture>
