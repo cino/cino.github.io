@@ -4,9 +4,6 @@
     <title>{{ block "title" . }}
     {{- .Title }} - {{ .Site.Title -}}
     {{ end }}</title>
-    {{- if .Description }}
-    <meta name="description" content="{{ .Description }}" />
-    {{ end -}}
     {{- if .Keywords }}
     <meta name="keywords" content="{{ delimit .Keywords "," }}" />
     {{ end -}}
@@ -25,6 +22,11 @@
     {{- if .Params.Meta.Description }}
     <meta property="og:description" content="{{ .Params.Meta.Description }}">
     <meta property="twitter:description" content="{{ .Params.Meta.Description }}">
+    <meta name="description" content="{{ .Params.Meta.Description }}" />
+    {{- else }}
+    <meta property="og:description" content="{{ .Description }}">
+    <meta property="twitter:description" content="{{ .Description }}">
+    <meta name="description" content="{{ .Description }}" />
     {{ end -}}
     {{- if .Params.Meta.Image }}
     <meta property="og:image" content="{{ .Params.Meta.Image }}">
