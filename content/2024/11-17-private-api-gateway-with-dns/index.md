@@ -38,7 +38,7 @@ When you deploy a simple API Gateway without any custom dns your architecture wo
 
 {{< image src="1-api-gateway-lambda.png" alt="API Gateway with Lambda" >}}
 
-Now when you'd like to add your own custom DNS on a public API Gateway you can do so by creating a custom domain name and using Route 53 to point to the API Gateway endpoint (you can leverage the custom domain feature on api gateway natively [here](https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-custom-domains.html)). This would look like:
+Now when you'd like to add your own custom DNS on a public API Gateway you can do so by creating a custom domain name and using Route 53 to point to the API Gateway endpoint (you can leverage the [custom domain feature on api](https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-custom-domains.html)). This would look like:
 
 
 {{< image src="2-api-gateway-lambda-dns.png" alt="API Gateway with Lambda and Custom DNS" >}}
@@ -125,7 +125,7 @@ As you see we need the following resources:
 - API Gateway
 - Custom Domain Name pointing towards the Application Load Balancer
 
-For the full example you can visit the Github repository [here](https://github.com/cino/cdk-examples/blob/main/private-api-gateway-dns/lib/private-api-gateway-dns-stack.ts) as I'll only show you the most important parts of the code, that said we immediately go to step 5 where we create the API Gateway VPC Endpoint Listener.
+For the full example you can visit the [Github repository](https://github.com/cino/cdk-examples/blob/main/private-api-gateway-dns/lib/private-api-gateway-dns-stack.ts) as I'll only show you the most important parts of the code, that said we immediately go to step 5 where we create the API Gateway VPC Endpoint Listener.
 
 ```typescript
 private createApiGatewayVpcEndpointListener(
