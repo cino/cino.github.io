@@ -65,7 +65,7 @@ Push message authentication is a way to make sure it's really you trying to acce
 
 2FA fatigue is when you get so many of these notifications that you start to feel annoyed or tired of them. Imagine if your friends kept knocking on your door all day long, and you had to keep getting up to see who it was. Eventually, you might not even bother checking and just say "yes" without looking, accidentally letting in someone you didn't want to. That's why it's important to pay attention to these notifications and make sure you only approve access when you know it's really you trying to get in.
 
-<img src="/img/using-passwords-in-2023/push-notification-request.webp">
+<img src="/img/using-passwords-in-2023/push-notification-request.webp" alt="Push Notification Screenshot">
 
 <p style="text-align: center;"><i><a href="https://www.twilio.com/blog/how-is-push-authentication-different-from-push-notifications">Image source</a> : Ignore the article.</i></p>
 

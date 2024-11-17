@@ -66,7 +66,7 @@ So the basic formula for the max_children is: `averageProcessMemory / $available
 
 However, since we are not able to use all the memory of the server you’ll need to take some buffer into account. Luckily, Chris Moore created a simple calculator that can help us with the calculation.
 
-<img src="/img/optimizing-php-fpm/spot13-pmcalculator.webp">
+<img src="/img/optimizing-php-fpm/spot13-pmcalculator.webp" alt="Spot13 PM Calculator">
 
 So, as you can see we need to fill in 4 variables: Total Ram, Reserved Ram, Ram Buffer% & Process size. The first and last speak for themselves. The reserved ram is the amount of ram that is already in use by your server, for example when you are running a database on the same server that also relies on memory you like to make sure it can access it. The last variable is the RAM Buffer %, it is highly advised as well to have a percentage of RAM available because otherwise, you’re going to kill your server. It’s safer to have PHP-fpm kill some requests than the server being full of memory and stops responding.
 

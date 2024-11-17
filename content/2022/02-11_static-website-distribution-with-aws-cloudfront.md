@@ -31,7 +31,7 @@ For this particular example, I've chosen **not** to use a custom domain for the 
 
 How this would work from a user perspective is quite simple, whenever the user requests an object it would first check if it exists in the cache. When it does, it is as returning the cached file. When it is not in the cache, that's when CloudFront checks if it exists in the origin (S3 in our case) and acts depending on if it is found or not.
 
-<img src="/img/static-website-distribution-with-aws-cloudfront/flowchart-static-website-distribution-with-aws-cloudfront.drawio.png">
+<img src="/img/static-website-distribution-with-aws-cloudfront/flowchart-static-website-distribution-with-aws-cloudfront.drawio.png" alt="CloudFront Caching FlowChart">
 
 ## Infrastructure as Code
 

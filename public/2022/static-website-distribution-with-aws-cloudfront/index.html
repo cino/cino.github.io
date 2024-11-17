@@ -72,6 +72,7 @@
                       style="color: transparent"
                       width="512"
                       height="512"
+                      alt="Ricardo Cino"
                   /></a>
                 </div>
               </div>
@@ -169,7 +170,7 @@
 <p>The easiest project to experiment with serverless on AWS is with a basic static website. Let&rsquo;s say you only have some HTML/JS/CSS files, we can easily host the website with Amazon S3 + Amazon CloudFront. That means we have a storage provider where we can store our files and a service that helps us serve the files to the visitors. As a bonus, CloudFront serves as a Content Delivery Network which means the files are cached over multiple regions in the world if necessary.</p>
 <p>For this particular example, I&rsquo;ve chosen <strong>not</strong> to use a custom domain for the CloudFront distribution. Because at the moment, I don&rsquo;t have a hosted zone setup within AWS and it doesn&rsquo;t really add value at this point.</p>
 <p>How this would work from a user perspective is quite simple, whenever the user requests an object it would first check if it exists in the cache. When it does, it is as returning the cached file. When it is not in the cache, that&rsquo;s when CloudFront checks if it exists in the origin (S3 in our case) and acts depending on if it is found or not.</p>
-<img src="/img/static-website-distribution-with-aws-cloudfront/flowchart-static-website-distribution-with-aws-cloudfront.drawio.png">
+<img src="/img/static-website-distribution-with-aws-cloudfront/flowchart-static-website-distribution-with-aws-cloudfront.drawio.png" alt="CloudFront Caching FlowChart">
 <h2 id="infrastructure-as-code">Infrastructure as Code</h2>
 <p>As a best practice, you should use infrastructure as code as much as possible. As said earlier my preferred tool at the moment would be the AWS CDK and this is what I&rsquo;ll show today on how I&rsquo;ve set this up. I&rsquo;ll be going over the main stack I&rsquo;ve created in CDK which can be found <a href="https://github.com/cino/cdk-static-serverless/blob/initial-static-website/lib/cdk-static-serverless-stack.ts" target="_blank">here</a> for those who like to read along.</p>
 <p>To start we need to create an S3 Bucket where all our files will be stored. In the example, we will just be storing an index.html and a favicon.ico. As you can see below, we kept it really simple.</p>

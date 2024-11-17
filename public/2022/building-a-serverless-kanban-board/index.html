@@ -70,6 +70,7 @@
                       style="color: transparent"
                       width="512"
                       height="512"
+                      alt="Ricardo Cino"
                   /></a>
                 </div>
               </div>
@@ -173,7 +174,7 @@
 <h2 id="the-design">The design</h2>
 <p>As every good project starts it starts with a high-level overview of how we are planning to set up the infrastructure, and of course, this has been done with <a href="https://draw.io">draw.io</a></p>
 <p>This is most definitely the first sketch and I will keep modifying this if I find myself making a mistake in the future, which is almost a guarantee.</p>
-<img src="/img/building-a-serverless-kanban-board/Serverless-Kanban.drawio-1.png">
+<img src="/img/building-a-serverless-kanban-board/Serverless-Kanban.drawio-1.png" alt="Serverless Kanban Architecture">
 <p>This is the basic setup of how we are going to set this up, and this should be quite easy to understand.</p>
 <p>We are going to create 2 different subdomains where the application is going to live, the front-end application at kanban.cino.io and the back-end API at kanban-api.cino.io where we will require Cognito Authorization before allowing the user to execute any API requests. Behind the API Gateway, we have multiple AWS Lambda functions (1 for every endpoint we need to keep the function as small as possible) which can all communicate with our database Amazon DynamoDB and every function is able to send an email by Amazon SES. As an extra Serverless feature, I&rsquo;d like to play around with DynamoDB streams to automate certain actions as I&rsquo;ve never used this service before. For example, we can automatically send an email to users that are following a certain kanban ticket when the status has changed because DynamoDB can trigger an event when data changes on the record.</p>
 <p>The front-end is a lot smaller at the moment, that will host the application in an S3 Bucket and keep the static assets in another S3 Bucket, both of these will be served to the internet by the same CloudFront instance as we can use multiple origins and specify the path, this will mean that we cannot use the path &ldquo;assets&rdquo; in our application itself.</p>

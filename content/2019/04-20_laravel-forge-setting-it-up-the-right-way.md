@@ -24,7 +24,7 @@ When creating the Laravel Forge user you will need to enable programmatic access
 
 This is actually something that annoys me quite a lot, when using a cloud provider for your servers it can be confusing to find out that you are using a double “firewall”. For example, in AWS we use the concept of security groups where you’ll define the ports which are open and for whom. When using Laravel Forge the server will also have UFW installed. These two different will have different ports open; on UFW only ports 22, 80, and 443 will be opened, which is correct. On the AWS Security Group it will look like this:
 
-<img src="/img/laravel-forge-setting-it-up-the-right-way/laravel-forge-ec2-security-group-example.webp">
+<img src="/img/laravel-forge-setting-it-up-the-right-way/laravel-forge-ec2-security-group-example.webp" alt="Laravel Forge Security Group Exaple">
 
 Especially when you see inbound ports 0-65535 open it should warn you that something isn’t as it should be. AWS Security Advisors will also advise you to look at this because it is uncommon. My first step would be to modify this to allow SSH from the Laravel Forge servers (IPs are available in their <a href="https://forge.laravel.com/docs/1.0/introduction.html#forge-ip-addresses" target="_blank">documentation</a>), your own IP/bastion, and just HTTP/HTTPS for the web.
 
@@ -38,7 +38,7 @@ Alright, this is one that bit me in the ass pretty hard. When you add a source p
 
 As mentioned when providing Laravel Forge access to AWS we should provide access based on the least access principle, if you’re granting git access this way **you’re doing it wrong**. So please, disable the following checkbox when creating a server.
 
-<img src="/img/laravel-forge-setting-it-up-the-right-way/laravel-forge-ssh-key-source-control-providers.webp">
+<img src="/img/laravel-forge-setting-it-up-the-right-way/laravel-forge-ssh-key-source-control-providers.webp" alt="Laravel Forge SSH Key Source Control Providers">
 
 The correct way to go forward is when deploying a site on the newly created server instance is to create a deploy key in the repository you’d like the server to have access to.
 

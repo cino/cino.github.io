@@ -18,7 +18,7 @@ tags = [
 Recently I've been using AWS Secrets to retrieve API keys which are needed to access external API's, however, this turned out to be a more expensive service than we initially thought when starting.
 
 <!--more-->
-<img src="/img/2023/aws-parameter-store-vs-secrets/secrets-vs-parameter-store.png">
+<img src="/img/2023/aws-parameter-store-vs-secrets/secrets-vs-parameter-store.png" alt="Parameter Store vs Secrets">
 
 ## Parameter Store vs Secrets
 

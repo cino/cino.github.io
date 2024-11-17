@@ -70,6 +70,7 @@
                       style="color: transparent"
                       width="512"
                       height="512"
+                      alt="Ricardo Cino"
                   /></a>
                 </div>
               </div>
@@ -154,7 +155,7 @@
                 </header>
                 <div class="mt-8 prose dark:prose-invert">
                   <p>Recently I&rsquo;ve been using AWS Secrets to retrieve API keys which are needed to access external API&rsquo;s, however, this turned out to be a more expensive service than we initially thought when starting.</p>
-<img src="/img/2023/aws-parameter-store-vs-secrets/secrets-vs-parameter-store.png">
+<img src="/img/2023/aws-parameter-store-vs-secrets/secrets-vs-parameter-store.png" alt="Parameter Store vs Secrets">
 <h2 id="parameter-store-vs-secrets">Parameter Store vs Secrets</h2>
 <p>When you need to store and use variables/secrets within AWS, you&rsquo;ll have several services at your disposal to ensure secure and efficient management. The two primary services for this purpose are AWS Systems Manager Parameter Store and AWS Secrets Manager. AWS Systems Manager Parameter Store is ideal for storing non-sensitive configuration data, such as database connection strings and application settings. It offers both plaintext and encrypted options, along with basic access control using IAM policies.</p>
 <p>On the other hand, AWS Secrets Manager is specifically designed to handle sensitive information like API keys, database credentials, and other secrets. It automatically encrypts the data using AWS KMS and provides more granular access control through IAM policies, even allowing for secret rotation to enhance security. By choosing the appropriate service for your specific use case, you can ensure the protection of your variables and secrets while seamlessly integrating them into your AWS applications and services.</p>

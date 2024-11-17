@@ -41,7 +41,7 @@ As every good project starts it starts with a high-level overview of how we are 
 
 This is most definitely the first sketch and I will keep modifying this if I find myself making a mistake in the future, which is almost a guarantee.
 
-<img src="/img/building-a-serverless-kanban-board/Serverless-Kanban.drawio-1.png">
+<img src="/img/building-a-serverless-kanban-board/Serverless-Kanban.drawio-1.png" alt="Serverless Kanban Architecture">
 
 This is the basic setup of how we are going to set this up, and this should be quite easy to understand.
 
