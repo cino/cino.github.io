@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Route 53 on Cino</title>
-    <link>https://cino.io/tags/route-53/</link>
+    <link>http://localhost:1313/tags/route-53/</link>
     <description>Recent content in Route 53 on Cino</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 17 Nov 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://cino.io/tags/route-53/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/route-53/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Private API Gateway with DNS</title>
-      <link>https://cino.io/2024/private-api-gateway-with-dns/</link>
+      <link>http://localhost:1313/2024/private-api-gateway-with-dns/</link>
       <pubDate>Sun, 17 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>https://cino.io/2024/private-api-gateway-with-dns/</guid>
+      <guid>http://localhost:1313/2024/private-api-gateway-with-dns/</guid>
       <description>&lt;p&gt;At PostNL we are building most of our applications with &lt;a href=&#34;https://medium.com/postnl-engineering/business-overview-f7c8d8ebee2c&#34;&gt;Serverless&lt;/a&gt; in mind, let me rephrase that, we build all our applications within our own landing zone with Serverless only. There is no option to deploy any kind of EC2 and if you need containers you&amp;rsquo;d be running them on Fargate only.&lt;/p&gt;&#xA;&lt;p&gt;Given that, we are using quite a bunch of API Gateways in the projects I&amp;rsquo;m working on. While PostNL is also a big corporate company we have a strong focus on security and compliance, and that&amp;rsquo;s why we are building our applications &lt;strong&gt;Private first&lt;/strong&gt;. When there is no need to be public, it shouldn&amp;rsquo;t be.&lt;/p&gt;</description>
     </item>
   </channel>

@@ -11,7 +11,7 @@
   "
   lang="en-us"
 >
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Using password(les)s in 2023 - Cino</title>
@@ -23,8 +23,9 @@
     <meta property="og:description" content="">
     <meta property="twitter:description" content="">
     <meta name="description" content="" />
-    <meta property="og:url" content="https://cino.io/2023/using-passwords-in-2023/">
-    <meta property="twitter:card" content="summary"><link rel="stylesheet" href="https://cino.io/css/styles.min.156b16fc9c43a437fc827d807ca54f1e1a1f752c5f531be239eac2cd38e68bdf.css" integrity="sha256-FWsW/JxDpDf8gn2AfKVPHhofdSxfUxviOerCzTjmi98=">
+    <meta property="og:url" content="http://localhost:1313/2023/using-passwords-in-2023/">
+    <meta property="twitter:card" content="summary">
+    <link rel="stylesheet" href="/css/styles.css">
     <meta name="fediverse:creator" content="@cino@fosstodon.org">
 
     
@@ -63,7 +64,7 @@
                 <div
                   class="h-10 w-10 rounded-full bg-white/90 p-0.5 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur"
                 >
-                  <a aria-label="Home" class="pointer-events-auto" href="https://cino.io/"
+                  <a aria-label="Home" class="pointer-events-auto" href="http://localhost:1313/"
                     ><img
                       alt=""
                       sizes="2.25rem"
@@ -154,7 +155,7 @@
 
                     
                     <span class="h-4 ml-4 w-0.5 rounded-full bg-zinc-200 dark:bg-zinc-500"></span>
-                    <span class="ml-3">11 min read</span>
+                    <span class="ml-3">10 min read</span>
                   </time>
                 </header>
                 <div class="mt-8 prose dark:prose-invert">
@@ -185,7 +186,13 @@
 <h3 id="push-notification">Push notification</h3>
 <p>Push message authentication is a way to make sure it&rsquo;s really you trying to access your online accounts. When you try to log in, you&rsquo;ll get a notification on your phone asking if you want to allow or deny access. You just tap on &lsquo;yes&rsquo; or &rsquo;no&rsquo; to respond. It&rsquo;s a bit like having a secret knock on your clubhouse door, but instead of knocking, your phone asks if you want to let someone in.</p>
 <p>2FA fatigue is when you get so many of these notifications that you start to feel annoyed or tired of them. Imagine if your friends kept knocking on your door all day long, and you had to keep getting up to see who it was. Eventually, you might not even bother checking and just say &ldquo;yes&rdquo; without looking, accidentally letting in someone you didn&rsquo;t want to. That&rsquo;s why it&rsquo;s important to pay attention to these notifications and make sure you only approve access when you know it&rsquo;s really you trying to get in.</p>
-<img src="/img/using-passwords-in-2023/push-notification-request.webp" alt="Push Notification Screenshot">
+
+
+<picture>
+  <source srcset="/2023/using-passwords-in-2023/push-notification-request_hu5731378885969343019.webp" type="image/webp">
+  <img src="/2023/using-passwords-in-2023/push-notification-request.webp" alt="Push Notification Screenshot">
+</picture>
+
 <p style="text-align: center;"><i><a href="https://www.twilio.com/blog/how-is-push-authentication-different-from-push-notifications">Image source</a> : Ignore the article.</i></p>
 <h2 id="introducing-webauthn--fido2">Introducing WebAuthn / FIDO2</h2>
 <h2 id="what-is-fido-2--webauthn">What is FIDO 2 / WebAuthn</h2>
@@ -213,9 +220,12 @@
 <h2 id="current-support">Current support</h2>
 <p>While the prospect of this authentication method appears promising, we have not yet reached widespread adoption. At the time of writing this article, numerous websites, in fact, the majority, do not support this form of authentication. For many sites, incorporating this feature is not even on their roadmap, and it&rsquo;s understandable to some extent, as the decision often involves a trade-off between budget and prioritization.</p>
 <p>Nonetheless, I firmly believe that this authentication approach represents the most effective method for the foreseeable future. It is particularly frustrating when larger companies, especially those in the payment sector, do not currently plan to implement it.</p>
-<p><blockquote class="twitter-tweet"><p lang="en" dir="ltr">Hey Ricardo! We currently don&#39;t have plans on implementing this. If anything changes, we&#39;ll let everyone know 🚀</p>&mdash; Wise (@Wise) <a href="https://twitter.com/Wise/status/1641532374948388866?ref_src=twsrc%5Etfw">March 30, 2023</a></blockquote>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>
 
+<picture>
+  <source srcset="/2023/using-passwords-in-2023/wise-tweet-mirror_hu4530529033894337059.webp" type="image/webp">
+  <img src="/2023/using-passwords-in-2023/wise-tweet-mirror.png" alt="Wise Tweet">
+</picture>
 
 <em>still love you wise</em></p>
 <h2 id="my-take">My take</h2>

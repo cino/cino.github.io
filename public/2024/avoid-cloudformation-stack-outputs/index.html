@@ -11,7 +11,7 @@
   "
   lang="en-us"
 >
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Avoiding CloudFormation Stack Outputs - Cino</title>
@@ -23,8 +23,9 @@
     <meta property="og:description" content="">
     <meta property="twitter:description" content="">
     <meta name="description" content="" />
-    <meta property="og:url" content="https://cino.io/2024/avoid-cloudformation-stack-outputs/">
-    <meta property="twitter:card" content="summary"><link rel="stylesheet" href="https://cino.io/css/styles.min.156b16fc9c43a437fc827d807ca54f1e1a1f752c5f531be239eac2cd38e68bdf.css" integrity="sha256-FWsW/JxDpDf8gn2AfKVPHhofdSxfUxviOerCzTjmi98=">
+    <meta property="og:url" content="http://localhost:1313/2024/avoid-cloudformation-stack-outputs/">
+    <meta property="twitter:card" content="summary">
+    <link rel="stylesheet" href="/css/styles.css">
     <meta name="fediverse:creator" content="@cino@fosstodon.org">
 
     
@@ -63,7 +64,7 @@
                 <div
                   class="h-10 w-10 rounded-full bg-white/90 p-0.5 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur"
                 >
-                  <a aria-label="Home" class="pointer-events-auto" href="https://cino.io/"
+                  <a aria-label="Home" class="pointer-events-auto" href="http://localhost:1313/"
                     ><img
                       alt=""
                       sizes="2.25rem"
@@ -175,7 +176,13 @@
 </span></span><span style="display:flex;"><span><span style="color:#ff79c6">new</span> AppStack(app, <span style="color:#f1fa8c">&#34;AppStack&#34;</span>, { table });
 </span></span></code></pre></div><p><em>Full example: <a href="https://github.com/cino/cdk-examples/blob/main/avoid-cloudformation-outputs/lib/stacks/example-with-stack-outputs.ts">example-with-stack-outputs.ts</a></em></p>
 <p>When building your infrastructure in this way you will see that the CDK will automatically output the identifier of the DynamoDB table in CloudFormation.</p>
-<img src="/img/2024/avoid-cloudformation-stack-outputs/datastack-output.png" alt="CloudFormation stack output example">
+
+
+<picture>
+  <source srcset="/2024/avoid-cloudformation-stack-outputs/datastack-output_hu5561090482768883990.webp" type="image/webp">
+  <img src="/2024/avoid-cloudformation-stack-outputs/datastack-output.png" alt="CloudFormation stack output example">
+</picture>
+
 <p>This value is imported by the AppStack during the synthesize phase and used to retrieve the DynamoDB Table. Now you have a hard dependency between the two stacks. When we now try to delete the AppStack we will get the following error:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#ff79c6">const</span> { table } <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> DataStack(app, <span style="color:#f1fa8c">&#34;DataStack&#34;</span>);
 </span></span><span style="display:flex;"><span><span style="color:#6272a4">// new AppStack(app, &#34;AppStack&#34;, { table });

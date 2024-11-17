@@ -11,7 +11,7 @@
   "
   lang="en-us"
 >
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>AWS Parameter Store vs AWS Secrets - Cino</title>
@@ -23,8 +23,9 @@
     <meta property="og:description" content="">
     <meta property="twitter:description" content="">
     <meta name="description" content="" />
-    <meta property="og:url" content="https://cino.io/2023/aws-parameter-store-vs-aws-secrets/">
-    <meta property="twitter:card" content="summary"><link rel="stylesheet" href="https://cino.io/css/styles.min.156b16fc9c43a437fc827d807ca54f1e1a1f752c5f531be239eac2cd38e68bdf.css" integrity="sha256-FWsW/JxDpDf8gn2AfKVPHhofdSxfUxviOerCzTjmi98=">
+    <meta property="og:url" content="http://localhost:1313/2023/aws-parameter-store-vs-aws-secrets/">
+    <meta property="twitter:card" content="summary">
+    <link rel="stylesheet" href="/css/styles.css">
     <meta name="fediverse:creator" content="@cino@fosstodon.org">
 
     
@@ -63,7 +64,7 @@
                 <div
                   class="h-10 w-10 rounded-full bg-white/90 p-0.5 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur"
                 >
-                  <a aria-label="Home" class="pointer-events-auto" href="https://cino.io/"
+                  <a aria-label="Home" class="pointer-events-auto" href="http://localhost:1313/"
                     ><img
                       alt=""
                       sizes="2.25rem"
@@ -159,7 +160,13 @@
                 </header>
                 <div class="mt-8 prose dark:prose-invert">
                   <p>Recently I&rsquo;ve been using AWS Secrets to retrieve API keys which are needed to access external API&rsquo;s, however, this turned out to be a more expensive service than we initially thought when starting.</p>
-<img src="/img/2023/aws-parameter-store-vs-secrets/secrets-vs-parameter-store.png" alt="Parameter Store vs Secrets">
+
+
+<picture>
+  <source srcset="/2023/aws-parameter-store-vs-aws-secrets/secrets-vs-parameter-store_hu4547333775562937376.webp" type="image/webp">
+  <img src="/2023/aws-parameter-store-vs-aws-secrets/secrets-vs-parameter-store.png" alt="Parameter Store vs Secrets">
+</picture>
+
 <h2 id="parameter-store-vs-secrets">Parameter Store vs Secrets</h2>
 <p>When you need to store and use variables/secrets within AWS, you&rsquo;ll have several services at your disposal to ensure secure and efficient management. The two primary services for this purpose are AWS Systems Manager Parameter Store and AWS Secrets Manager. AWS Systems Manager Parameter Store is ideal for storing non-sensitive configuration data, such as database connection strings and application settings. It offers both plaintext and encrypted options, along with basic access control using IAM policies.</p>
 <p>On the other hand, AWS Secrets Manager is specifically designed to handle sensitive information like API keys, database credentials, and other secrets. It automatically encrypts the data using AWS KMS and provides more granular access control through IAM policies, even allowing for secret rotation to enhance security. By choosing the appropriate service for your specific use case, you can ensure the protection of your variables and secrets while seamlessly integrating them into your AWS applications and services.</p>

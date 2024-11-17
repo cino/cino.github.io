@@ -1,0 +1,6 @@
+{{ $image := .Page.Resources.GetMatch (printf "%s*" (.Get "src") ) }}
+{{ $webp := $image.Process "webp" }}
+<picture>
+  <source srcset="{{ $webp.RelPermalink }}" type="image/webp">
+  <img src="{{ $image.RelPermalink }}" alt="{{ (.Get "alt")}}">
+</picture>

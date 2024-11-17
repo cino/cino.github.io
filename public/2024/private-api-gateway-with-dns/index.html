@@ -11,7 +11,7 @@
   "
   lang="en-us"
 >
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Private API Gateway with DNS - Cino</title>
@@ -22,8 +22,9 @@
     
     <meta property="og:description" content="TEST">
     <meta property="twitter:description" content="TEST">
-    <meta name="description" content="TEST" /><meta property="og:url" content="https://cino.io/2024/private-api-gateway-with-dns/">
-    <meta property="twitter:card" content="summary"><link rel="stylesheet" href="https://cino.io/css/styles.min.156b16fc9c43a437fc827d807ca54f1e1a1f752c5f531be239eac2cd38e68bdf.css" integrity="sha256-FWsW/JxDpDf8gn2AfKVPHhofdSxfUxviOerCzTjmi98=">
+    <meta name="description" content="TEST" /><meta property="og:url" content="http://localhost:1313/2024/private-api-gateway-with-dns/">
+    <meta property="twitter:card" content="summary">
+    <link rel="stylesheet" href="/css/styles.css">
     <meta name="fediverse:creator" content="@cino@fosstodon.org">
 
     
@@ -62,7 +63,7 @@
                 <div
                   class="h-10 w-10 rounded-full bg-white/90 p-0.5 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur"
                 >
-                  <a aria-label="Home" class="pointer-events-auto" href="https://cino.io/"
+                  <a aria-label="Home" class="pointer-events-auto" href="http://localhost:1313/"
                     ><img
                       alt=""
                       sizes="2.25rem"
@@ -164,10 +165,22 @@
 <h2 id="api-gateway">API Gateway</h2>
 <p>To start, let&rsquo;s have a look at Amazon API Gateway. When you create a gateway you&rsquo;ll be provided with an endpoint that is public by default and hosted under the Amazon domain (*.execute-api.{region}.amazonaws.com). This is not what we want, we want to have our API Gateway private and only accessible from within our VPC.</p>
 <p>For Public API Gateways you can use a custom domain name and use Route 53 to point to the API Gateway endpoint. This is not possible for Private API Gateways, you can&rsquo;t use a custom domain name and you can&rsquo;t use Route 53 to point to the API Gateway endpoint.</p>
-<p>When you deploy a simple API Gateway without any custom dns your architecture would look as simple as:
-<img src="/img/2024/private-api-gateway-with-dns/1-api-gateway-lambda.png" alt="API Gateway with Lambda"></p>
+<p>When you deploy a simple API Gateway without any custom dns your architecture would look as simple as:</p>
+
+
+<picture>
+  <source srcset="/2024/private-api-gateway-with-dns/1-api-gateway-lambda_hu17778029403017714770.webp" type="image/webp">
+  <img src="/2024/private-api-gateway-with-dns/1-api-gateway-lambda.png" alt="API Gateway with Lambda">
+</picture>
+
 <p>Now when you&rsquo;d like to add your own custom DNS on a public API Gateway you can do so by creating a custom domain name and using Route 53 to point to the API Gateway endpoint (you can leverage the custom domain feature on api gateway natively <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-custom-domains.html">here</a>). This would look like:</p>
-<img src="/img/2024/private-api-gateway-with-dns/2-api-gateway-lambda-dns.png" alt="API Gateway with Lambda and Custom DNS">
+
+
+<picture>
+  <source srcset="/2024/private-api-gateway-with-dns/2-api-gateway-lambda-dns_hu3126889322887218840.webp" type="image/webp">
+  <img src="/2024/private-api-gateway-with-dns/2-api-gateway-lambda-dns.png" alt="API Gateway with Lambda and Custom DNS">
+</picture>
+
 <p>At this point it still looks simple, but when you&rsquo;d like to have a private API Gateway you can&rsquo;t use a custom domain name and you can&rsquo;t use Route 53 to point to the API Gateway endpoint. This is where it gets tricky.</p>
 <h2 id="why-a-custom-domain">Why a custom domain?</h2>
 <p>Even though it&rsquo;s not supported for Private API&rsquo;s you might wonder why would you need a custom domain on your API Gateway. To me there is a simple reason why I want this. Within a larger organization on AWS you often have other teams / aws accounts invoke your api&rsquo;s.</p>
@@ -177,7 +190,13 @@
 <li>You allow another team to invoke your api&rsquo;s by providing them with the endpoint of the api gateway.</li>
 </ul>
 <p>When you don&rsquo;t have custom dns on your API Gateway the only option to provide the API to a different account is to provide them with the API Gateway ID, which they&rsquo;ll use together with a VPC Endpoint in their account to reach your API Gateway. This is not a very user-friendly way to provide an API to another team.</p>
-<img src="/img/2024/private-api-gateway-with-dns/3-api-gateway-lambda-private-dns-vpce.png" alt="API Gateway with Lambda and VPC Endpoint">
+
+
+<picture>
+  <source srcset="/2024/private-api-gateway-with-dns/3-api-gateway-lambda-private-dns-vpce_hu4622784006298106339.webp" type="image/webp">
+  <img src="/2024/private-api-gateway-with-dns/3-api-gateway-lambda-private-dns-vpce.png" alt="API Gateway with Lambda and VPC Endpoint">
+</picture>
+
 <p>A downside of this is that you <em>lose</em> the flexibility to replace or update the API Gateway without having to update all the consumers that are using the API Gateway. When you have a custom domain name you can point the domain to a new API Gateway and the consumers don&rsquo;t have to change anything.</p>
 <p>When you have a custom domain name you can provide the other team with a domain name that they can use to invoke the API Gateway. This is a much more user-friendly way to provide an API to another team.</p>
 <h2 id="the-problem">The Problem</h2>
@@ -187,7 +206,13 @@
 <p>The solution to this problem is to use an Application Load Balancer (ALB) in front of the VPC Endpoint. You will need to retrieve the private ip addresses of the VPC Endpoint and point a target group towards these. The ALB is deployed in your VPC and is reachable via a custom domain name. This way you can reach the API Gateway via the custom domain name and fully private net working.</p>
 <p>The beauty of this solution is that you can provide the custom domain name to other teams and they can invoke the API Gateway via the custom domain name without having to know the specifics of the API Gateway. Because the consumer is now not aware of what is behind the DNS you can replace it with whatever you want without having to update the consumers.</p>
 <p>This is how the architecture would look like:</p>
-<img src="/img/2024/private-api-gateway-with-dns/4-api-gateway-lambda-private-dns-alb.png" alt="Private API Gateway with Lambda and Route53">
+
+
+<picture>
+  <source srcset="/2024/private-api-gateway-with-dns/4-api-gateway-lambda-private-dns-alb_hu2621221479018290484.webp" type="image/webp">
+  <img src="/2024/private-api-gateway-with-dns/4-api-gateway-lambda-private-dns-alb.png" alt="Private API Gateway with Lambda and Route53">
+</picture>
+
 <h2 id="cdk-example">CDK Example</h2>
 <p>It&rsquo;s not a post from me without a CDK example, so here it is. In this example we are creating an API Gateway with a simple Mock Integration Response that is reachable via private DNS. The API Gateway is deployed in a VPC and is only reachable when invoked via the VPC Endpoint, to be able to use private DNS we are deploying an Application Load Balancer which is pointed towards the VPC Endpoint. Based upon the domain name that is pointed towards the Application Load Balancer and that is configured on the API Gateway we can reach the API Gateway via the private DNS.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#ff79c6">const</span> apiFqn <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;api.cino.dev&#34;</span>;
