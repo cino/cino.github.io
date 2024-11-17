@@ -6,8 +6,22 @@
     <description>Recent content in Amazon Web Services on Cino</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 11 Nov 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 14 Nov 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/amazon-web-services/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Private API Gateway with DNS</title>
+      <link>http://localhost:1313/2024/private-api-gateway-with-dns/</link>
+      <pubDate>Thu, 14 Nov 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/2024/private-api-gateway-with-dns/</guid>
+      <description>&lt;p&gt;At PostNL we are building most of our applications with &lt;a href=&#34;https://medium.com/postnl-engineering/business-overview-f7c8d8ebee2c&#34;&gt;Serverless&lt;/a&gt; in mind, let me rephrase that, we build all our applications within our own landing zone with Serverless only. There is no option to deploy any kind of EC2 and if you need containers you&amp;rsquo;d be running them on Fargate only.&lt;/p&gt;&#xA;&lt;p&gt;Given that, we are using quite a bunch of API Gateways in the projects I&amp;rsquo;m working on. While PostNL is also a big corporate company we have a strong focus on security and compliance, and that&amp;rsquo;s why we are building our applications &lt;strong&gt;Private first&lt;/strong&gt;. When there is no need to be public, it shouldn&amp;rsquo;t be.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>TIL #3 - AWS CloudShell in your own vpc</title>
+      <link>http://localhost:1313/2024/aws-cloudshell-in-your-own-vpc/</link>
+      <pubDate>Tue, 12 Nov 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/2024/aws-cloudshell-in-your-own-vpc/</guid>
+      <description>&lt;p&gt;Until recently, I was completely unaware of &lt;a href=&#34;https://aws.amazon.com/cloudshell/&#34;&gt;AWS CloudShell&lt;/a&gt;, and I&amp;rsquo;m glad I finally decided to give it a try. CloudShell provides a shell environment right in your browser, and to my surprise, you can start an instance within your own VPC!&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Avoiding CloudFormation Stack Outputs</title>
       <link>http://localhost:1313/2024/avoid-cloudformation-stack-outputs/</link>
