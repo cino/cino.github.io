@@ -2,38 +2,38 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>2023s on Cino</title>
-    <link>http://localhost:1313/2023/</link>
+    <link>https://cino.io/2023/</link>
     <description>Recent content in 2023s on Cino</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 19 Jul 2023 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/2023/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://cino.io/2023/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>AWS Parameter Store vs AWS Secrets</title>
-      <link>http://localhost:1313/2023/aws-parameter-store-vs-aws-secrets/</link>
+      <link>https://cino.io/2023/aws-parameter-store-vs-aws-secrets/</link>
       <pubDate>Wed, 19 Jul 2023 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/2023/aws-parameter-store-vs-aws-secrets/</guid>
+      <guid>https://cino.io/2023/aws-parameter-store-vs-aws-secrets/</guid>
       <description>&lt;p&gt;Recently I&amp;rsquo;ve been using AWS Secrets to retrieve API keys which are needed to access external API&amp;rsquo;s, however, this turned out to be a more expensive service than we initially thought when starting.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Using password(les)s in 2023</title>
-      <link>http://localhost:1313/2023/using-passwords-in-2023/</link>
+      <link>https://cino.io/2023/using-passwords-in-2023/</link>
       <pubDate>Fri, 31 Mar 2023 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/2023/using-passwords-in-2023/</guid>
+      <guid>https://cino.io/2023/using-passwords-in-2023/</guid>
       <description>&lt;p&gt;It&amp;rsquo;s been almost a year since I&amp;rsquo;ve started using my YubiKey, even though I only recently bought a backup key (yes, you can shame me) I decided it is time to have big write up on why you should be using a hardware key with Fido2(WebAuthn) support too.&lt;/p&gt;</description>
     </item>
     <item>
       <title>AWS Learning badge assignments</title>
-      <link>http://localhost:1313/2023/aws-learning-badge-assignments/</link>
+      <link>https://cino.io/2023/aws-learning-badge-assignments/</link>
       <pubDate>Fri, 10 Feb 2023 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/2023/aws-learning-badge-assignments/</guid>
+      <guid>https://cino.io/2023/aws-learning-badge-assignments/</guid>
       <description>&lt;p&gt;Besides the AWS Certification program, there are also the newer AWS Learning skill badges. A new-ish way of learning the skills necessary to work on the aws platform and illustrate your knowledge. These are like the certifications except they are &lt;strong&gt;not&lt;/strong&gt; certifications of some kind and you can take exams to receive the &amp;ldquo;Skill badge&amp;rdquo;, this is all for free and is here to help you. I finished them all and wanted to highlight each of them, and how I experienced each of the exams.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Every repository should contain a DevContainer</title>
-      <link>http://localhost:1313/2023/every-repository-should-contain-a-devcontainer/</link>
+      <link>https://cino.io/2023/every-repository-should-contain-a-devcontainer/</link>
       <pubDate>Thu, 09 Feb 2023 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/2023/every-repository-should-contain-a-devcontainer/</guid>
+      <guid>https://cino.io/2023/every-repository-should-contain-a-devcontainer/</guid>
       <description>&lt;p&gt;Almost a year ago I visited an AWS User Group (Amsterdam) meetup where someone gave a presentation on using Microsoft &lt;a href=&#34;https://code.visualstudio.com/docs/devcontainers/containers&#34;&gt;Dev Containers&lt;/a&gt; in your projects. Even though I tried it before, this gave me the momentum to actually commit to it and have never looked back. And I want you to do the same.&lt;/p&gt;</description>
     </item>
   </channel>
