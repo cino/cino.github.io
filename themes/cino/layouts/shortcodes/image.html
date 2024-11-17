@@ -1,6 +1,12 @@
 {{ $image := .Page.Resources.GetMatch (printf "%s*" (.Get "src") ) }}
-{{ $webp := $image.Process "webp" }}
+{{ $resizedDesktop := $image.Resize "672x" }}
+{{ $resizedDesktopWebP := $image.Resize "672x webp q100" }}
+{{ $resized600x := $image.Resize "600x webp q100" }}
+{{ $resized300x := $image.Resize "300x webp q100" }}
+
 <picture>
-  <source srcset="{{ $webp.RelPermalink }}" type="image/webp">
-  <img loading="lazy" src="{{ $image.RelPermalink }}" alt="{{ (.Get "alt")}}">
+  <source media="(min-width: 600px)" srcset="{{ $resizedDesktopWebP.RelPermalink }}" type="image/webp">
+  <source media="(min-width: 300px)" srcset="{{ $resized600x.RelPermalink }}" type="image/webp">
+  <source media="(max-width: 300px)" srcset="{{ $resized300x.RelPermalink }}" type="image/webp">
+  <img loading="lazy" src="{{ $resizedDesktop.RelPermalink }}" alt="{{ (.Get "alt")}}">
 </picture>
