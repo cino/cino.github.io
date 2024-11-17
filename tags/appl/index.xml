@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Appl on Cino</title>
+    <link>http://localhost:1313/tags/appl/</link>
+    <description>Recent content in Appl on Cino</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 12 Nov 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/appl/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>TIL #3 - AWS CloudShell in your own vpc</title>
+      <link>http://localhost:1313/2024/private-api-gateway-with-dns/</link>
+      <pubDate>Tue, 12 Nov 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/2024/private-api-gateway-with-dns/</guid>
+      <description>&lt;p&gt;Until recently, I was completely unaware of &lt;a href=&#34;https://aws.amazon.com/cloudshell/&#34;&gt;AWS CloudShell&lt;/a&gt;, and I&amp;rsquo;m glad I finally decided to give it a try. CloudShell provides a shell environment right in your browser, and to my surprise, you can start an instance within your own VPC!&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
