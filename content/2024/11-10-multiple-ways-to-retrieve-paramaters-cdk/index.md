@@ -1,6 +1,6 @@
 +++
 author = "Ricardo Cino"
-title = "TIL #2 - Multiple ways to retrieve SSM parameters in AWS CDK"
+title = "Multiple ways to retrieve SSM parameters in AWS CDK"
 slug = "multiple-ways-to-retrieve-ssm-parameters-cdk"
 date = "2024-11-10"
 tags = [

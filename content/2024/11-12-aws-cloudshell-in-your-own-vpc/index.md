@@ -1,6 +1,6 @@
 +++
 author = "Ricardo Cino"
-title = "TIL #3 - AWS CloudShell in your own vpc"
+title = "AWS CloudShell in your own vpc"
 slug = "aws-cloudshell-in-your-own-vpc"
 date = "2024-11-12"
 tags = [
