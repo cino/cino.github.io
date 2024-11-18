@@ -15,6 +15,7 @@ tags = [
     "infrastructure as code",
     "iac",
 ]
+images = ["datastack-output.png"]
 +++
 
 Recently I've been working on a new project where we created many resources in a lot of different stacks. A feature of CloudFormation is that you can output values from your stack, which is great for referencing resources in other stacks. However, while there is a use-case for this, I've found that it's better to avoid using these outputs and instead use SSM parameters.
