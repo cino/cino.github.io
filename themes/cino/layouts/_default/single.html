@@ -27,11 +27,6 @@
               </a>
               <article>
                 <header class="flex flex-col">
-                  <h1
-                    class="mt-6 text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl"
-                  >
-                    {{ .Title }}
-                  </h1>
                   <time
                     datetime="{{ .Date.Format "2006-01-02" }}"
                     class="order-first flex items-center text-base text-zinc-400 dark:text-zinc-500"
@@ -43,6 +38,23 @@
                     <span class="h-4 ml-4 w-0.5 rounded-full bg-zinc-200 dark:bg-zinc-500"></span>
                     <span class="ml-3">{{ math.Ceil (div $readTime 60) }} min read</span>
                   </time>
+
+
+                  {{ if .Params.tags }}
+                  <div class="relative mt-4 text-zinc-400 ">
+                      {{ range $index, $tag := .Params.tags }}
+                        {{ if $index }}, {{ end }}
+                        <a href="{{ "tags" | relURL }}/{{ $tag | urlize }}" class="hover:text-zinc-200 mr-2">{{ $tag }}</a>
+                      {{ end }}
+                  </div>
+                  {{ end }}
+
+
+                  <h1
+                    class="mt-6 text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl"
+                  >
+                    {{ .Title }}
+                  </h1>
                 </header>
                 <div class="mt-8 prose dark:prose-invert">
                   {{ .Content }}
