@@ -4,6 +4,9 @@ baseurl = "https://cino.io/"
 title = "Cino"
 enableRobotsTXT = true
 
+[outputs]
+  home = ['html', 'rss']
+
 [services]
   [services.googleAnalytics]
     id = 'G-GCGJ9S1XSX'
@@ -20,10 +23,10 @@ enableRobotsTXT = true
     style = "dracula"
 
 [taxonomies]
-category = "categories"
-tag = "tags"
-
-[markup.goldmark.renderer]
-unsafe= true
+  category = "categories"
+  tag = "tags"
 
 menu = ['main']
+
+[markup.goldmark.renderer]
+  unsafe= true
