@@ -39,16 +39,11 @@
                     <span class="ml-3">{{ math.Ceil (div $readTime 60) }} min read</span>
                   </time>
 
-
                   {{ if .Params.tags }}
                   <div class="relative mt-4 text-zinc-400 ">
-                      {{ range $index, $tag := .Params.tags }}
-                        {{ if $index }}, {{ end }}
-                        <a href="{{ "tags" | relURL }}/{{ $tag | urlize }}" class="hover:text-zinc-200 mr-2">{{ $tag }}</a>
-                      {{ end }}
+                    {{ range $index, $tag := .Params.tags }}{{ if $index }}, {{ end }}<a href="{{ "tags" | relURL }}/{{ $tag | urlize }}" class="hover:text-zinc-200 mr-2">{{ $tag }}</a>{{ end }}
                   </div>
                   {{ end }}
-
 
                   <h1
                     class="mt-6 text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl"
