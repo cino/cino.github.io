@@ -39,6 +39,7 @@ This is good right? Well, yes. There is an absolute case to be made where this g
 If you are using AWS CDK for your infrastructure as code you might be surprised by the many outputs that you are using! This is because when you reference a Construct in another stack it will automatically output the identifier of the resource. This is a nice feature but it can also be a surprise when you are not expecting it. Even though you might be thinking that you are not using outputs, you are.
 
 For example when you deploy the following stacks, in this example we are deploying 2 resources in different stacks, there is a DynamoDB table in the DataStack and a single Lambda function in the AppStack. The Lambda function has been given the permissions to read the DynamoDB table by passing it into the next stack and calling `table.grantReadData(lambda)`.
+
 ```typescript
 const { table } = new DataStack(app, "DataStack");
 new AppStack(app, "AppStack", { table });
