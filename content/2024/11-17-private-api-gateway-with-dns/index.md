@@ -18,7 +18,7 @@ tags = [
 images = ['4-api-gateway-lambda-private-dns-alb.png']
 +++
 
-**UPDATE:** Ofcourse, after I finalized this article Amazon dropped native support for Private DNS on API Gateways. 
+**UPDATE:** Ofcourse, after I finalized this article Amazon released native support for Private DNS on API Gateways.
 
 At PostNL we are building most of our applications with [Serverless](https://medium.com/postnl-engineering/business-overview-f7c8d8ebee2c) in mind, let me rephrase that, we build all our applications within our own landing zone with Serverless only. There is no option to deploy any kind of EC2 and if you need containers you'd be running them on Fargate only.
 
