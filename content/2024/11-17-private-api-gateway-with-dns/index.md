@@ -19,8 +19,7 @@ images = ['4-api-gateway-lambda-private-dns-alb.png']
 +++
 
 **UPDATE:** Ofcourse, after I finalized this article Amazon released native support for [Private DNS on API Gateways.
-](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-private-custom-domains.html)
-
+](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-private-custom-domains.html). Announced on the [AWS Blog](https://aws.amazon.com/blogs/compute/implementing-custom-domain-names-for-private-endpoints-with-amazon-api-gateway/).
 
 At PostNL we are building most of our applications with [Serverless](https://medium.com/postnl-engineering/business-overview-f7c8d8ebee2c) in mind, let me rephrase that, we build all our applications within our own landing zone with Serverless only. There is no option to deploy any kind of EC2 and if you need containers you'd be running them on Fargate only.
 
