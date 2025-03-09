@@ -11,12 +11,12 @@
     },
     "devDependencies": {
         "@fullhuman/postcss-purgecss": "^4.x",
-        "@tailwindcss/aspect-ratio": "^0.x",
-        "@tailwindcss/forms": "^0.x",
-        "@tailwindcss/line-clamp": "^0.x",
+        "@tailwindcss/aspect-ratio": "^0.4.2",
+        "@tailwindcss/forms": "^0.5.10",
+        "@tailwindcss/line-clamp": "^0.4.4",
         "@tailwindcss/typography": "^0.5.x",
-        "autoprefixer": "^10.x",
-        "postcss": "^8.x",
+        "autoprefixer": "^10.4.20",
+        "postcss": "^8.4.49",
         "postcss-cli": "^10.x",
         "tailwindcss": "^3.x"
     },
