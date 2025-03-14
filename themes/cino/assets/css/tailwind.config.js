@@ -186,6 +186,8 @@ module.exports = {
 
           // Lists
           ul: {
+            marginTop: theme("spacing.3"),
+            marginBottom: theme("spacing.3"),
             listStyleType: "disc",
           },
           ol: {
@@ -195,8 +197,8 @@ module.exports = {
             paddingLeft: theme("spacing.6"),
           },
           li: {
-            marginTop: theme("spacing.6"),
-            marginBottom: theme("spacing.6"),
+            marginTop: theme("spacing.3"),
+            marginBottom: theme("spacing.3"),
             paddingLeft: theme("spacing[3.5]"),
           },
           "li::marker": {
