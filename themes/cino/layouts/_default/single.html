@@ -40,9 +40,7 @@
                   </time>
 
                   {{ if .Params.tags }}
-                  <div class="relative mt-4 text-zinc-400 ">
-                    {{ range $index, $tag := .Params.tags }}{{ if $index }}, {{ end }}<a href="{{ "tags" | relURL }}/{{ $tag | urlize }}" class="hover:text-zinc-200 mr-2">{{ $tag }}</a>{{ end }}
-                  </div>
+                  <div class="relative mt-4 text-zinc-400">{{ range $index, $tag := .Params.tags }}{{ if $index }}, {{ end }}<a href="{{ "tags" | relURL }}/{{ $tag | urlize }}" class="hover:text-zinc-200">#{{ $tag }}</a>{{ end }}</div>
                   {{ end }}
 
                   <h1

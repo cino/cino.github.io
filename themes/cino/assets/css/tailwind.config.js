@@ -98,8 +98,8 @@ module.exports = {
             marginBottom: theme("spacing.10"),
           },
           p: {
-            marginTop: theme("spacing.7"),
-            marginBottom: theme("spacing.7"),
+            marginTop: theme("spacing.6"),
+            marginBottom: theme("spacing.3"),
           },
 
           // Headings
@@ -110,13 +110,13 @@ module.exports = {
           h2: {
             fontSize: theme("fontSize.xl")[0],
             lineHeight: theme("lineHeight.7"),
-            marginTop: theme("spacing.20"),
+            marginTop: theme("spacing.8"),
             marginBottom: theme("spacing.4"),
           },
           h3: {
             fontSize: theme("fontSize.base")[0],
             lineHeight: theme("lineHeight.7"),
-            marginTop: theme("spacing.16"),
+            marginTop: theme("spacing.8"),
             marginBottom: theme("spacing.4"),
           },
           ":is(h2, h3) + *": {
@@ -125,6 +125,8 @@ module.exports = {
 
           // Images
           img: {
+            marginTop: theme("spacing.8"),
+            marginBottom: theme("spacing.8"),
             borderRadius: theme("borderRadius.3xl"),
           },
 
@@ -208,12 +210,12 @@ module.exports = {
             color: "var(--tw-prose-bullets)",
           },
           "li :is(ol, ul)": {
-            marginTop: theme("spacing.4"),
-            marginBottom: theme("spacing.4"),
+            marginTop: theme("spacing.2"),
+            marginBottom: theme("spacing.2"),
           },
           "li :is(li, p)": {
-            marginTop: theme("spacing.3"),
-            marginBottom: theme("spacing.3"),
+            marginTop: theme("spacing.2"),
+            marginBottom: theme("spacing.2"),
           },
 
           // Code blocks
