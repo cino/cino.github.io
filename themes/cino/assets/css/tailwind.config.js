@@ -103,9 +103,15 @@ module.exports = {
           },
 
           // Headings
-          "h2, h3": {
+          "h1, h2, h3": {
             color: "var(--tw-prose-headings)",
             fontWeight: theme("fontWeight.semibold"),
+          },
+          h1: {
+            fontSize: theme("fontSize.2xl")[0],
+            lineHeight: theme("lineHeight.7"),
+            marginTop: theme("spacing.8"),
+            marginBottom: theme("spacing.4"),
           },
           h2: {
             fontSize: theme("fontSize.xl")[0],
