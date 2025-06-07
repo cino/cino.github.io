@@ -18,7 +18,7 @@ tags = [
     "nginx",
     "proxy"
   ]
-images = []
+images = ['final-architecture.png']
 +++
 
 In the last year I've been working a **lot** with AppSync and I have to say it didn't come without challenges. One of the biggest challenges was to create a private AppSync API with a custom domain. This is something that is not natively supported by AWS, but it is possible to achieve it using a combination of services.
@@ -66,9 +66,11 @@ Even if you'd decide to switch to hosting your own GraphQL server you might be a
 
 ## Creating custom DNS for your AppSync API
 
-To make your AppSync API accessible from a custom domain, you will have to use the same approach as you would for API Gateway. This means that you will have to create a Route 53 hosted zone for your custom domain and create a CNAME record that points to an Application Load Balancer that routes traffic to the AppSync VPC Endpoint.
+To make your AppSync API accessible from a custom domain, you will have to use the same approach as you would for <a href="/2024/private-api-gateway-with-dns/" target="_blank">API Gateway before they introduced native support</a> . This means that you will have to create a Route 53 hosted zone for your custom domain and create a CNAME record that points to an Application Load Balancer that routes traffic to the AppSync VPC Endpoint.
 
 However this is not enough, because where this will allow you to access the AppSync API from your custom domain, it will not allow you to *only* use the custom domain. Additionally you will have to send an HTTP header (X-AppSync-Domain) to the AppSync API that contains the custom domain name so the VPC Endpoint can route the traffic to the correct AppSync API. In that case you still need to share the AppSync API endpoint with the end user.
+
+While it is technically possible to add the header to all your requests, this will only work for HTTP requests. If you are using WebSockets for subscriptions, you will not be able to add the header to the request, because the WebSocket protocol does not support custom headers in the web browser. When using a different client (e.g. mobile or server-side) you might be able to add the header, but this is not a solution that works for all clients.
 
 The only way to avoid this limitation is to use a proxy that will route the traffic to the AppSync API. This can be done by using an Application Load Balancer with a custom domain and a target group that points a proxy (e.g. NGINX) that will route the traffic to the AppSync API. This way you can use the custom domain to access the AppSync API without exposing the AppSync API endpoint to the end user.
 
