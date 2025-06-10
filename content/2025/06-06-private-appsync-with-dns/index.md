@@ -35,7 +35,7 @@ AppSync is a fully managed service that makes it easy for developers to build sc
 
 With AppSync, you can easily connect to various data sources, including DynamoDB, Lambda, Elasticsearch, and more. It also provides built-in support for real-time subscriptions, offline data synchronization, and security features like authentication and authorization.
 
-While there are other challenges with Authorization, which I will not cover in this article (but _surely_ in a follow-up), I will focus on how to create a private AppSync API with a custom domain and all the challenges that come with it.
+While there are other challenges with authorization, which I will not cover in this article (but _surely_ in a follow-up), I will focus on how to create a private AppSync API with a custom domain and all the challenges that come with it.
 
 # Target Architecture
 
