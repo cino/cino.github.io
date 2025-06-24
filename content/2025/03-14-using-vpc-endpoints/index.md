@@ -38,7 +38,7 @@ Good to know about Gateway Endpoints:
 As these are free there should be no reason why you are not using them if you have a private subnet and need to access S3 or DynamoDB.
 
 ### Interface Endpoints
-Interface Endpoints are used to connect to other AWS services like SNS, SQS, and [others](https://docs.aws.amazon.com/vpc/latest/privatelink/aws-services-privatelink-support.html). These endpoints are used to connect to
+Interface Endpoints are used to connect to other AWS services like SNS, SQS, and [others](https://docs.aws.amazon.com/vpc/latest/privatelink/aws-services-privatelink-support.html).
 
 Good to know about Interface Endpoints:
 - Charged per hour (~8.03 USD per month in eu-west-1, based on 1 AZ, meaning if you use more than one AZ the cost will be higher)
