@@ -233,4 +233,4 @@ In this post I've shown you how you can create a private API Gateway with DNS. T
 
 Please have a good look at the Github link provided as there are a lot more details to be found and it is a fully working example with a simple `cdk deploy` command. (when you provide your own route53 / hosted zone)
 
-I hope this post was helpful to you and if you have any questions or remarks feel free to reach out to me on <a href="https://bsky.app/profile/cino.io" target="_blank">Bluesky</a> or <a href="https://www.linkedin.com/in/cinoricardo/" target="_blank">LinkedIn</a>.
+{{< article-footer >}}

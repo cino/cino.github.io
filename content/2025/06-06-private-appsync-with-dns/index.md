@@ -123,4 +123,4 @@ Like API Gateway, AppSync is a service that is constantly evolving. I hope that 
 - <a href="https://docs.aws.amazon.com/AppSync/latest/devguide/real-time-websocket-client.html" target="_blank">https://docs.aws.amazon.com/AppSync/latest/devguide/real-time-websocket-client.html</a>
 - <a href="https://github.com/aws-amplify/amplify-data/issues/469#issuecomment-2578784043" target="_blank">https://github.com/aws-amplify/amplify-data/issues/469#issuecomment-2578784043</a>
 
-I hope this post was helpful to you and if you have any questions or remarks feel free to reach out to me on <a href="https://bsky.app/profile/cino.io" target="_blank">Bluesky</a> or <a href="https://www.linkedin.com/in/cinoricardo/" target="_blank">LinkedIn</a>.
+{{< article-footer >}}

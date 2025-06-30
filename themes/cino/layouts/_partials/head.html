@@ -15,9 +15,9 @@
     <meta name="apple-mobile-web-app-title" content="Cino.io" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    {{ template "_internal/opengraph.html" . }}
-    {{ template "_internal/twitter_cards.html" . }}
-    {{ template "_internal/schema.html" . }}
+    {{ partial "opengraph.html" . }}
+    {{ partial "twitter_cards.html" . }}
+    {{ partial "schema.html" . }}
 
     {{- $styles := resources.Get "css/styles.css" | postCSS (dict "config" "./assets/css/postcss.config.js") -}}
     {{- if hugo.IsServer }}
@@ -29,5 +29,5 @@
 
     <meta name="fediverse:creator" content="@cino@fosstodon.org">
 
-    {{ template "_internal/google_analytics.html" . }}
+    {{ partial "google_analytics.html" . }}
 </head>

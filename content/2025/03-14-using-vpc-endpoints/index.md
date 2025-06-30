@@ -69,3 +69,5 @@ This means that you can access the API Gateway without going through the interne
 #### Additional sources
 - [What are VPC endpoints?](https://docs.aws.amazon.com/vpc/latest/userguide/endpoint-services-overview.html)
 - [API Gateway Private API Test Invoke URL](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-private-api-test-invoke-url.html)
+
+{{< article-footer >}}

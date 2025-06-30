@@ -73,3 +73,5 @@ In hindsight, yes I could've spotted this in the documentation but I clearly did
 - <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/TTL.html" target="_blank">docs.aws.amazon.com/amazondynamodb/latest/developerguide/TTL.html</a>
 - <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-table.html#cfn-dynamodb-table-timetolivespecification" target="_blank">docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-table.html#cfn-dynamodb-table-timetolivespecification</a>
 - <a href="https://awscli.amazonaws.com/v2/documentation/api/latest/reference/dynamodb/update-time-to-live.html" target="_blank">awscli.amazonaws.com/v2/documentation/api/latest/reference/dynamodb/update-time-to-live.html</a>
+
+{{< article-footer >}}

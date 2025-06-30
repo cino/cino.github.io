@@ -79,3 +79,5 @@ When you are using a solution like this you do want to make sure that your proce
 ## Conclusion
 
 Obviously this is not a standard solution, but it's a cost-effective way to retain data for more than 24 hours without using Kinesis Data Streams. It does require some extra work to set up, but it can save you money in the long run if you don't need the full capabilities of Kinesis. If you do need more than 24 hours of retention, Kinesis Data Streams is still a great option, but if you can work with the limitations of DynamoDB Streams, this custom solution can be a good alternative.
+
+{{< article-footer >}}
