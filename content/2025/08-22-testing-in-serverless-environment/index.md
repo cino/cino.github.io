@@ -2,7 +2,7 @@
 author = "Ricardo Cino"
 title = "Testing in a serverless environment"
 slug = "testing-in-serverless-environment"
-date = 2025-08-22T15:01:00+01:00
+date = 2025-08-22T14:01:00+01:00
 tags = [
     "aws",
     "serverless",
