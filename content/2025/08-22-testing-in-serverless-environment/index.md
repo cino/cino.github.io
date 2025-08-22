@@ -15,7 +15,7 @@ tags = [
     "infra testing",
     "self-hosted-runners",
 ]
-images = []
+images = ['steps.png']
 +++
 
 Working in a pure serverless environment presents a distinct set of challenges when testing your software, particularly when multiple services interact with each other. In this post, I will explore some strategies for testing in a serverless environment.
