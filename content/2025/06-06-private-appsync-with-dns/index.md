@@ -119,8 +119,8 @@ Like API Gateway, AppSync is a service that is constantly evolving. I hope that 
 # Sources
 
 - AWS Enterprise Support
-- <a href="https://docs.aws.amazon.com/AppSync/latest/devguide/using-private-apis.html" target="_blank">https://docs.aws.amazon.com/AppSync/latest/devguide/using-private-apis.html</a>
-- <a href="https://docs.aws.amazon.com/AppSync/latest/devguide/real-time-websocket-client.html" target="_blank">https://docs.aws.amazon.com/AppSync/latest/devguide/real-time-websocket-client.html</a>
+- <a href="https://docs.aws.amazon.com/appsync/latest/devguide/using-private-apis.html" target="_blank">https://docs.aws.amazon.com/appsync/latest/devguide/using-private-apis.html</a>
+- <a href="https://docs.aws.amazon.com/appsync/latest/devguide/real-time-websocket-client.html" target="_blank">https://docs.aws.amazon.com/appsync/latest/devguide/real-time-websocket-client.html</a>
 - <a href="https://github.com/aws-amplify/amplify-data/issues/469#issuecomment-2578784043" target="_blank">https://github.com/aws-amplify/amplify-data/issues/469#issuecomment-2578784043</a>
 
 {{< article-footer >}}
