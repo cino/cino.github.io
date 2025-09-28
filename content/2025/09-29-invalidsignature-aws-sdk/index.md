@@ -45,6 +45,7 @@ export class MyRepository {
     constructor() {
         this.client = getClient();
     }
+}
 ```
 
 Where `getClient` retrieves the Client instance to interact with the database, and within this function we would retrieve the secrets from AWS Secrets Manager where an AWS SDK Client is initialized. When doing this all outside of the handler, we would always re-use the same instance of the AWS SDK client, that would retain the same timestamp for signing requests.
