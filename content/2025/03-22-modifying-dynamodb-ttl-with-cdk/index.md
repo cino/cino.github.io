@@ -14,6 +14,7 @@ tags = [
     "ValidationException",
     "UpdateTimeToLive",
     "InvalidRequest",
+    "errors"
 ]
 images = []
 +++

@@ -12,6 +12,7 @@ tags = [
     "secrets manager",
     "nodejs",
     "lambda",
+    "errors"
 ]
 images = []
 +++
