@@ -25,7 +25,7 @@ jobs:
         run: npm install -g postcss postcss-cli autoprefixer
 
       - name: Install theme npm
-        run: cd themes/cino && npm ci
+        run: cd themes/cino && yarn install --immutable
 
       - name: Build
         run: hugo --minify
