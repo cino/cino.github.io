@@ -4,7 +4,7 @@
 >
   <div class="top-0 z-10 h-16 pt-6" style="position: var(--header-position)">
     <div
-      class="sm:px-8 top-[var(--header-top,theme(spacing.6))] w-full"
+      class="sm:px-8 top-(--header-top,--spacing(6)) w-full"
       style="position: var(--header-inner-position)"
     >
       <div class="mx-auto max-w-7xl lg:px-8">
@@ -13,7 +13,7 @@
             <div class="relative flex gap-4">
               <div class="flex flex-1">
                 <div
-                  class="h-10 w-10 rounded-full bg-white/90 p-0.5 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur"
+                  class="h-10 w-10 rounded-full bg-white/90 p-0.5 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur-sm"
                 >
                   <a aria-label="Home" class="pointer-events-auto" href="{{ .Site.Home.Permalink }}"
                     ><img
