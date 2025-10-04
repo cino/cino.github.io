@@ -30,13 +30,18 @@
     {{ partial "twitter_cards.html" . }}
     {{ partial "schema.html" . }}
 
-    {{- $styles := resources.Get "css/styles.css" | postCSS (dict "config" "./assets/css/postcss.config.js") -}}
-    {{- if hugo.IsServer }}
-    <link rel="stylesheet" href="{{ $styles.RelPermalink }}">
-    {{ else }}
-        {{- $styles := $styles| minify | fingerprint | resources.PostProcess -}}
-    <link rel="stylesheet" href="{{ $styles.Permalink }}" integrity="{{ $styles.Data.Integrity }}">
-    {{ end -}}
+    {{ with resources.Get "css/styles.css" }}
+        {{ $opts := dict "minify" (not hugo.IsDevelopment) }}
+        {{ with . | css.TailwindCSS $opts }}
+            {{ if hugo.IsDevelopment }}
+                <link rel="stylesheet" href="{{ .RelPermalink }}">
+            {{ else }}
+            {{ with . | fingerprint }}
+                <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+            {{ end }}
+            {{ end }}
+        {{ end }}
+    {{ end }}
 
     <meta name="fediverse:creator" content="@cino@fosstodon.org">
 
