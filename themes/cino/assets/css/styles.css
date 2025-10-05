@@ -11,6 +11,18 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
+  --color-rich-black: oklch(0.169 0.0314 222.65); /* #001219 */
+  --color-midnight-green: oklch(0.4485 0.080961 218.7343); /* #005F73 */
+  --color-dark-cyan: oklch(0.6024 0.101 197.4); /* #0A9396 */
+  --color-tiffany-blue: oklch(0.8157 0.0701 171.43); /* #94D2BD */
+  --color-vanilla: oklch(0.884 0.0677 91.51); /* #E9D8A6 */
+
+  --color-gamboge: oklch(0.7547 0.1621 71.4); /* #EE9B00 */
+  --color-alloy-orange: oklch(0.6189 0.1537 54.41); /* #CA6702 */
+  --color-rust: oklch(0.5378 0.1703 39.15); /* #BB3E03 */
+  --color-rufous: oklch(0.4865 0.179 30.2); /* #AE2012 */
+  --color-auburn: oklch(0.4544 0.1568 24.59); /* #9B2226 */
+
   --text-xs: 0.8125rem;
   --text-xs--line-height: 1.5rem;
   --text-sm: 0.875rem;

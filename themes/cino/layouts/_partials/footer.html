@@ -10,24 +10,20 @@
                 class="flex flex-col items-center justify-between gap-6 sm:flex-row"
                 >
                 <div
-                    class="flex gap-6 text-sm font-medium text-zinc-800"
+                    class="flex gap-6 text-sm font-medium text-rich-black"
                 >
                   {{ $currentPage := . }}
                     {{ range .Site.Menus.main }}
                         <a
-                        class="transition hover:text-teal-500"
+                        class="transition hover:text-dark-cyan"
                         href="{{ .URL }}"
                         >
                         {{ .Title }}
                         </a>
                     {{ end }}
                 </div>
-                <p class="text-sm text-zinc-400">
-                    © {{ now.Format "2006"}} Cino Consultancy<br />
-
-                    <span class="text-xs">
-                        KVK: 89913019
-                    </span>
+                <p class="text-sm text-rich-black">
+                    © {{ now.Format "2006"}} Ricardo Cino<br />
                 </p>
                 </div>
             </div>
