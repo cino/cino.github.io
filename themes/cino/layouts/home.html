@@ -44,7 +44,7 @@
                       >
                     </h2>
                     <time
-                      class="md:hidden relative z-10 order-first mb-3 flex items-center text-sm text-zinc-400 dark:text-zinc-500 pl-3.5"
+                      class="md:hidden relative z-10 order-first mb-3 flex items-center text-sm text-zinc-500 dark:text-zinc-500 pl-3.5"
                       datetime="{{ .Date.Format "2006-01-02" }}"
                       ><span
                         class="absolute inset-y-0 left-0 flex items-center"
@@ -54,7 +54,7 @@
                         ></span></span
                       >{{ .Date.Format "January 2, 2006" }}</time
                     >
-                    {{ .Summary | replaceRE "<p>" "<p class=\"relative z-10 mt-2 text-sm text-zinc-600 dark:text-zinc-400\">" | safeHTML | truncate 300 }}
+                    {{ .Summary | replaceRE "<p>" "<p class=\"relative z-10 mt-2 text-sm text-zinc-600 dark:text-zinc-500\">" | safeHTML | truncate 300 }}
                     </p>
                     <div
                       aria-hidden="true"
@@ -77,7 +77,7 @@
                     </div>
                   </div>
                   <time
-                    class="mt-1 hidden md:block relative z-10 order-first mb-3 flex items-center text-sm text-zinc-400 dark:text-zinc-500"
+                    class="mt-1 hidden md:block relative z-10 order-first mb-3 flex items-center text-sm text-zinc-500 dark:text-zinc-500"
                     datetime="{{ .Date.Format "2006-01-02" }}"
                     >{{ .Date.Format "January 2, 2006" }}</time
                   >
