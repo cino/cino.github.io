@@ -10,7 +10,6 @@ tags = [
     "ttl",
     "time to live",
     "cdk",
-    "error",
     "ValidationException",
     "UpdateTimeToLive",
     "InvalidRequest",
