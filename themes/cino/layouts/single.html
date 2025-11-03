@@ -27,17 +27,19 @@
               </a>
               <article>
                 <header class="flex flex-col">
-                  <time
-                    datetime="{{ .Date.Format "2006-01-02" }}"
-                    class="order-first flex items-center text-base text-zinc-500 dark:text-zinc-500"
-                  >
-                    <span class="h-4 w-0.5 rounded-full bg-zinc-200 dark:bg-zinc-500"></span>
-                    <span class="ml-3">{{ .Date.Format "January 2, 2006" }}</span>
+                  {{ if .Date }}
+                    <time
+                      datetime="{{ .Date.Format "2006-01-02" }}"
+                      class="order-first flex items-center text-base text-zinc-500 dark:text-zinc-500"
+                    >
+                      <span class="h-4 w-0.5 rounded-full bg-zinc-200 dark:bg-zinc-500"></span>
+                      <span class="ml-3">{{ .Date.Format "January 2, 2006" }}</span>
 
-                    {{ $readTime := mul (div (countwords .Content) 220.0) 60 }}
-                    <span class="h-4 ml-4 w-0.5 rounded-full bg-zinc-200 dark:bg-zinc-500"></span>
-                    <span class="ml-3">{{ math.Ceil (div $readTime 60) }} min read</span>
-                  </time>
+                      {{ $readTime := mul (div (countwords .Content) 220.0) 60 }}
+                      <span class="h-4 ml-4 w-0.5 rounded-full bg-zinc-200 dark:bg-zinc-500"></span>
+                      <span class="ml-3">{{ math.Ceil (div $readTime 60) }} min read</span>
+                    </time>
+                  {{ end}}
 
                   {{ if .Params.tags }}
                   <div class="relative mt-4 text-zinc-500">{{ range $index, $tag := .Params.tags }}{{ if $index }}, {{ end }}<a href="{{ "tags" | relURL }}/{{ $tag | urlize }}/" class="hover:text-zinc-200">#{{ $tag }}</a>{{ end }}</div>
