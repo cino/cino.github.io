@@ -22,7 +22,7 @@ jobs:
           extended: true
 
       - name: Enable corepack
-        run: corepack enable
+        run: corepack enable 
 
       - name: Additional NPM packages
         run: npm install -g postcss postcss-cli autoprefixer
