@@ -1,16 +1,10 @@
 +++
 author = "Ricardo Cino"
-title = "AWS Learning badge assignments"
+title = "AWS Learning: Earn Badges with These Skill Builder Assignments"
 slug = "aws-learning-badge-assignments"
 date = "2023-02-10"
-tags = [
-    "aws",
-    "amazon web services",
-    "learning",
-    "skill builder",
-    "badges",
-    "achievements"
-]
+description = "Complete list of AWS Learning badge assignments. Earn AWS certifications and badges with these Skill Builder training paths."
+tags = ["aws", "learning", "skill builder", "badges", "certification", "training", "achievements"]
 +++
 
 Besides the AWS Certification program, there are also the newer AWS Learning skill badges. A new-ish way of learning the skills necessary to work on the aws platform and illustrate your knowledge. These are like the certifications except they are **not** certifications of some kind and you can take exams to receive the "Skill badge", this is all for free and is here to help you. I finished them all and wanted to highlight each of them, and how I experienced each of the exams.

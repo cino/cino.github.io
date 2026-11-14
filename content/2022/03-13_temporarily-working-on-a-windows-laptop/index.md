@@ -1,12 +1,16 @@
 +++
 author = "Ricardo Cino"
-title = "Temporarily working on a Windows Laptop"
+title = "Windows Laptop Setup for AWS Development"
 slug = "temporarily-working-on-a-windows-laptop"
 date = "2022-03-13"
+description = "Complete guide to setting up a Windows laptop for AWS development. Tips and tricks for developers transitioning from macOS."
+tags = ["windows", "aws", "development", "setup", "laptop", "wsl", "productivity"]
 +++
+
 This has been quite the struggle, for the last 6 years, I've been working on a Macbook Pro/Air (m1) and right now I'm not able to do so. Due to a recent job change, I'm working on a Windows laptop until the new Macbook is in. At first, I was really curious to work on Windows again! I've been talking Microsoft up anytime I spoke with somebody about the company, the recent acquiries, the change in direction, I really like where the company is going.
 
 <!--more-->
+
 As a software engineer, you must be able to see that Microsoft is working towards an amazing direction. With Github, Visual Studio Code, Azure (no experience, but looks promising), NPM (okay, this needs improvement), WSL2, and loads of existing names in their toolset they are really setting up for an empire.
 
 Mainly because of those I was actually curious how it would be working on Windows again, and however it's definitely not bad; nothing beats working on macOS for me. Mostly because I'm a keyboard enthusiast and have really worked on the shortcut game on macOS, there are just so many shortcuts and muscle memory that working on Windows is almost impossible for me. (definitely exaggerating here).

@@ -1,19 +1,18 @@
 +++
 author = "Ricardo Cino"
-title = "Modifying DynamoDB TTL with CDK"
+title = "DynamoDB TTL: Modify with AWS CDK"
 slug = "modifying-dynamodb-ttl-with-cdk"
 date = 2025-03-22T12:00:40+01:00
+description = "Learn how to modify DynamoDB TTL (Time to Live) settings using AWS CDK. Complete guide with code examples and error handling."
 tags = [
-    "aws",
-    "amazon web services",
-    "dynamodb",
-    "ttl",
-    "time to live",
-    "cdk",
-    "ValidationException",
-    "UpdateTimeToLive",
-    "InvalidRequest",
-    "errors"
+  "aws",
+  "dynamodb",
+  "ttl",
+  "time to live",
+  "cdk",
+  "UpdateTimeToLive",
+  "infrastructure as code",
+  "errors",
 ]
 images = []
 +++
@@ -46,7 +45,7 @@ Next up I thought, let's try to disable the TTL via the CLI and then re-enable i
 
 To me this was a experience of surprises. I looked at the documentation and it didn't mention anything about this limitation. I thought I could just change the TTL attribute name and be done with it. This was mainly due to the DynamoDB CloudFormation documentation about the `TimeToLiveSpecification` property, which doesn't mention anything about this limitation. It actually mentions you can modify this property without any interruption on <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-table.html#cfn-dynamodb-table-timetolivespecification" target="_blank">this page</a>.
 
-And yes, there is a note below that saying there are limitations on DynamoDb and links to a new page, which does *not* mention the `TimeToLiveSpecification` property.
+And yes, there is a note below that saying there are limitations on DynamoDb and links to a new page, which does _not_ mention the `TimeToLiveSpecification` property.
 
 Now the second error I got was even more confusing. I was trying to disable the TTL and then re-enable it with a new attribute name, but I got an error saying that the TTL had been modified multiple times within a fixed interval. Again, this was something I hadn't yet spotted in any of the documentation which was a error on my side. I opened the documentation for <a href="https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_UpdateTimeToLive.html" target="_blank">UpdateTimeToLive</A> and immediately scrolled down to the `Errors` section and this did not include the `ValidationException`.
 
@@ -70,6 +69,7 @@ In conclusion if you use any kind of Infrastructure as code tool, like the AWS C
 In hindsight, yes I could've spotted this in the documentation but I clearly didn't and as a result I lost multiple hours on researching but also, deploying.. and waiting for the changes to be applied. So I hope this post helps you avoid the same issue in the future.
 
 ### Sources
+
 - <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/TTL.html" target="_blank">docs.aws.amazon.com/amazondynamodb/latest/developerguide/TTL.html</a>
 - <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-table.html#cfn-dynamodb-table-timetolivespecification" target="_blank">docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-table.html#cfn-dynamodb-table-timetolivespecification</a>
 - <a href="https://awscli.amazonaws.com/v2/documentation/api/latest/reference/dynamodb/update-time-to-live.html" target="_blank">awscli.amazonaws.com/v2/documentation/api/latest/reference/dynamodb/update-time-to-live.html</a>

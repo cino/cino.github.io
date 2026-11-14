@@ -1,19 +1,21 @@
 +++
 author = "Ricardo Cino"
-title = "InvalidSignature in Node with AWS SDK"
+title = "Fix InvalidSignature Error in AWS SDK Node.js"
 slug = "invalidsignature-aws-sdk-nodejs"
 date = 2025-09-28T18:01:00+01:00
+description = "Troubleshoot and fix InvalidSignature errors in AWS SDK for Node.js. Learn common causes and solutions for authentication issues."
 tags = [
-    "aws",
-    "invalid signature",
-    "invalid",
-    "signature",
-    "sdk",
-    "secrets manager",
-    "nodejs",
-    "lambda",
-    "errors"
+  "aws",
+  "invalidsignature",
+  "signature",
+  "sdk",
+  "nodejs",
+  "errors",
+  "authentication",
+  "troubleshooting",
+  "lambda",
 ]
+
 images = []
 +++
 
@@ -41,11 +43,11 @@ Imagine having a repository like this:
 
 ```typescript
 export class MyRepository {
-    private readonly client: Promise<PrismaClient>;
+  private readonly client: Promise<PrismaClient>;
 
-    constructor() {
-        this.client = getClient();
-    }
+  constructor() {
+    this.client = getClient();
+  }
 }
 ```
 
@@ -86,14 +88,15 @@ This approach strikes a balance between ensuring valid signatures for AWS SDK re
 An easy way to implement caching is to use <a href="https://docs.powertools.aws.dev/lambda/typescript/latest/features/parameters/#fetching-secrets" target="_blank">AWS Powertools Parameters utility</a>, which provides a simple way to cache parameters and secrets in memory and automatically refresh them after a specified duration. When not providing any additional configuration, it defaults to caching the secrets for 5 seconds:
 
 ```typescript
-import { getSecret } from '@aws-lambda-powertools/parameters/secrets';
+import { getSecret } from "@aws-lambda-powertools/parameters/secrets";
 
 export const handler = async (): Promise<void> => {
   // Retrieve a single secret
-  const secret = await getSecret('my-secret');
+  const secret = await getSecret("my-secret");
   console.log(secret);
 };
 ```
+
 (example from <a href="https://docs.powertools.aws.dev/lambda/typescript/latest/features/parameters/#fetching-secrets" target="_blank">AWS Powertools documentation</a>)
 
 {{< article-footer >}}

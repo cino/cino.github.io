@@ -1,13 +1,21 @@
 +++
 author = "Ricardo Cino"
-title = "Building a Serverless Kanban Board"
+title = "Serverless Kanban Board: AWS Architecture Guide"
 slug = "building-a-serverless-kanban-board/"
 date = "2022-04-18"
+description = "Learn how to build a serverless Kanban board with AWS. Complete architecture guide with TypeScript for front-end and back-end development."
 tags = [
-    "aws",
-    "serverless"
+  "aws",
+  "serverless",
+  "kanban",
+  "architecture",
+  "typescript",
+  "dynamodb",
+  "lambda",
+  "api gateway",
 ]
 +++
+
 **Update 18/01/2023: Let's assume this is not gonna happen anymore**
 
 As the title suggests I'm planning on building a Serverless Kanban Board to improve my personal Typescript skills in both the front and back end. Furthermore, the whole project will be set up while using Amazon Web Services (of course 😉)
@@ -15,6 +23,7 @@ As the title suggests I'm planning on building a Serverless Kanban Board to impr
 I thought it would be fun to build something for practice and also have some personal projects on my GitHub page that display the latest techniques I'm working with and as a bonus get some material I can write about on the website!
 
 <!--more-->
+
 ## The plan
 
 So how is this going the be built? For building the application I've set a couple of rules for myself:

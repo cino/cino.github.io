@@ -1,11 +1,10 @@
 +++
 author = "Ricardo Cino"
-title = "Laravel Forge: setting it up the right way"
-slug="laravel-forge-setting-it-up-the-right-way"
+title = "Laravel Forge Setup: Best Practices for PHP Deployment"
+slug = "laravel-forge-setting-it-up-the-right-way"
 date = "2019-04-20"
-tags = [
-    "php"
-]
+description = "Learn best practices for setting up Laravel Forge the right way. Complete guide for PHP deployment on AWS with Laravel Forge."
+tags = ["laravel", "forge", "php", "deployment", "aws", "server", "best practices"]
 +++
 
 For the last couple of years, I’ve been creating servers with Laravel Forge and normally I would advise against doing this (In favor of running containers or other load balanced tasks), but for the sake of giving advice to those who do want to do it, this is the first post I’ll spend time on it.
@@ -18,7 +17,7 @@ For the record, I’ll be writing from an AWS perspective since this is the only
 
 When you start to use Laravel Forge with AWS you’ll need to create an IAM user with the right amount of permissions to create and manage your servers. This should always be from the least access principle. The documentation of Laravel Forge suggests you’ll create a user with the policies `AmazonEC2FullAccess` and `AmazonVPCFullAccess`. However, this looks like a bit too much access in my opinion and my advice would be to initially grant access with these policies and closely monitor what features are actually necessary with the IAM Access Advisor.
 
-When creating the Laravel Forge user you will need to enable programmatic access to provide Forge with an access key and secret. I’d like to point out that it is **recommended** to rotate these credentials every 90 days but I’ll suggest making a reminder for every **60 days**. *Personal preferences though*.
+When creating the Laravel Forge user you will need to enable programmatic access to provide Forge with an access key and secret. I’d like to point out that it is **recommended** to rotate these credentials every 90 days but I’ll suggest making a reminder for every **60 days**. _Personal preferences though_.
 
 ## Networking
 

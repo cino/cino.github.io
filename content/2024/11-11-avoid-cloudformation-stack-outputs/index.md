@@ -1,19 +1,19 @@
 +++
 author = "Ricardo Cino"
-title = "Avoiding CloudFormation Stack Outputs"
+title = "CloudFormation: Avoid Stack Outputs Best Practices"
 slug = "avoid-cloudformation-stack-outputs"
 date = "2024-11-11"
+description = "Learn best practices for avoiding CloudFormation stack outputs. Use SSM Parameters, CDK, and other patterns for better infrastructure management."
 tags = [
-    "aws",
-    "amazon web services",
-    "cloudformation",
-    "stacks",
-    "outputs",
-    "ssm parameters",
-    "aws cdk",
-    "aws cloud development kit",
-    "infrastructure as code",
-    "iac",
+  "aws",
+  "cloudformation",
+  "stacks",
+  "outputs",
+  "ssm parameters",
+  "cdk",
+  "infrastructure as code",
+  "best practices",
+  "iac",
 ]
 images = ["datastack-output.png"]
 +++
@@ -44,6 +44,7 @@ For example when you deploy the following stacks, in this example we are deployi
 const { table } = new DataStack(app, "DataStack");
 new AppStack(app, "AppStack", { table });
 ```
+
 _Full example: [example-with-stack-outputs.ts](https://github.com/cino/cdk-examples/blob/main/avoid-cloudformation-outputs/lib/stacks/example-with-stack-outputs.ts)_
 
 When building your infrastructure in this way you will see that the CDK will automatically output the identifier of the DynamoDB table in CloudFormation.
@@ -74,6 +75,7 @@ const dataStack = new DataStackWithSsmParameters(app, "DataStackWithSsmParameter
 const appStack = new AppStackWithSsmParameters(app, "AppStackWithSsmParameters");
 appStack.addDependency(dataStack);
 ```
+
 _Full example: [example-with-ssm-parameters.ts](https://github.com/cino/cdk-examples/blob/main/avoid-cloudformation-outputs/lib/stacks/example-with-ssm-parameters.ts)_
 
 ## Conclusion
@@ -84,7 +86,7 @@ In all the projects I'm working on myself I will not be using any outputs anymor
 
 At 1 of the projects I had to delete 10+ stacks which would take more than 1 hour in a pipeline due to the dependencies between the stacks. Removing these outputs and importing the values from SSM Parameters decreased the time to delete all the stacks to ~20 minutes. I admit this is still a long time but this is because there was a CloudFront and Fargate container in the codebase. (Cloudfront being the longest to delete)
 
-| ✅ Pros 	| ❌ Cons 	|
-|---	|---	|
-| Less conflicts when updating your stacks 	| Less "safety" out of the box from CloudFormation 	|
-| Faster deletion of all your stacks in test environments 	| Needing to place dependencies between stacks yourself 	|
+| ✅ Pros                                                 | ❌ Cons                                               |
+| ------------------------------------------------------- | ----------------------------------------------------- |
+| Less conflicts when updating your stacks                | Less "safety" out of the box from CloudFormation      |
+| Faster deletion of all your stacks in test environments | Needing to place dependencies between stacks yourself |

@@ -1,15 +1,18 @@
 +++
 author = "Ricardo Cino"
-title = "DynamoDB Streams with more than 24 hour retention"
+title = "DynamoDB Streams: Extend Retention Beyond 24 Hours"
 slug = "dynamodb-streams-with-more-than-24-hour-retention"
 date = 2025-06-24T19:00:00+01:00
+description = "Learn how to extend DynamoDB Streams retention beyond the default 24 hours using Kinesis. Step-by-step guide with AWS architecture patterns."
 tags = [
-    "aws",
-    "amazon web services",
-    "dynamodb",
-    "kinesis",
-    "retention",
-    "streams",
+  "aws",
+  "dynamodb",
+  "streams",
+  "kinesis",
+  "retention",
+  "24 hours",
+  "architecture",
+  "data streaming",
 ]
 images = ['dynamodb-24-hour-retention.png']
 +++
@@ -39,7 +42,7 @@ different use cases and features. Here are some key differences while using Dyna
 
 {{< image src="dynamodb-24-hour-retention.png" alt="DynamoDB 24 Hour Retention Architecture" >}}
 
-This might look a bit odd with 2 queues but there is a logical reason for it, the first queue is there because when you put an `onFailure` destination on a DynamoDB Stream handler it will not place the DynamoDB Record change in the queue, but rather an object with the *location in the stream* of the record change. This means that if you try to process the message after 24 hours, it will not contain the actual data of the record change, but rather just the data on where to extract it. This message will look like:
+This might look a bit odd with 2 queues but there is a logical reason for it, the first queue is there because when you put an `onFailure` destination on a DynamoDB Stream handler it will not place the DynamoDB Record change in the queue, but rather an object with the _location in the stream_ of the record change. This means that if you try to process the message after 24 hours, it will not contain the actual data of the record change, but rather just the data on where to extract it. This message will look like:
 
 ```json
 {

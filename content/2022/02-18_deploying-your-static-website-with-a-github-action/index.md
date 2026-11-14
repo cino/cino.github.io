@@ -1,9 +1,21 @@
 +++
 author = "Ricardo Cino"
-title = "Deploying your static website with a Github Action"
+title = "GitHub Actions: Deploy Static Websites Automatically"
 slug = "deploying-your-static-website"
 date = "2022-02-18"
+description = "Learn how to deploy static websites automatically using GitHub Actions. Complete guide with AWS CDK, OpenID Connect, and CI/CD best practices."
+tags = [
+  "github",
+  "github actions",
+  "ci-cd",
+  "deployment",
+  "static website",
+  "aws",
+  "cdk",
+  "automation",
+]
 +++
+
 Authenticate GitHub with OpenID Connect to deploy your CDK project to your AWS Organization
 
 After making an AWS CDK project one of the first thing you will realize is that you don't want to keep running cdk deploy to update your production environment. This is a fine way of working when you modify your personal dev environment as it is a quick way of deploying but definitely not for your staging/production environments.
@@ -36,11 +48,11 @@ Finally, we create an OpenIDConnectPrincipal which will allow GitHub to communic
 
 {{< highlight typescript >}}
 const gitHubProvider = new iam.OpenIdConnectProvider(this, 'GithubProvider', {
-  url: 'https://token.actions.githubusercontent.com',
-  clientIds: ['sts.amazonaws.com'],
-  thumbprints: [
-    '6938fd4d98bab03faadb97b34396831e3780aea1',
-  ]
+url: 'https://token.actions.githubusercontent.com',
+clientIds: ['sts.amazonaws.com'],
+thumbprints: [
+'6938fd4d98bab03faadb97b34396831e3780aea1',
+]
 });
 const gitHubPrincipal = new iam.OpenIdConnectPrincipal(gitHubProvider);
 {{< / highlight >}}
@@ -53,18 +65,18 @@ Here we create a new role that includes an important condition, here we only all
 
 {{< highlight typescript >}}
 const deploymentRole = new iam.Role(this, "DeploymentRole", {
-  assumedBy: new iam.WebIdentityPrincipal(
-    gitHubProvider.openIdConnectProviderArn,
-    {
-      StringLike: {
-        "token.actions.githubusercontent.com:sub":
-          `repo:cino/cdk-static-serverless:ref:refs/heads/main`
-      }
-    }
-  ),
-  managedPolicies: [
-    iam.ManagedPolicy.fromAwsManagedPolicyName("AdministratorAccess"),
-  ]
+assumedBy: new iam.WebIdentityPrincipal(
+gitHubProvider.openIdConnectProviderArn,
+{
+StringLike: {
+"token.actions.githubusercontent.com:sub":
+`repo:cino/cdk-static-serverless:ref:refs/heads/main`
+}
+}
+),
+managedPolicies: [
+iam.ManagedPolicy.fromAwsManagedPolicyName("AdministratorAccess"),
+]
 });
 {{< / highlight >}}
 
@@ -85,8 +97,8 @@ In our Action, we need to add the following part right after checking out our co
 - name: Configure AWS credentials
   uses: aws-actions/configure-aws-credentials@v1
   with:
-    role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
-    aws-region: eu-central-1
+  role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+  aws-region: eu-central-1
 {{< / highlight >}}
 
 Now we are authenticated we can do anything necessary to update our stack, for the given example I've kept it as simple as possible to make it work by just setting up Node with the managed action from GitHub.
@@ -96,13 +108,13 @@ Now we are authenticated we can do anything necessary to update our stack, for t
 - name: Setup Node
   uses: actions/setup-node@v2
   with:
-    node-version: 14
+  node-version: 14
 {{< / highlight >}}
 
 This will install node and npm in our action which we will need to install the dependencies which will be the next step.
 
 {{< highlight yaml >}}- name: Install dependencies
-  run: npm ci
+run: npm ci
 
 - name: Deploy to CloudFront/S3
   run: npx cdk deploy --require-approval never

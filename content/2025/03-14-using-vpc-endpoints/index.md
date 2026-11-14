@@ -1,15 +1,10 @@
 +++
 author = "Ricardo Cino"
-title = "Using AWS VPC Endpoints"
+title = "AWS VPC Endpoints: Complete Guide with Examples"
 slug = "using-vpc-endpoints"
 date = 2025-03-14T12:00:40+01:00
-tags = [
-    "aws",
-    "amazon web services",
-    "vpc",
-    "vpc endpoint",
-    "private networking",
-  ]
+description = "Complete guide to AWS VPC Endpoints. Learn how to privately connect to AWS services without traversing the public internet."
+tags = ["aws", "vpc", "vpc endpoints", "private networking", "security", "architecture"]
 images = []
 +++
 
@@ -30,6 +25,7 @@ Amazon recently introduced two new types of VPC Endpoints: Resources and Service
 Gateway Endpoints are used to connect to S3 and DynamoDB. They are used to connect to services that are not in the VPC. This means that if you have a private subnet and you want to access S3, you can use a Gateway Endpoint to do so without the need to go through the internet.
 
 Good to know about Gateway Endpoints:
+
 - Free of charge
 - Exclusively for S3 and DynamoDB
 - Associated at the VPC Level
@@ -38,15 +34,16 @@ Good to know about Gateway Endpoints:
 As these are free there should be no reason why you are not using them if you have a private subnet and need to access S3 or DynamoDB.
 
 ### Interface Endpoints
+
 Interface Endpoints are used to connect to other AWS services like SNS, SQS, and [others](https://docs.aws.amazon.com/vpc/latest/privatelink/aws-services-privatelink-support.html).
 
 Good to know about Interface Endpoints:
+
 - Charged per hour (~8.03 USD per month in eu-west-1, based on 1 AZ, meaning if you use more than one AZ the cost will be higher)
 - Charged per data processed (~0.01 USD per GB in eu-west-1)
 - Uses Private IP Addresses
 - Associated at the Subnet Level
 - Has both a security group and a endpoint policy
-
 
 ## How do they work?
 
@@ -67,6 +64,7 @@ https://{rest-api-id}-{vpce-id}.execute-api.{region}.amazonaws.com/{stage}
 This means that you can access the API Gateway without going through the internet. This is particularly useful if you have a private subnet and you want to access the API Gateway without going through the internet.
 
 #### Additional sources
+
 - [What are VPC endpoints?](https://docs.aws.amazon.com/vpc/latest/userguide/endpoint-services-overview.html)
 - [API Gateway Private API Test Invoke URL](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-private-api-test-invoke-url.html)
 

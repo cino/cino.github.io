@@ -1,19 +1,21 @@
 +++
 author = "Ricardo Cino"
-title = "Testing in a serverless environment"
+title = "Serverless Testing: Strategies and Best Practices for AWS"
 slug = "testing-in-serverless-environment"
 date = 2025-08-22T14:01:00+01:00
+description = "Comprehensive guide to testing in serverless environments. Learn unit testing, integration testing, and infra testing strategies for AWS Lambda and related services."
 tags = [
-    "aws",
-    "serverless",
-    "testing",
-    "github",
-    "github actions",
-    "deployment",
-    "unit testing",
-    "integration testing",
-    "infra testing",
-    "self-hosted-runners",
+  "aws",
+  "serverless",
+  "testing",
+  "unit testing",
+  "integration testing",
+  "infrastructure testing",
+  "github actions",
+  "ci-cd",
+  "lambda",
+  "best practices",
+  "self-hosted-runners",
 ]
 images = ['steps.png']
 +++

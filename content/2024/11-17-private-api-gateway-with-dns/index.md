@@ -1,19 +1,19 @@
 +++
 author = "Ricardo Cino"
-title = "Private API Gateway with DNS"
+title = "Private API Gateway: Custom DNS Configuration in AWS"
 slug = "private-api-gateway-with-dns"
 date = "2024-11-17"
+description = "Learn how to configure private API Gateway with custom DNS in AWS VPC. Complete guide to VPC endpoints, Route 53, and secure API access."
 tags = [
-    "aws",
-    "amazon web services",
-    "api gateway",
-    "networking",
-    "vpc",
-    "dns",
-    "vpc endpoint",
-    "private",
-    "route 53",
-    "application load balancer",
+  "aws",
+  "api gateway",
+  "private",
+  "dns",
+  "vpc",
+  "route53",
+  "networking",
+  "security",
+  "application load balancer",
 ]
 images = ['4-api-gateway-lambda-private-dns-alb.png']
 +++
@@ -38,7 +38,6 @@ When you deploy a simple API Gateway without any custom dns your architecture wo
 {{< image src="1-api-gateway-lambda.png" alt="API Gateway with Lambda" >}}
 
 Now when you'd like to add your own custom DNS on a public API Gateway you can do so by creating a custom domain name and using Route 53 to point to the API Gateway endpoint (you can leverage the [custom domain feature on api](https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-custom-domains.html)). This would look like:
-
 
 {{< image src="2-api-gateway-lambda-dns.png" alt="API Gateway with Lambda and Custom DNS" >}}
 
@@ -100,12 +99,7 @@ const alb = this.createApplicationLoadBalancer(vpc, apiGatewayVpcEndpoint);
 this.createApiGateway(apiFqn, acmCertificate, apiGatewayVpcEndpoint);
 
 // Step 5: Create ALB Listener for API Gateway VPC Endpoint
-this.createApiGatewayVpcEndpointListener(
-  acmCertificate,
-  vpc,
-  alb,
-  apiGatewayVpcEndpoint
-);
+this.createApiGatewayVpcEndpointListener(acmCertificate, vpc, alb, apiGatewayVpcEndpoint);
 
 // Step 6 Create Route53 records pointing towards
 // the Application Load Balancer
@@ -113,6 +107,7 @@ this.createDnsRecords(privateHostedZone, alb, apiFqn);
 ```
 
 As you see we need the following resources:
+
 - VPC
 - Hosted Zones (Public & Private)
   - Public Hosted Zone is used for the certificate

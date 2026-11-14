@@ -1,19 +1,21 @@
 +++
 author = "Ricardo Cino"
-title = "Using password(les)s in 2023"
+title = "Passwordless Authentication: 2026 Guide"
 slug = "using-passwords-in-2023"
-date = "2023-03-31" # change
+date = "2023-03-31"
+description = "Complete guide to passwordless authentication in 2026. Compare 1Password, LastPass, Bitwarden, YubiKey, FIDO, and WebAuthn."
 tags = [
-    "passwords",
-    "passwordless",
-    "1password",
-    "lastpass",
-    "bitwarden",
-    "yubikey",
-    "fido",
-    "webAuthn",
-    "security",
-    "privacy"
+  "passwordless",
+  "authentication",
+  "1password",
+  "lastpass",
+  "bitwarden",
+  "yubikey",
+  "fido",
+  "webauthn",
+  "security",
+  "2026",
+  "privacy",
 ]
 +++
 

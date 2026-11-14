@@ -1,17 +1,19 @@
 +++
 author = "Ricardo Cino"
-title = "AWS Parameter Store vs AWS Secrets"
+title = "AWS Parameter Store vs Secrets Manager: Which to Use"
 slug = "aws-parameter-store-vs-aws-secrets"
 date = "2023-07-19"
+description = "Compare AWS Parameter Store vs Secrets Manager. Learn when to use each for secure configuration management in AWS."
 tags = [
-    "aws",
-    "amazon web services",
-    "parameter store",
-    "secrets",
-    "serverless",
-    "lambda",
-    "cloudwatch event",
-    "rotation"
+  "aws",
+  "parameter store",
+  "secrets manager",
+  "secrets",
+  "configuration",
+  "serverless",
+  "lambda",
+  "rotation",
+  "comparison",
 ]
 +++
 
@@ -36,7 +38,6 @@ The Parameter Store is a service that is used to store variables and secrets, it
 
 Because you can retrieve this during rungtime (and cache them for limited time) you always the latest version of the parameter, compared to storing such values in Lambda Environments or in a file on the EC2 instance.
 
-
 ## When to use AWS Secrets?
 
 What makes AWS Secrets such a powerfool tool is that it seamlessly integrates with a couple of Amazon products, for example you can easily use an AWS Secret to rotate the password of your Aurora instance without writing a single line of code. A couple of AWS Services that are supported by this are: Amazon RDS, Amazon DocumentDB and Amazon Redshift. Next to the out-of-the-box support services AWS also provides with a few rotation lambda templates on their <a href="https://github.com/aws-samples/aws-secrets-manager-rotation-lambdas/tree/master" target="_blank">GitHub</a>.
@@ -45,23 +46,27 @@ In the case of a custom secret the only time to use AWS Secrets would be when yo
 
 For any secret you are not rotating I would advise to use the Parameter Store as this is much cheaper when you are using it a lot.
 
-
 ## But... you can also rotate the value with Parameter Store.
 
 Absolutely! This would however be a complete custom integration with a scheduled lambda that modifies the value of the Parameter. In fact this is the same thing that you do when using the Rotation feature of AWS Secrets except it is much more simplified. For starters you would need to deploy a Lambda Function with the permissions to read and write to the specific Parameter.
 
 CDK:
+
 ```typescript
-const secretParameter = StringParameter.fromSecureStringParameterAttributes(this, 'mySecretRotatingParameter', {
-  parameterName: '/parameter-store-vs-secret/secret-rotating',
-});
+const secretParameter = StringParameter.fromSecureStringParameterAttributes(
+  this,
+  "mySecretRotatingParameter",
+  {
+    parameterName: "/parameter-store-vs-secret/secret-rotating",
+  },
+);
 
 // It is not possible to get the output of the secret value from the AWS CDK.
 // However you can give lambda's permission to read/write the secret value.
 
 // In this example we will be rotating the secret every 5 minutes to demonstrate the rotation.
-const rotationLambda = new NodejsFunction(this, 'rotationLambda', {
-  entry: join(__dirname, './custom-rotation/main.ts'),
+const rotationLambda = new NodejsFunction(this, "rotationLambda", {
+  entry: join(__dirname, "./custom-rotation/main.ts"),
   environment: {
     PARAMETER_NAME: secretParameter.parameterName,
   },
@@ -72,29 +77,28 @@ secretParameter.grantRead(rotationLambda);
 secretParameter.grantWrite(rotationLambda);
 
 // Schedule the rotation every 5 minutes using a CloudWatch Event Rule.
-new Rule(this, 'rotationRule', {
+new Rule(this, "rotationRule", {
   schedule: Schedule.rate(Duration.minutes(5)),
-  targets: [
-    new LambdaFunction(rotationLambda),
-  ],
+  targets: [new LambdaFunction(rotationLambda)],
 });
 ```
-*Source: <a href="https://github.com/cino/cdk-examples/blob/main/parameter-store-vs-secret/lib/parameter-store-secret-custom-rotation-stack.ts" target="_blank">parameter-store-secret-custom-rotation-stack.ts</a>*
+
+_Source: <a href="https://github.com/cino/cdk-examples/blob/main/parameter-store-vs-secret/lib/parameter-store-secret-custom-rotation-stack.ts" target="_blank">parameter-store-secret-custom-rotation-stack.ts</a>_
 
 Lambda:
 
 ```typescript
-export const handler: ScheduledHandler = async (
-  event: ScheduledEvent,
-): Promise<void> => {
+export const handler: ScheduledHandler = async (event: ScheduledEvent): Promise<void> => {
   const parameterName = process.env.PARAMETER_NAME as string;
 
-  await ssmClient.send(new PutParameterCommand({
-    Name: parameterName,
-    Value: new Date().toISOString(),
-    Overwrite: true,
-  }));
-}
+  await ssmClient.send(
+    new PutParameterCommand({
+      Name: parameterName,
+      Value: new Date().toISOString(),
+      Overwrite: true,
+    }),
+  );
+};
 ```
 
 This is however an extremely simplified version as this would only set the value to the latest date, in a real world example you could first generate an API key in a external service by calling an API and directly after that update the value in the Secure Parameter.
@@ -106,13 +110,13 @@ In the case of AWS Secrets there is a specific feature that allows you to rotate
 In the case of a custom secret I've created an example lambda that I've made available in a <a href="https://github.com/cino/typescript-lambda-examples/blob/main/src/secret-manager-rotation.ts" target="_blank">special repository</a> and will also show below, first of all setting this up via CDK is very easy.
 
 ```typescript
-const customSecret = new Secret(this, 'customSecret', {
-  secretName: '/parameter-store-vs-secret/secret-rotation-custom',
+const customSecret = new Secret(this, "customSecret", {
+  secretName: "/parameter-store-vs-secret/secret-rotation-custom",
 });
 
-customSecret.addRotationSchedule('RotationSchedule', {
-  rotationLambda: new NodejsFunction(this, 'rotationLambda', {
-    entry: join(__dirname, './custom-rotation-secret/main.ts'),
+customSecret.addRotationSchedule("RotationSchedule", {
+  rotationLambda: new NodejsFunction(this, "rotationLambda", {
+    entry: join(__dirname, "./custom-rotation-secret/main.ts"),
     architecture: Architecture.ARM_64,
     runtime: Runtime.NODEJS_18_X,
     timeout: Duration.seconds(30),
@@ -134,17 +138,13 @@ The lambda function will actually be a bit more complex than with the Parameter 
 - finishSecret
   - The last and final step is where you would change the state of the new secret to 'AWSCURRENT' and remove the old version of the secret, only in this step, after the testing phase the new secret will be used.
 
-
 ```typescript
-async function createSecret(
-  arn: string,
-  token: string,
-): Promise<void> {
+async function createSecret(arn: string, token: string): Promise<void> {
   // Check if the current version exists
   await secretsClient.send(
     new GetSecretValueCommand({
       SecretId: arn,
-      VersionStage: 'AWSCURRENT',
+      VersionStage: "AWSCURRENT",
     }),
   );
 
@@ -153,7 +153,7 @@ async function createSecret(
     await secretsClient.send(
       new GetSecretValueCommand({
         SecretId: arn,
-        VersionStage: 'AWSPENDING',
+        VersionStage: "AWSPENDING",
       }),
     );
 
@@ -165,7 +165,8 @@ async function createSecret(
      * For this demo purpose we are going to create a new secret version with a random string
      */
 
-    const randomString = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    const randomString =
+      Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 
     // If the current version does not exist, create a new one
     await secretsClient.send(
@@ -173,7 +174,7 @@ async function createSecret(
         SecretId: arn,
         ClientRequestToken: token,
         SecretString: randomString,
-        VersionStages: ['AWSPENDING'],
+        VersionStages: ["AWSPENDING"],
       }),
     );
 
@@ -198,10 +199,7 @@ async function testSecret(): Promise<void> {
    */
 }
 
-async function finishSecret(
-  arn: string,
-  token: string,
-): Promise<void> {
+async function finishSecret(arn: string, token: string): Promise<void> {
   const metaData = await secretsClient.send(
     new DescribeSecretCommand({
       SecretId: arn,
@@ -212,9 +210,9 @@ async function finishSecret(
   let currentVersion: string | undefined = undefined;
   if (metaData.VersionIdsToStages) {
     for (const version in metaData.VersionIdsToStages) {
-      if (metaData.VersionIdsToStages[version].includes('AWSCURRENT')) {
+      if (metaData.VersionIdsToStages[version].includes("AWSCURRENT")) {
         if (version === token) {
-          console.log(`Version ${version} is already set as AWSCURRENT for secret ${arn}`)
+          console.log(`Version ${version} is already set as AWSCURRENT for secret ${arn}`);
           return;
         }
         currentVersion = version;
@@ -227,13 +225,13 @@ async function finishSecret(
   await secretsClient.send(
     new UpdateSecretVersionStageCommand({
       SecretId: arn,
-      VersionStage: 'AWSCURRENT',
+      VersionStage: "AWSCURRENT",
       MoveToVersionId: token,
       RemoveFromVersionId: currentVersion,
     }),
   );
 
-  console.log('Secret rotation process finished');
+  console.log("Secret rotation process finished");
 }
 
 export const handler: SecretsManagerRotationHandler = async (
@@ -261,10 +259,12 @@ export const handler: SecretsManagerRotationHandler = async (
       throw new Error(`Secret version ${token} has no stage for rotation of secret ${arn}.`);
     }
 
-    if (versions[token].includes('AWSCURRENT')) {
+    if (versions[token].includes("AWSCURRENT")) {
       throw new Error(`Secret version ${token} already set as AWSCURRENT for secret ${arn}.`);
-    } else if (versions[token].includes('AWSPENDING') === false && step !== "createSecret") {
-      throw new Error(`Secret version ${token} not set as AWSPENDING for rotation of secret ${arn}.`);
+    } else if (versions[token].includes("AWSPENDING") === false && step !== "createSecret") {
+      throw new Error(
+        `Secret version ${token} not set as AWSPENDING for rotation of secret ${arn}.`,
+      );
     }
   }
 
@@ -286,7 +286,7 @@ export const handler: SecretsManagerRotationHandler = async (
   }
 
   return;
-}
+};
 ```
 
 ## Pricing

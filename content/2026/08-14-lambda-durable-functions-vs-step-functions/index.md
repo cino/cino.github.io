@@ -1,8 +1,9 @@
 +++
 author = "Ricardo Cino"
-title = "Lambda Durable Functions vs Step Functions: Choosing the Right Workflow Orchestrator in 2026"
+title = "Lambda Durable Functions vs Step Functions: 2026 Workflow Orchestrator Comparison"
 slug = "lambda-durable-functions-vs-step-functions"
 date = 2026-08-14T12:00:00+01:00
+description = "Complete comparison of Lambda Durable Functions vs Step Functions for workflow orchestration in 2026. Learn which AWS service fits your use case."
 tags = [
   "aws",
   "serverless",
@@ -13,6 +14,7 @@ tags = [
   "orchestration",
   "comparison",
   "architecture",
+  "2026",
 ]
 images = []
 +++

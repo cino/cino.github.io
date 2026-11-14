@@ -1,18 +1,17 @@
 +++
 author = "Ricardo Cino"
-title = "Static website distribution with AWS CloudFront"
+title = "AWS CloudFront: Static Website Distribution Guide"
 slug = "static-website-distribution-with-aws-cloudfront"
-description = "A short guide on how to create a static website on AWS while only using serverless services!"
+description = "Complete guide to distributing static websites with AWS CloudFront. Learn caching, CDN setup, and serverless architecture best practices."
 date = "2022-02-11"
-tags = [
-  "aws",
-  "serverless"
-]
+tags = ["aws", "cloudfront", "static website", "cdn", "caching", "serverless", "s3", "hosting"]
 +++
+
 Having only written about PHP and Servers in the past I am making the switch to Serverless. This has been a long-time wish for me and finally realized this in a personal but also professional environment. That being said, I plan on writing a lot of new content on the blog purely around setting up applications with a serverless mindset, built with AWS CDK (AWS Cloud Development Kit). I will include diagrams and/or flowcharts to explain what is happening and of course, include the source code in a public GitHub repository.
 
 The bigger goal for me is to develop a proper application on nothing but serverless services from Amazon to train my skillset and also share the process that I went through.
 <!--more-->
+
 ## Before we get started
 
 First things first, the way I'm making my content won't be a step-by-step guide. At this point, I assume you are at least familiar with Amazon Web Services, Infrastructure as Code and read up at least a little about the <a href="https://docs.aws.amazon.com/cdk/v2/guide/home.html" target="_blank">Cloud Development Kit</a>.
@@ -41,10 +40,10 @@ To start we need to create an S3 Bucket where all our files will be stored. In t
 
 {{< highlight typescript >}}
 const bucket = new s3.Bucket(this, 'StaticWebsiteBucket', {
-  bucketName: Stack.of(this).account + '-static-website-test',
-  websiteIndexDocument: 'index.html',
-  publicReadAccess: false,
-  blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+bucketName: Stack.of(this).account + '-static-website-test',
+websiteIndexDocument: 'index.html',
+publicReadAccess: false,
+blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
 });
 {{< / highlight >}}
 
@@ -54,13 +53,13 @@ After we've created our S3 Bucket we are going to allow access with an Origin Ac
 
 {{< highlight typescript >}}
 const cloudfrontOAI = new cloudfront.OriginAccessIdentity(this, 'cloudfront-OAI', {
-  comment: `OAI for ${id}`
+comment: `OAI for ${id}`
 });
 
 bucket.addToResourcePolicy(new iam.PolicyStatement({
-  actions: ['s3:GetObject'],
-  resources: [bucket.arnForObjects('*')],
-  principals: [new  iam.CanonicalUserPrincipal(cloudfrontOAI.cloudFrontOriginAccessIdentityS3CanonicalUserId)]
+actions: ['s3:GetObject'],
+resources: [bucket.arnForObjects('*')],
+principals: [new iam.CanonicalUserPrincipal(cloudfrontOAI.cloudFrontOriginAccessIdentityS3CanonicalUserId)]
 }));
 {{< / highlight >}}
 
@@ -68,21 +67,21 @@ Now the bucket is completely ready we can create the CloudFront distribution whe
 
 {{< highlight typescript >}}
 const distribution = new cloudfront.CloudFrontWebDistribution(this, 'StaticWebsiteDistribution', {
-  originConfigs: [
-    {
-      s3OriginSource: {
-        s3BucketSource: bucket,
-        originAccessIdentity: cloudfrontOAI
-      },
-      behaviors: [
-        {
-          isDefaultBehavior: true,
-          compress: true,
-          allowedMethods: cloudfront.CloudFrontAllowedMethods.GET_HEAD_OPTIONS
-        }
-      ]
-    }
-  ]
+originConfigs: [
+{
+s3OriginSource: {
+s3BucketSource: bucket,
+originAccessIdentity: cloudfrontOAI
+},
+behaviors: [
+{
+isDefaultBehavior: true,
+compress: true,
+allowedMethods: cloudfront.CloudFrontAllowedMethods.GET_HEAD_OPTIONS
+}
+]
+}
+]
 });
 {{< / highlight >}}
 
@@ -90,10 +89,10 @@ While all the services are now in place within AWS there is only one part missin
 
 {{< highlight typescript >}}
 new s3deploy.BucketDeployment(this, 'DeployWithInvalidation', {
-  sources: [s3deploy.Source.asset('./static')],
-  destinationBucket: bucket,
-  distribution,
-  distributionPaths: ['/*'],
+sources: [s3deploy.Source.asset('./static')],
+destinationBucket: bucket,
+distribution,
+distributionPaths: ['/*'],
 });
 {{< / highlight >}}
 

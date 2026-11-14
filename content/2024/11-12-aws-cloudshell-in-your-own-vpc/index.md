@@ -1,15 +1,10 @@
 +++
 author = "Ricardo Cino"
-title = "AWS CloudShell in your own vpc"
+title = "AWS CloudShell: Run in Your Own VPC"
 slug = "aws-cloudshell-in-your-own-vpc"
 date = "2024-11-12"
-tags = [
-    "aws",
-    "amazon web services",
-    "cloudshell",
-    "networking",
-    "vpc"
-]
+description = "Learn how to configure AWS CloudShell to run in your own VPC. Step-by-step guide for secure cloud development environments."
+tags = ["aws", "cloudshell", "vpc", "networking", "development", "security"]
 images = ["cloudshell-traceroute.png"]
 +++
 

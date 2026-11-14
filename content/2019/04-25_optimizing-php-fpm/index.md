@@ -1,14 +1,11 @@
 +++
 author = "Ricardo Cino"
-title = "Optimizing PHP-FPM"
-slug="optimizing-php-fpm"
+title = "PHP-FPM Optimization: Performance Tuning Guide"
+slug = "optimizing-php-fpm"
 date = "2019-04-25"
-tags = [
-    "php"
-]
-aliases = [
-    "/2021/04/25/php-fpm-and-memory/"
-]
+description = "Complete guide to optimizing PHP-FPM for performance. Learn tuning techniques for better memory management and request handling."
+tags = ["php", "php-fpm", "optimization", "performance", "tuning", "memory"]
+aliases = ["/2021/04/25/php-fpm-and-memory/"]
 +++
 
 As mentioned in the previous post about <a href="/2019/laravel-forge-setting-it-up-the-right-way/" target="_blank">laravel forge and setting it up the right way</a> there was going to be a separate post just about PHP-FPM and how to configure it correctly.
@@ -23,7 +20,7 @@ PHP-FPM stands for “Fast Process Manager” and is mostly being used in combin
 Spotting PHP-FPM problems on your server is actually quite easy since PHP will stop working, you’ll receive 5xx errors, and when looking into your PHP fpm log file /var/log/php7.4-fpm.log (Or change to the correct version, can also be located in another location depending on configuration but this should be the default) there are errors like:
 
 {{< highlight bash >}}
-```WARNING: [pool www] server reached pm.max_children setting (25), consider raising it```
+`WARNING: [pool www] server reached pm.max_children setting (25), consider raising it`
 {{< / highlight >}}
 
 What this means is that you’ve reached the point where there are more nginx processes being sent towards the PHP-FPM socket than it’s able to handle. This is easily solved by looking critically at the configuration options within the PHP-fpm pool located at `/var/etc/php/7.4/fpm/pool.d/www.conf` (Once again, the file could be at another location. This is at an Ubuntu VM set up by Laravel Forge.)
@@ -77,11 +74,11 @@ So, as you can see we need to fill in 4 variables: Total Ram, Reserved Ram, Ram 
 
 Just to make life easy I’ve added a small overview of how many processes can simultaneously be run on a server with 4GB of ram and different memory process sizes. You can see as the memory per process increases the amount of children decreases. This should help you realize to make sure you are aware of the process size on your server and optimize the process manager for maximum usage.
 
-| Memory per process | 40MB | 64MB | 128MB | 256MB |
-|---|---|---|---|---|
-| pm.max_children | 69 | 43 | 21 | 10 |
-| pm.start_servers | 17 | 10 | 5 | 2 |
-| pm.min_spare_servers | 17 | 10 | 5 | 2 |
-| pm.max_spare_servers  | 51 | 32 | 15 | 7 |
+| Memory per process   | 40MB | 64MB | 128MB | 256MB |
+| -------------------- | ---- | ---- | ----- | ----- |
+| pm.max_children      | 69   | 43   | 21    | 10    |
+| pm.start_servers     | 17   | 10   | 5     | 2     |
+| pm.min_spare_servers | 17   | 10   | 5     | 2     |
+| pm.max_spare_servers | 51   | 32   | 15    | 7     |
 
 This example is for when you have a server with a maximum of 4GB of ram.

@@ -1,15 +1,16 @@
 +++
 author = "Ricardo Cino"
-title = "TIL #1 - You can override basically anything in AWS CDK"
+title = "AWS CDK Tips: Override Any Resource Configuration"
 slug = "you-can-override-basically-anything-in-aws-cdk"
 date = "2022-04-03"
-tags = [
-    "til"
-]
+description = "Learn how to override any AWS CDK resource configuration using the CloudFormation Escape Hatch. Unlock full CloudFormation power in CDK."
+tags = ["aws", "cdk", "til", "cloudformation", "escape hatch", "override", "configuration"]
 +++
+
 Unique as I am I decided to start writing short blog posts about recent discoveries that suddenly clicked inside my head. For the first one; I have been working a lot with AWS CDK recently and decided that I wanted to contribute back to the AWS-CDK source code.
 
 <!--more-->
+
 For this reason, I spent quite some time within the Issues section of the AWS-CDK <a href="https://github.com/aws/aws-cdk">Github Repository</a> and learned that a lot of feature requests are requests for adding a property to a construct that isn't supported yet, while these are actually supported in CloudFormation. Which would make them easy pull requests to work on.
 
 This is where I first found a comment about using an <a href="https://docs.aws.amazon.com/cdk/v1/guide/cfn_layer.html">Escape Hatch</a>, which enables you to modify the underlying CloudFormation template while working with the CDK project.

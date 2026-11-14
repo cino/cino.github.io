@@ -1,17 +1,20 @@
 +++
 author = "Ricardo Cino"
-title = "Every repository should contain a DevContainer"
+title = "DevContainers: Essential for Every Repository"
 slug = "every-repository-should-contain-a-devcontainer"
 date = "2023-02-09"
+description = "Learn why every repository should contain a DevContainer. Boost development productivity with consistent, containerized environments."
 tags = [
-    "vscode",
-    "microsoft",
-    "devcontainer",
-    "container",
-    "docker",
-    "rancher"
+  "vscode",
+  "devcontainer",
+  "dev containers",
+  "docker",
+  "development",
+  "productivity",
+  "containerization",
 ]
 +++
+
 Almost a year ago I visited an AWS User Group (Amsterdam) meetup where someone gave a presentation on using Microsoft [Dev Containers](https://code.visualstudio.com/docs/devcontainers/containers) in your projects. Even though I tried it before, this gave me the momentum to actually commit to it and have never looked back. And I want you to do the same.
 
 <!--more-->
@@ -27,6 +30,7 @@ As my current position is in a Developer Experience team I must mention that for
 My favourite benefit is that when you are working for multiple customers on a various number of projects which changes programming language versions a lot you get real sick, real soon of switching up your system. When you're working with containers you'll be much happier.
 
 Also, say goodbye to the famous line;
+
 > Works on my machine
 
 ## How?

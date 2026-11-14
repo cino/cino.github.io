@@ -1,23 +1,24 @@
 +++
 author = "Ricardo Cino"
-title = "Private AppSync with custom dns"
+title = "AWS AppSync: Private API with Custom DNS Configuration"
 slug = "private-AppSync-with-custom-dns"
 date = 2025-06-06T18:00:00+01:00
+description = "Learn how to configure private AWS AppSync APIs with custom DNS in VPC. Complete guide to VPC endpoints, Route 53, and secure API access."
 tags = [
-    "aws",
-    "amazon web services",
-    "AppSync",
-    "networking",
-    "vpc",
-    "dns",
-    "vpc endpoint",
-    "private",
-    "route 53",
-    "application load balancer",
-    "containers",
-    "nginx",
-    "proxy"
-  ]
+  "aws",
+  "appsync",
+  "api",
+  "private",
+  "dns",
+  "vpc",
+  "route53",
+  "networking",
+  "security",
+  "application load balancer",
+  "containers",
+  "nginx",
+  "proxy",
+]
 images = ['final-architecture.png']
 +++
 
@@ -68,7 +69,7 @@ Even if you'd decide to switch to hosting your own GraphQL server you might be a
 
 To make your AppSync API accessible from a custom domain, you will have to use the same approach as you would for <a href="/2024/private-api-gateway-with-dns/" target="_blank">API Gateway before they introduced native support</a> . This means that you will have to create a Route 53 hosted zone for your custom domain and create a CNAME record that points to an Application Load Balancer that routes traffic to the AppSync VPC Endpoint.
 
-However this is not enough, because where this will allow you to access the AppSync API from your custom domain, it will not allow you to *only* use the custom domain. Additionally you will have to send an HTTP header (X-AppSync-Domain) to the AppSync API that contains the custom domain name so the VPC Endpoint can route the traffic to the correct AppSync API. In that case you still need to share the AppSync API endpoint with the end user.
+However this is not enough, because where this will allow you to access the AppSync API from your custom domain, it will not allow you to _only_ use the custom domain. Additionally you will have to send an HTTP header (X-AppSync-Domain) to the AppSync API that contains the custom domain name so the VPC Endpoint can route the traffic to the correct AppSync API. In that case you still need to share the AppSync API endpoint with the end user.
 
 While it is technically possible to add the header to all your requests, this will only work for HTTP requests. If you are using WebSockets for subscriptions, you will not be able to add the header to the request, because the WebSocket protocol does not support custom headers in the web browser. When using a different client (e.g. mobile or server-side) you might be able to add the header, but this is not a solution that works for all clients.
 

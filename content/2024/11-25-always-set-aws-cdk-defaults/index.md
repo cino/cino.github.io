@@ -1,16 +1,17 @@
 +++
 author = "Ricardo Cino"
-title = "Always set AWS CDK Defaults"
+title = "AWS CDK: Always Set Defaults (Why and How)"
 slug = "always-set-aws-cdk-defaults"
 date = 2024-11-25
+description = "Learn why you should always set AWS CDK defaults. Avoid cost surprises with proper removal policies and configuration."
 tags = [
   "aws",
-  "amazon web services",
   "cdk",
+  "defaults",
   "cloudformation",
-  "kinesis",
   "removal policy",
-  "cost",
+  "cost optimization",
+  "best practices",
 ]
 images = ['kinesis-removal-policy-change-cost.png']
 +++

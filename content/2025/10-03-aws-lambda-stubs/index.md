@@ -1,19 +1,21 @@
 +++
 author = "Ricardo Cino"
-title = "AWS Lambda Stubs for unit testing"
+title = "AWS Lambda Unit Testing: Complete Stub Mocking Guide"
 slug = "aws-lambda-stubs"
 date = 2025-11-03T12:01:00+01:00
+description = "Master AWS Lambda unit testing with stub mocking. Learn techniques for testing Lambda functions in isolation with TypeScript and Node.js."
 tags = [
-"aws",
-"lambda",
-"stubs",
-"unit testing",
-"sdk",
-"nodejs",
-"typescript",
-"package",
-"npm"
+  "aws",
+  "lambda",
+  "unit testing",
+  "stubs",
+  "mocking",
+  "typescript",
+  "nodejs",
+  "testing",
+  "serverless",
 ]
+
 images = []
 +++
 
@@ -37,7 +39,7 @@ describe("sqs handler", () => {
     const mockEvent = SQSEventStub([
       {
         body: { message: "Hello, World!" },
-      }
+      },
     ]);
 
     // assert on output
@@ -45,6 +47,7 @@ describe("sqs handler", () => {
   });
 });
 ```
+
 This clearly demonstrate how easy it is to create a mock SQS event with a custom message body. The output of above example would be a completely valid SQS event that you can pass to your Lambda handler function for testing looking like this:
 
 ```json
