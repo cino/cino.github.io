@@ -1,51 +1,51 @@
 theme = "cino"
-languageCode = "en-us"
+locale = "en-US"
 baseurl = "https://cino.io/"
 title = "Cino"
 enableRobotsTXT = true
 
 [outputs]
-  home = ['html', 'rss']
+home = ['html', 'rss']
 
 [services]
-  [services.googleAnalytics]
-    id = 'G-GCGJ9S1XSX'
+[services.googleAnalytics]
+id = 'G-GCGJ9S1XSX'
 
 [pagination]
-  pagerSize = 10
+pagerSize = 10
 
 [build]
-  [build.buildStats]
-    enable = true
-  [[build.cachebusters]]
-    source = 'assets/notwatching/hugo_stats\.json'
-    target = 'css'
-  [[build.cachebusters]]
-    source = '(postcss|tailwind)\.config\.js'
-    target = 'css'
+[build.buildStats]
+enable = true
+[[build.cachebusters]]
+source = 'assets/notwatching/hugo_stats\.json'
+target = 'css'
+[[build.cachebusters]]
+source = '(postcss|tailwind)\.config\.js'
+target = 'css'
 [module]
-  [[module.mounts]]
-    source = 'assets'
-    target = 'assets'
-  [[module.mounts]]
-    disableWatch = true
-    source = 'hugo_stats.json'
-    target = 'assets/notwatching/hugo_stats.json'
+[[module.mounts]]
+source = 'assets'
+target = 'assets'
+[[module.mounts]]
+disableWatch = true
+source = 'hugo_stats.json'
+target = 'assets/notwatching/hugo_stats.json'
 
 # syntax highlight settings
 [markup]
-  [markup.highlight]
-    style = "dracula"
+[markup.highlight]
+style = "dracula"
 
 [taxonomies]
-  category = "categories"
-  tag = "tags"
+category = "categories"
+tag = "tags"
 
 menu = ['main']
 
 [markup.goldmark.renderer]
-  unsafe= true
+unsafe = true
 
 [security]
-  [security.exec]
-    allow = ['^(dart-)?sass$', '^go$', '^git$', '^node$', '^postcss$', '^tailwindcss$']
+[security.exec]
+allow = ['^(dart-)?sass$', '^go$', '^git$', '^node$', '^postcss$', '^tailwindcss$']

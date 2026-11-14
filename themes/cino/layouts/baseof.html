@@ -1,31 +1,14 @@
 <!DOCTYPE html>
-<html
-  class="h-full antialiased"
-  style="
-    --header-position: sticky;
-    --content-offset: 0px;
-    --header-height: 64px;
-    --header-mb: 0px;
-    --header-top: 0px;
-    --avatar-top: 0px;
-  "
-  lang="{{ .Site.LanguageCode }}"
->
+<html lang="{{ .Site.Language.Locale }}">
   {{ partial "head.html" . }}
 
-  <body class="flex h-full flex-col bg-zinc-50">
-    <div class="fixed inset-0 flex justify-center sm:px-8">
-      <div class="flex w-full max-w-7xl lg:px-8">
-        <div class="w-full bg-white ring-1 ring-zinc-100"></div>
-      </div>
-    </div>
-
-    <div class="relative">
-      {{- partial "header.html" . -}}
-
+  <body class="min-h-screen bg-white text-zinc-900 antialiased">
+    {{- partial "header.html" . -}}
+    
+    <main class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {{- block "main" . }}{{- end }}
+    </main>
 
-      {{- partial "footer.html" . -}}
-    </div>
+    {{- partial "footer.html" . -}}
   </body>
 </html>
